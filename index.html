@@ -451,7 +451,8 @@ const SL=['','아직 어려워요','조금 됐어요','보통이에요','잘 됐
 
 let S={mode:'free',topicIdx:-1,attemptCount:0,scores:{},transcript:'',mediaRecorder:null,isRecording:false,timerInterval:null,timerSec:0,recognition:null,audioBlob:null,lastFeedback:null,lastScore:0};
 let convInterim = '';
-let convHistory=[],convTurn=0,convTranscript='',aiQuestion='',aiQuestionKo='';
+let convHistory=[],convTurn=0,convTranscript='',convInterim='',aiQuestion='',aiQuestionKo='';
+let sharedStream=null;
 let convRecording=false,convRecognition=null,convMediaRecorder=null;
 const MAX_TURNS=3;
 let scChart=null,atChart=null;
@@ -576,7 +577,10 @@ function selectTopic(idx){
 async function toggleRec(){if(S.isRecording)stopRec();else await startRec();}
 async function startRec(){
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    if(!sharedStream||sharedStream.getTracks().some(t=>t.readyState==='ended')){
+      sharedStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    }
+    const stream=sharedStream;
     S.isRecording=true;S.timerSec=0;S.transcript='';S._srInterim='';
     // UI 먼저 업데이트
     document.getElementById('recBtn').textContent='⏹';
@@ -608,7 +612,7 @@ function stopRec(){
   if(S._srInterim)S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
   S._srInterim='';
   if(S.recognition){try{S.recognition.abort();}catch(e){}}
-  if(S.mediaRecorder?.state!=='inactive'){S.mediaRecorder.stop();S.mediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  if(S.mediaRecorder?.state!=='inactive'){S.mediaRecorder.stop();}
   clearInterval(S.timerInterval);
   document.getElementById('recBtn').textContent='🎤';
   document.getElementById('recBtn').classList.remove('on');
@@ -793,7 +797,11 @@ async function askAI(){
 function toggleConvRec(){if(convRecording)stopConvRec();else startConvRec();}
 async function startConvRec(){
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    // 기존 스트림 재사용 (iOS 마이크 중복 요청 방지)
+    if(!sharedStream||sharedStream.getTracks().some(t=>t.readyState==='ended')){
+      sharedStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    }
+    const stream=sharedStream;
     convRecording=true;convTranscript='';convInterim='';
     document.getElementById('convRecBtn').textContent='⏹';
     document.getElementById('convRecBtn').classList.add('on');
@@ -1051,7 +1059,11 @@ function closeReport(){document.getElementById('reportModal').classList.remove('
 function closeReportBg(e){if(e.target===document.getElementById('reportModal'))closeReport();}
 
 // 초기화
+function releaseStream(){
+  if(sharedStream){sharedStream.getTracks().forEach(t=>t.stop());sharedStream=null;}
+}
 function resetAll(){
+  releaseStream();
   S.topicIdx=-1;S.audioBlob=null;S.transcript='';S.attemptCount=0;S.timerSec=0;
   clearInterval(S.timerInterval);S.isRecording=false;S.lastFeedback=null;S.lastScore=0;
   convHistory=[];convTurn=0;convTranscript='';convInterim='';aiQuestion='';aiQuestionKo='';

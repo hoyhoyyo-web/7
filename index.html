@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TALK:TALK — AI 영어 스피치 교실</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#4A90E2;--blue-dark:#2B6CB0;--green:#48BB78;--green-dark:#276749;
+  --purple:#9F7AEA;--red:#FC8181;--yellow:#F6E05E;--orange:#ED8936;
+  --bg:#EBF8FF;--card:#FFFFFF;--text:#2D3748;--text-soft:#718096;
+  --border:#BEE3F8;--radius:16px;--shadow:0 4px 20px rgba(74,144,226,0.13);
+}
+body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+.header{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;text-align:center;padding:13px 16px 9px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:relative}
+.header-title{font-size:23px;font-weight:900;letter-spacing:-0.5px}
+.header-title span{color:#F6E05E}
+.header-sub{font-size:11px;opacity:0.85;margin-top:1px}
+.header-key-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+/* TALK BAR */
+.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+.talk-step{flex:1;text-align:center;padding:7px 4px;font-size:10px;font-weight:700;color:var(--text-soft);border-bottom:3px solid transparent;transition:all 0.2s;cursor:default}
+.talk-step .tl{display:block;font-size:17px;font-weight:900;line-height:1;margin-bottom:1px}
+.talk-step.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
+.talk-step.done{color:var(--green-dark);border-bottom-color:var(--green)}
+.talk-sep{width:1px;background:var(--border);height:38px}
+/* NAV */
+.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border)}
+.nav-tab{flex:1;padding:10px 6px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
+.nav-tab:hover:not(.active){background:#F7FAFC}
+/* MAIN */
+.main{max-width:640px;margin:0 auto;padding:12px}
+/* CARD */
+.step-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+.step-header{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid #EBF8FF;cursor:pointer;user-select:none}
+.step-badge{background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.step-badge.active{background:linear-gradient(135deg,var(--green),var(--green-dark))}
+.step-title{font-size:13px;font-weight:700;flex:1}
+.step-icon{font-size:19px}
+.step-body{padding:13px 15px}
+.step-body.hidden{display:none}
+/* NAME */
+.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:11px 13px;margin-bottom:12px}
+.name-row label{font-size:12px;font-weight:700;color:var(--blue-dark);white-space:nowrap}
+.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:6px 11px;font-size:14px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit}
+.name-input:focus{border-color:var(--blue)}
+/* MODE */
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#F7FAFC;border-radius:13px;padding:5px;margin-bottom:12px}
+.mode-btn{border:none;background:transparent;border-radius:9px;padding:9px 7px;font-size:12px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;font-family:inherit;line-height:1.4}
+.mode-btn .me{font-size:15px;display:block;margin-bottom:2px}
+.mode-btn.active{background:#fff;color:var(--blue-dark);box-shadow:0 2px 8px rgba(74,144,226,0.25)}
+/* CHIPS */
+.topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:11px}
+.topic-chip{padding:10px 9px;border:2px solid var(--border);border-radius:11px;font-size:11px;font-weight:600;cursor:pointer;background:#F7FAFC;transition:all 0.15s;color:var(--text);text-align:left;line-height:1.4}
+.topic-chip:hover{border-color:var(--blue);background:#EBF8FF}
+.topic-chip.selected{border-color:var(--blue);background:var(--blue);color:#fff}
+.topic-chip .te{font-size:15px;display:block;margin-bottom:3px}
+.unit-sem{font-size:10px;font-weight:800;color:var(--blue-dark);margin:3px 0 5px;display:flex;align-items:center;gap:6px}
+.unit-sem::after{content:'';flex:1;height:1px;background:var(--border)}
+.unit-chip{padding:8px 9px;border:2px solid var(--border);border-radius:11px;font-size:11px;font-weight:600;cursor:pointer;background:#F7FAFC;transition:all 0.15s;color:var(--text);text-align:left;line-height:1.3;display:flex;flex-direction:column;gap:2px}
+.unit-chip:hover{border-color:var(--blue);background:#EBF8FF}
+.unit-chip.selected{border-color:var(--blue);background:var(--blue);color:#fff}
+.unit-chip .ub{font-size:9px;font-weight:800;color:var(--blue-dark);background:#fff;border-radius:20px;padding:1px 6px;width:fit-content}
+.unit-chip.selected .ub{background:rgba(255,255,255,0.25);color:#fff}
+.unit-chip.review{border-style:dashed}
+/* EXAMPLE */
+.ex-box{background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:11px;padding:11px 13px;display:none}
+.ex-box.show{display:block}
+.ex-label{font-size:10px;font-weight:700;color:var(--blue-dark);margin-bottom:5px;text-transform:uppercase}
+.ex-prompt{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.5}
+.ex-sent{background:#fff;border-radius:7px;padding:5px 9px;margin:3px 0;border-left:3px solid var(--blue);font-size:12px}
+.goal-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.goal-chip{background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+/* REC */
+.rec-center{display:flex;flex-direction:column;align-items:center;gap:11px;padding:6px 0}
+.rec-btn{width:76px;height:76px;border-radius:50%;border:none;background:linear-gradient(135deg,#FC8181,#E53E3E);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 6px 22px rgba(229,62,62,0.35);transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.rec-btn:hover{transform:scale(1.06)}
+.rec-btn.on{animation:prec 1.2s ease-in-out infinite}
+@keyframes prec{0%,100%{box-shadow:0 6px 22px rgba(229,62,62,0.4),0 0 0 0 rgba(229,62,62,0.25)}50%{box-shadow:0 6px 22px rgba(229,62,62,0.4),0 0 0 13px rgba(229,62,62,0)}}
+.rec-timer{font-size:27px;font-weight:900;color:#E53E3E;font-variant-numeric:tabular-nums;letter-spacing:2px;min-height:32px}
+.rec-hint{font-size:12px;color:var(--text-soft);text-align:center}
+.tr-area{background:#F7FAFC;border:2px solid var(--border);border-radius:11px;padding:10px 12px;min-height:60px;font-size:13px;color:var(--text);line-height:1.7;margin-top:9px}
+.tp{color:#A0AEC0;font-style:italic}
+.audio-sec{margin-top:9px;display:none}
+.audio-sec.show{display:block}
+audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
+.btn-row{display:flex;gap:7px}
+.att-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-soft);margin-top:6px}
+.att-dots{display:flex;gap:3px}
+.dot{width:8px;height:8px;border-radius:50%;background:#CBD5E0}
+.dot.done{background:var(--green)}
+/* BTNS */
+.btn{flex:1;padding:10px 9px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:all 0.15s;font-family:inherit;text-align:center}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:var(--blue-dark)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dark)}
+.btn-outline{background:#fff;border-color:var(--blue);color:var(--blue)}.btn-outline:hover{background:var(--blue);color:#fff}
+.btn-outline-red{background:#fff;border-color:#FC8181;color:#E53E3E}.btn-outline-red:hover{background:#FC8181;color:#fff}
+.btn-purple{background:var(--purple);color:#fff}.btn-purple:hover{background:#805AD5}
+.btn-full{width:100%;flex:none;margin-top:9px}
+.btn-lg{padding:13px;font-size:14px}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+/* CONV */
+.conv-bubble-wrap{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.conv-bubble-wrap.student{flex-direction:row-reverse}
+.conv-bubble{max-width:85%;border-radius:12px;padding:9px 12px;font-size:13px;font-weight:600;color:var(--text);line-height:1.5}
+.conv-bubble.ai{background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:4px 12px 12px 12px}
+.conv-bubble.student{background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:12px 4px 12px 12px}
+.conv-ko{font-size:11px;color:var(--text-soft);margin-top:3px;padding:0 4px}
+.conv-q-box{background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+/* EVAL */
+.eval-list{display:flex;flex-direction:column;gap:11px}
+.eval-ih{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.eval-il{font-size:13px;font-weight:700}
+.eval-id{font-size:10px;color:var(--text-soft)}
+.stars{display:flex;gap:4px}
+.star{font-size:25px;cursor:pointer;opacity:0.25;transition:all 0.1s;border:none;background:none;line-height:1;padding:0}
+.star.on{opacity:1}
+.star:hover{transform:scale(1.2)}
+.score-lbl{font-size:11px;font-weight:600;color:var(--blue);min-width:70px;text-align:right}
+/* AI FEEDBACK */
+.ai-loading{display:flex;align-items:center;gap:11px;padding:18px;color:var(--text-soft);font-size:13px}
+.spinner{width:23px;height:23px;border:3px solid #BEE3F8;border-top-color:var(--blue);border-radius:50%;animation:spin 0.75s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-bubble{background:linear-gradient(135deg,#EBF8FF 0%,#E6FFFA 100%);border-radius:0 17px 17px 17px;padding:15px 17px;position:relative;margin-top:8px}
+.ai-bubble::before{content:'🤖';font-size:21px;position:absolute;top:-12px;left:10px}
+.ai-score-row{display:flex;align-items:center;gap:11px;margin-bottom:13px;background:#fff;border-radius:11px;padding:10px 13px}
+.ai-score-big{font-size:36px;font-weight:900;color:var(--blue);line-height:1}
+.ai-score-info{flex:1}
+.ai-score-lbl{font-size:10px;color:var(--text-soft)}
+.ai-bar-wrap{background:#EBF8FF;border-radius:20px;height:7px;margin-top:4px;overflow:hidden}
+.ai-bar{height:100%;border-radius:20px;background:linear-gradient(to right,var(--blue),var(--green));transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.ai-sec{margin-bottom:11px}
+.ai-sec:last-child{margin-bottom:0}
+.ai-sec-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.ai-sec-title.good{color:#276749}
+.ai-sec-title.improve{color:#744210}
+.ai-sec-title.example{color:#553C9A}
+.ai-sec-title.next{color:#2B6CB0}
+.ai-sec-body{font-size:13px;line-height:1.75;color:var(--text)}
+.ai-cheer{background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:9px;padding:10px 12px;font-size:14px;font-weight:700;color:#744210;text-align:center;margin-top:9px}
+.back-btn{background:none;border:none;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;padding:6px 0;font-family:inherit;display:flex;align-items:center;gap:4px}
+/* GROWTH */
+.sec-title{font-size:13px;font-weight:800;color:var(--text-soft);margin-bottom:10px}
+.rec-item{background:var(--card);border-radius:11px;padding:12px 14px;border:2px solid var(--border);margin-bottom:9px}
+.rec-item-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.rec-item-name{font-size:13px;font-weight:800}
+.rec-item-date{font-size:10px;color:var(--text-soft)}
+.rc-chips{display:flex;gap:4px;flex-wrap:wrap}
+.rc{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+.rc-s{background:#EBF8FF;color:var(--blue-dark)}
+.rc-a{background:#E6FFFA;color:var(--green-dark)}
+.rc-e{background:#F5F3FF;color:#553C9A}
+/* DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:12px}
+.stat-box{background:var(--card);border-radius:11px;padding:13px;border:2px solid var(--border);text-align:center}
+.stat-val{font-size:26px;font-weight:900;line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:10px;color:var(--text-soft);font-weight:600}
+.top-box{border-radius:11px;padding:11px 13px;margin-bottom:9px;border:2px solid}
+.top-box-title{font-size:10px;font-weight:800;margin-bottom:3px}
+.top-box-name{font-size:17px;font-weight:900;color:var(--text)}
+.chart-wrap{background:var(--card);border-radius:11px;padding:13px;border:2px solid var(--border);margin-bottom:12px}
+.chart-title{font-size:12px;font-weight:700;color:var(--text-soft);margin-bottom:9px}
+.dash-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:9px}
+.dash-table th{background:#EBF8FF;padding:6px 9px;text-align:left;font-weight:700;color:var(--blue-dark);border-bottom:2px solid var(--border)}
+.dash-table td{padding:7px 9px;border-bottom:1px solid var(--border);vertical-align:middle}
+.dash-table tr:last-child td{border-bottom:none}
+.empty-state{text-align:center;padding:36px 16px;color:var(--text-soft);font-size:13px}
+.empty-icon{font-size:38px;margin-bottom:9px}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;display:none;align-items:center;justify-content:center;padding:14px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);max-width:460px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-hd{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;padding:14px 18px;border-radius:var(--radius) var(--radius) 0 0;display:flex;align-items:center;justify-content:space-between}
+.modal-hd h2{font-size:15px;font-weight:900}
+.modal-close{background:none;border:none;color:#fff;font-size:21px;cursor:pointer;line-height:1}
+.modal-body{padding:18px}
+.rpt-sec{margin-bottom:14px}
+.rpt-lbl{font-size:10px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.rpt-val{font-size:13px;font-weight:600;color:var(--text);line-height:1.6}
+.rpt-score{font-size:38px;font-weight:900;color:var(--blue)}
+.rpt-div{height:1px;background:var(--border);margin:12px 0}
+/* TOAST */
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:#2D3748;color:#fff;padding:9px 19px;border-radius:22px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:480px){.topic-grid{grid-template-columns:1fr 1fr}.btn-row{flex-direction:column}.stat-grid{grid-template-columns:1fr 1fr}}
+@media print{.modal-bg{position:static;display:block;padding:0}.modal{max-height:none;box-shadow:none}.modal-hd{-webkit-print-color-adjust:exact;print-color-adjust:exact}body>*:not(.modal-bg){display:none!important}.modal-close,.btn{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">TALK<span>:</span>TALK</div>
+  <div class="header-sub">✨ 초등 5학년 영어 말하기 — AI 스피치 코치</div>
+  <button class="header-key-btn" onclick="openApiSetting()">🔑 교사 설정</button>
+</div>
+
+<div class="talk-bar">
+  <div class="talk-step active" id="ts-T"><span class="tl">T</span>Think</div>
+  <div class="talk-sep"></div>
+  <div class="talk-step" id="ts-A"><span class="tl">A</span>Attempt</div>
+  <div class="talk-sep"></div>
+  <div class="talk-step" id="ts-L"><span class="tl">L</span>Learn</div>
+  <div class="talk-sep"></div>
+  <div class="talk-step" id="ts-K"><span class="tl">K</span>Keep Talking</div>
+</div>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('practice')" id="nt-practice">🗣️ 말하기</button>
+  <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈 성장 기록</button>
+  <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫 교사 대시보드</button>
+</div>
+
+<!-- PRACTICE -->
+<div id="tab-practice">
+<div class="main">
+  <div class="step-card">
+    <div class="step-body" style="padding:11px 14px">
+      <div class="name-row">
+        <label>👤 이름</label>
+        <input class="name-input" id="studentName" placeholder="내 이름을 입력해봐!" maxlength="10">
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-header" onclick="toggleStep(1)">
+      <div class="step-icon">🗂️</div>
+      <div class="step-title">오늘 말해볼 주제를 골라봐!</div>
+      <div class="step-badge active" id="badge1">STEP 1 · Think</div>
+    </div>
+    <div class="step-body" id="body1">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeBtnFree" onclick="setMode('free')"><span class="me">🗣️</span>자유 주제</button>
+        <button class="mode-btn" id="modeBtnUnit" onclick="setMode('unit')"><span class="me">📘</span>교과서 단원</button>
+      </div>
+      <div class="topic-grid" id="topicGrid"></div>
+      <div class="topic-grid" id="unitGrid" style="display:none"></div>
+      <div class="ex-box" id="exampleBox">
+        <div class="ex-label">🎯 오늘의 말하기 과제</div>
+        <div class="ex-prompt" id="exPrompt"></div>
+        <div id="exSentences"></div>
+        <div class="goal-chips" id="goalChips"></div>
+      </div>
+      <button class="btn btn-blue btn-full btn-lg" id="btn1" onclick="goStep2()" disabled>다음 단계로 ▶</button>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-header" onclick="toggleStep(2)">
+      <div class="step-icon">🎤</div>
+      <div class="step-title">이제 영어로 말해봐!</div>
+      <div class="step-badge" id="badge2">STEP 2 · Attempt</div>
+    </div>
+    <div class="step-body hidden" id="body2">
+      <div class="rec-center">
+        <div class="rec-timer" id="recTimer">00:00</div>
+        <button class="rec-btn" id="recBtn" onclick="toggleRec()">🎤</button>
+        <div class="rec-hint" id="recHint">버튼을 누르고 영어로 말해봐! 🗣️</div>
+      </div>
+      <div class="att-row">
+        <span>도전 횟수</span>
+        <div class="att-dots"><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
+      </div>
+      <div class="tr-area" id="transcriptArea"><span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span></div>
+      <div class="audio-sec" id="audioSection">
+        <audio id="audioPlayer" controls></audio>
+        <div class="btn-row">
+          <button class="btn btn-outline-red" onclick="retryRec()">🔄 다시 말하기</button>
+          <button class="btn btn-blue" onclick="startConversation()">💬 AI 대화하기 →</button>
+        </div>
+      </div>
+      <button class="back-btn" onclick="goStep1()">← 주제 바꾸기</button>
+
+      <!-- 대화형 영역 -->
+      <div id="convSection" style="display:none;margin-top:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--blue-dark);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          💬 AI 대화 <span style="background:var(--blue);color:#fff;border-radius:20px;padding:1px 8px;font-size:10px" id="convTurnBadge">1/3</span>
+        </div>
+        <div id="convHistory" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;max-height:260px;overflow-y:auto"></div>
+        <div class="ai-loading" id="questionLoading" style="display:none"><div class="spinner"></div>AI가 질문 만드는 중...</div>
+        <div id="currentQBox" style="display:none">
+          <div class="conv-q-box">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+              <div style="font-size:10px;font-weight:700;color:var(--blue-dark);text-transform:uppercase">🤖 AI 질문</div>
+              <button onclick="speakQuestion()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🔊 듣기</button>
+            </div>
+            <div id="aiQuestion" style="font-size:14px;font-weight:700;color:var(--text);line-height:1.5"></div>
+            <div id="aiQuestionKo" style="font-size:11px;color:var(--text-soft);margin-top:3px"></div>
+          </div>
+        </div>
+        <div id="convRecArea" style="display:none">
+          <div class="rec-center" style="padding:2px 0;gap:8px">
+            <button class="rec-btn" id="convRecBtn" onclick="toggleConvRec()" style="width:58px;height:58px;font-size:20px">🎤</button>
+            <div class="rec-hint" id="convRecHint">버튼을 누르고 질문에 답해봐! 🗣️</div>
+          </div>
+          <div class="tr-area" id="convTranscriptArea" style="margin-top:8px;min-height:44px"><span class="tp">여기에 네 답변이 나타날 거야 ✨</span></div>
+          <div id="convBtnRow" style="display:none;margin-top:8px">
+            <div class="btn-row">
+              <button class="btn btn-outline" onclick="nextConvTurn()" id="btnNextTurn">💬 계속 대화</button>
+              <button class="btn btn-green" onclick="goStep3()">✅ 자기평가 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-header" onclick="toggleStep(3)">
+      <div class="step-icon">✅</div>
+      <div class="step-title">스스로 평가해봐!</div>
+      <div class="step-badge" id="badge3">STEP 3 · Learn</div>
+    </div>
+    <div class="step-body hidden" id="body3">
+      <div class="eval-list" id="evalList"></div>
+      <div style="margin-top:12px">
+        <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">💬 오늘 말하기 소감 (선택)</label>
+        <textarea id="evalComment" style="width:100%;border:2px solid var(--border);border-radius:9px;padding:8px 10px;font-size:13px;resize:vertical;min-height:52px;font-family:inherit;outline:none;color:var(--text)" placeholder="오늘 어떠했어? 자유롭게 적어봐!"></textarea>
+      </div>
+      <button class="btn btn-blue btn-full btn-lg" onclick="getFeedback()">🤖 AI 피드백 받기</button>
+      <button class="back-btn" onclick="goStep2()">← 다시 녹음하기</button>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-header" onclick="toggleStep(4)">
+      <div class="step-icon">🧠</div>
+      <div class="step-title">AI 피드백이 왔어!</div>
+      <div class="step-badge" id="badge4">STEP 4 · Keep Talking</div>
+    </div>
+    <div class="step-body hidden" id="body4">
+      <div id="feedbackContent"><div style="text-align:center;padding:26px;color:var(--text-soft);font-size:13px">STEP 3에서 자기평가 후 AI 피드백을 받아봐! 🌟</div></div>
+      <div id="afterFeedback" style="display:none">
+        <div class="btn-row" style="margin-top:10px">
+          <button class="btn btn-purple" onclick="openReport()">📄 학습 리포트</button>
+          <button class="btn btn-blue" onclick="resetAll()">🔄 새 주제 도전!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- GROWTH -->
+<div id="tab-growth" style="display:none">
+<div class="main">
+  <div class="step-card">
+    <div class="step-header"><div class="step-icon">📈</div><div class="step-title">나의 성장 기록</div><div class="step-badge active">GROWTH</div></div>
+    <div class="step-body">
+      <div id="chartWrap" style="display:none">
+        <div class="chart-wrap"><div class="chart-title">📊 말하기 점수 변화</div><canvas id="scoreChart" height="160"></canvas></div>
+        <div class="chart-wrap"><div class="chart-title">🔄 도전 횟수 변화</div><canvas id="attemptChart" height="110"></canvas></div>
+      </div>
+      <div class="sec-title">🗂️ 전체 기록</div>
+      <div id="recordList"></div>
+      <button class="btn btn-outline-red btn-full" style="margin-top:10px" onclick="clearMyRecords()">🗑️ 내 기록 초기화</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="tab-dashboard" style="display:none">
+<div class="main">
+  <div class="step-card">
+    <div class="step-header"><div class="step-icon">👩‍🏫</div><div class="step-title">교사 대시보드</div><div class="step-badge active">TEACHER</div></div>
+    <div class="step-body">
+      <div id="dashContent"></div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-green" onclick="downloadCSV()">📥 CSV 다운로드</button>
+        <button class="btn btn-outline-red" onclick="clearAllRecords()">🗑️ 전체 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="modal-bg" id="reportModal" onclick="closeReportBg(event)">
+  <div class="modal">
+    <div class="modal-hd"><h2>📄 학습 리포트</h2><button class="modal-close" onclick="closeReport()">×</button></div>
+    <div class="modal-body" id="reportBody"></div>
+    <div style="padding:0 18px 18px;display:flex;gap:7px">
+      <button class="btn btn-blue" onclick="window.print()">🖨️ 인쇄</button>
+      <button class="btn btn-outline" onclick="closeReport()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- API MODAL -->
+<div class="modal-bg" id="apiModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd"><h2>🔑 교사 API 설정</h2></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">수업 시작 전 <strong>선생님이 한 번만</strong> 입력하면 이 브라우저에 저장돼요!</p>
+      <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:6px">Claude API Key</label>
+      <input type="password" id="apiKeyInput" style="width:100%;border:2px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;margin-bottom:6px" placeholder="Anthropic API Key를 붙여넣으세요">
+      <div style="font-size:11px;color:var(--text-soft);margin-bottom:16px">🔒 키는 이 기기의 브라우저에만 저장돼요.</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue" style="flex:2" onclick="saveApiKey()">💾 저장하고 시작하기</button>
+        <button class="btn btn-outline" style="flex:1" onclick="closeApiModal()">나중에</button>
+      </div>
+      <div id="apiStatus" style="margin-top:10px;font-size:12px;text-align:center"></div>
+    </div>
+  </div>
+</div>
+
+<div style="display:none"><input type="password" id="apiKey" value=""></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LS_KEY='talktalk_v3';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbynhiZH5eaonk_RcZy4tZpdQSnlaVuhYg2499EuAmLGxq75ZfT8HwF-tPF9akmyefe_iw/exec';
+
+const FREE_TOPICS=[
+  {emoji:'👋',label:'자기소개\nMy name is...',prompt:'자신에 대해 소개해봐! 이름, 나이, 좋아하는 것을 영어로 말해봐.',sentences:['Hi! My name is blah blah.','I am blah blah years old.','I like blah blah very much.','My favorite blah blah is blah blah.'],goals:['3문장 이상','이름+나이','좋아하는 것'],keywords:['My name is','I am','I like','My favorite']},
+  {emoji:'🍕',label:'음식/좋아하는 것\nI like / I love...',prompt:'좋아하는 음식이나 것들을 영어로 말해봐!',sentences:['My favorite food is blah blah.','I love eating blah blah because blah blah.','I do not like blah blah very much.','I always eat blah blah for breakfast.'],goals:['음식 이름','이유 말하기','3문장 이상'],keywords:['My favorite','I love','because','always']},
+  {emoji:'🎮',label:'주말/취미\nOn weekends, I...',prompt:'주말에 뭐 하는지 영어로 말해봐!',sentences:['On weekends, I usually blah blah.','I like to blah blah with my blah blah.','My hobby is blah blah.','I spend blah blah hours blah blah every week.'],goals:['주말 활동','취미 설명','시간 표현'],keywords:['On weekends','I usually','My hobby','spend time']},
+  {emoji:'🏫',label:'학교생활\nMy favorite subject...',prompt:'학교생활에 대해 영어로 말해봐!',sentences:['My favorite subject is blah blah because blah blah.','I go to blah blah Elementary School.','I have blah blah friends in my class.','After school, I blah blah.'],goals:['좋아하는 과목','이유 말하기','학교 활동'],keywords:['favorite subject','because','after school','friends']},
+  {emoji:'🚀',label:'장래희망\nI want to be...',prompt:'커서 뭐가 되고 싶은지 영어로 말해봐! 이유도 꼭 말해봐.',sentences:['I want to be a blah blah in the future.','I want to be a blah blah because blah blah.','A blah blah helps people blah blah.','To become a blah blah, I need to blah blah.'],goals:['직업 말하기','이유 설명','구체적 계획'],keywords:['I want to be','in the future','because','helps people']},
+  {emoji:'✈️',label:'여행/가고 싶은 곳\nI want to go to...',prompt:'가고 싶은 나라나 장소를 영어로 말해봐!',sentences:['I want to go to blah blah someday.','Blah blah is famous for blah blah.','I want to visit blah blah because blah blah.','If I go to blah blah, I will blah blah.'],goals:['장소 이름','이유 설명','because 사용'],keywords:['I want to go','famous for','because','If I go']}
+];
+
+const UNIT_TOPICS=[
+  {unit:'L1',badge:'Lesson 1',semester:1,emoji:'🌍',label:'Lesson 1\nWhere Are You From?',prompt:'어느 나라에서 왔는지 영어로 소개해봐!',sentences:['Where are you from?','I am from Korea.','I am from blah blah.','Nice to meet you!'],goals:['나라 이름','I am from 사용','인사 표현'],keywords:['Where are you from','I am from','Nice to meet you']},
+  {unit:'L2',badge:'Lesson 2',semester:1,emoji:'📦',label:'Lesson 2\nWhat Are These?',prompt:'주변 물건을 영어로 설명해봐!',sentences:['What is this?','This is a blah blah.','What are these?','These are blah blahs.'],goals:['This/These 구별','물건 이름','3문장 이상'],keywords:['What is this','These are','This is']},
+  {unit:'L3',badge:'Lesson 3',semester:1,emoji:'📸',label:'Lesson 3\nCan I Take Pictures?',prompt:'허락을 구하는 표현을 영어로 말해봐!',sentences:['Can I take pictures here?','Can I blah blah?','Yes, you can. No, you cannot.','Thank you so much!'],goals:['Can I 사용','허락 답하기'],keywords:['Can I','Yes, you can','No, you cannot']},
+  {unit:'L4',badge:'Lesson 4',semester:1,emoji:'✏️',label:'Lesson 4\nWhose Pen Is This?',prompt:'물건의 주인이 누구인지 영어로 묻고 답해봐!',sentences:['Whose pen is this?','It is my pen.','It is blah blah pen.','Whose blah blah is this?'],goals:['Whose 질문','소유격 사용'],keywords:['Whose','It is mine','It is blah blahs']},
+  {unit:'L5',badge:'Lesson 5',semester:1,emoji:'🛍️',label:'Lesson 5\nLet\'s Go Shopping',prompt:'쇼핑할 때 쓰는 표현을 영어로 말해봐!',sentences:['How much is it?','It is blah blah won.','Can I try this on?','I will take it!'],goals:['가격 묻기','숫자 표현'],keywords:['How much','won','try this on']},
+  {unit:'L6',badge:'Lesson 6',semester:1,emoji:'☀️',label:'Lesson 6\nWhat Will You Do This Summer?',prompt:'이번 여름방학에 할 일을 영어로 말해봐!',sentences:['What will you do this summer?','I will blah blah.','I am going to blah blah.','I cannot wait!'],goals:['will 사용','여름 계획'],keywords:['What will you do','I will','I am going to']},
+  {unit:'R1',badge:'Review 1',semester:1,emoji:'🔁',review:true,label:'Review 1\n1~6과 복습',prompt:'1~6과 표현 2개 이상을 섞어 말해봐!',sentences:['I am from blah blah, and this is my blah blah.','Can I blah blah? Whose blah blah is this?','How much? I will buy it!'],goals:['표현 2개 이상','자연스러운 연결'],keywords:["I am from",'Can I','How much','I will']},
+  {unit:'L7',badge:'Lesson 7',semester:2,emoji:'🍉',label:'Lesson 7\nI Went to a Watermelon Festival',prompt:'지난 방학에 다녀온 곳을 영어로 말해봐!',sentences:['Where did you go?','I went to blah blah.','I ate blah blah. I saw blah blah.','It was so much fun!'],goals:['과거형 사용','장소/경험'],keywords:['I went to','I ate','It was fun']},
+  {unit:'L8',badge:'Lesson 8',semester:2,emoji:'🍽️',label:'Lesson 8\nWhat Would You Like?',prompt:'음식점에서 주문하는 표현을 영어로 말해봐!',sentences:['What would you like?','I would like blah blah, please.','Anything else?','That is all, thank you.'],goals:['주문 표현','공손한 표현'],keywords:['I would like','please','Anything else']},
+  {unit:'L9',badge:'Lesson 9',semester:2,emoji:'💰',label:'Lesson 9\nThey Are Twenty Thousand Won',prompt:'물건 가격을 영어 숫자로 말해봐!',sentences:['How much are they?','They are blah blah won.','That is expensive! That is cheap!','I will buy blah blah.'],goals:['큰 숫자 표현','복수형 가격'],keywords:['How much are they','won','expensive']},
+  {unit:'L10',badge:'Lesson 10',semester:2,emoji:'⏰',label:'Lesson 10\nWhat Time Do You Get Up?',prompt:'하루 일과를 영어로 시간과 함께 말해봐!',sentences:['What time do you get up?','I get up at blah blah.','I go to school at blah blah.','I go to bed at blah blah.'],goals:['시간 표현','일과 동사'],keywords:['What time','I get up at','I go to bed']},
+  {unit:'L11',badge:'Lesson 11',semester:2,emoji:'📚',label:'Lesson 11\nMy Favorite Subject Is Math',prompt:'좋아하는 과목과 이유를 영어로 말해봐!',sentences:['What is your favorite subject?','My favorite subject is blah blah.','I like it because blah blah.','It is interesting!'],goals:['과목 이름','because 사용'],keywords:['favorite subject','because','It is interesting']},
+  {unit:'L12',badge:'Lesson 12',semester:2,emoji:'🌟',label:'Lesson 12\nWhat Do You Want to Be?',prompt:'미래에 되고 싶은 직업을 영어로 말해봐!',sentences:['What do you want to be?','I want to be a blah blah.','I want to be a blah blah because blah blah.','I will work hard for my dream.'],goals:['직업 이름','이유 설명'],keywords:['I want to be','because','dream']},
+  {unit:'R2',badge:'Review 2',semester:2,emoji:'🔁',review:true,label:'Review 2\n7~12과 복습',prompt:'7~12과 표현 2개 이상을 섞어 말해봐!',sentences:['I went to blah blah, and I ate blah blah.','I would like blah blah. It is blah blah won.','I get up at blah blah, I want to be a blah blah.'],goals:['표현 2개 이상','자연스러운 연결'],keywords:['I went to','I would like','I want to be']}
+];
+
+const EVAL_ITEMS=[
+  {id:'confidence',label:'🗣️ 자신감',desc:'크고 자신 있게 말했나요?'},
+  {id:'fluency',label:'🌊 유창성',desc:'끊기지 않고 자연스럽게 말했나요?'},
+  {id:'accuracy',label:'✏️ 정확성',desc:'올바른 문법과 단어를 사용했나요?'},
+  {id:'content',label:'📖 내용',desc:'예시 문장을 참고하고 충분히 말했나요?'}
+];
+const SL=['','아직 어려워요','조금 됐어요','보통이에요','잘 됐어요','아주 잘 됐어요!'];
+
+let S={mode:'free',topicIdx:-1,attemptCount:0,scores:{},transcript:'',mediaRecorder:null,isRecording:false,timerInterval:null,timerSec:0,recognition:null,audioBlob:null,lastFeedback:null,lastScore:0};
+let convInterim = '';
+let convHistory=[],convTurn=0,convTranscript='',aiQuestion='',aiQuestionKo='';
+let convRecording=false,convRecognition=null,convMediaRecorder=null;
+const MAX_TURNS=3;
+let scChart=null,atChart=null;
+
+function curList(){return S.mode==='unit'?UNIT_TOPICS:FREE_TOPICS;}
+function loadRecs(){try{return JSON.parse(localStorage.getItem(LS_KEY)||'[]');}catch(e){return[];}}
+function saveRec(r){
+  const a=loadRecs();a.push(r);localStorage.setItem(LS_KEY,JSON.stringify(a));
+  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({
+    name:r.name,date:r.date,time:r.time,topic:r.topic,
+    score:r.score,evalAvg:r.evalAvg,attempts:r.attempts,timerSec:r.timerSec,
+    comment:r.comment||'',
+    good:(r.feedback?.good||'').slice(0,200),
+    improve:(r.feedback?.improve||'').slice(0,200),
+    example:(r.feedback?.example||'').slice(0,200),
+    next:(r.feedback?.next||'').slice(0,200)
+  })}).catch(()=>{});
+}
+
+window.onload=()=>{
+  renderTopics();renderUnits();renderEvalItems();openStep(1);
+  const urlKey=new URLSearchParams(location.search).get('k');
+  if(urlKey&&urlKey.startsWith('sk-')){
+    localStorage.setItem('talktalk_apikey',urlKey);
+    document.getElementById('apiKey').value=urlKey;
+    document.getElementById('apiKeyInput').value=urlKey;
+    history.replaceState(null,'',location.pathname);
+    setTimeout(()=>toast('✅ AI 피드백 준비 완료! 말하기 연습을 시작해봐! 🎤'),200);
+    return;
+  }
+  const saved=localStorage.getItem('talktalk_apikey');
+  if(saved){
+    document.getElementById('apiKey').value=saved;
+    document.getElementById('apiKeyInput').value=saved;
+  }else{
+    document.getElementById('apiModal').classList.add('open');
+  }
+};
+
+// API 설정
+function saveApiKey(){
+  const key=document.getElementById('apiKeyInput').value.trim();
+  if(!key||!key.startsWith('sk-')){document.getElementById('apiStatus').innerHTML='<span style="color:#E53E3E">⚠️ 올바른 API 키를 입력해주세요</span>';return;}
+  localStorage.setItem('talktalk_apikey',key);
+  document.getElementById('apiKey').value=key;
+  document.getElementById('apiStatus').innerHTML='<span style="color:var(--green)">✅ 저장 완료!</span>';
+  setTimeout(()=>{document.getElementById('apiModal').classList.remove('open');toast('🔑 API 키가 저장됐어요!');},700);
+}
+function closeApiModal(){document.getElementById('apiModal').classList.remove('open');if(!localStorage.getItem('talktalk_apikey'))toast('⚠️ API 키 미설정 — 예시 피드백으로 작동해요.');}
+function openApiSetting(){const s=localStorage.getItem('talktalk_apikey');if(s)document.getElementById('apiKeyInput').value=s;document.getElementById('apiStatus').innerHTML='';document.getElementById('apiModal').classList.add('open');}
+
+// TALK 모형
+function setTalkStep(n){
+  const keys=['T','A','L','K'];const ai=n-1;
+  keys.forEach((k,i)=>{const el=document.getElementById('ts-'+k);el.className='talk-step'+(i<ai?' done':i===ai?' active':'');});
+}
+
+// 탭
+function switchTab(tab){
+  if(tab==='dashboard'){
+    const auth=sessionStorage.getItem('talktalk_teacher');
+    if(!auth){
+      const pw=prompt('👩‍🏫 교사 대시보드\n비밀번호를 입력하세요:');
+      if(pw===null)return;
+      if(pw!=='tt501'){alert('비밀번호가 틀렸어요!');return;}
+      sessionStorage.setItem('talktalk_teacher','ok');
+    }
+  }
+  ['practice','growth','dashboard'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
+    document.getElementById('nt-'+t).classList.toggle('active',t===tab);
+  });
+  if(tab==='growth')renderGrowth();
+  if(tab==='dashboard')renderDash();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// 렌더링
+function renderTopics(){
+  document.getElementById('topicGrid').innerHTML=FREE_TOPICS.map((t,i)=>'<button class="topic-chip" onclick="selectTopic('+i+')"><span class="te">'+t.emoji+'</span>'+t.label.replace('\n','<br>')+'</button>').join('');
+}
+function renderUnits(){
+  const chip=u=>{const idx=UNIT_TOPICS.indexOf(u);const sub=u.label.split('\n')[1];return '<button class="unit-chip'+(u.review?' review':'')+'" onclick="selectTopic('+idx+')"><span class="ub">'+u.badge+'</span><span>'+u.emoji+' '+sub+'</span></button>';};
+  const s1=UNIT_TOPICS.filter(u=>u.semester===1);const s2=UNIT_TOPICS.filter(u=>u.semester===2);
+  document.getElementById('unitGrid').innerHTML='<div style="grid-column:1/-1" class="unit-sem">1학기 (Lesson 1~6)</div>'+s1.map(chip).join('')+'<div style="grid-column:1/-1" class="unit-sem">2학기 (Lesson 7~12)</div>'+s2.map(chip).join('');
+}
+function setMode(mode){
+  if(S.mode===mode)return;S.mode=mode;S.topicIdx=-1;
+  document.getElementById('modeBtnFree').classList.toggle('active',mode==='free');
+  document.getElementById('modeBtnUnit').classList.toggle('active',mode==='unit');
+  document.getElementById('topicGrid').style.display=mode==='free'?'grid':'none';
+  document.getElementById('unitGrid').style.display=mode==='unit'?'grid':'none';
+  document.querySelectorAll('.topic-chip.selected,.unit-chip.selected').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('exampleBox').classList.remove('show');
+  document.getElementById('btn1').disabled=true;
+}
+function renderEvalItems(){
+  EVAL_ITEMS.forEach(item=>{S.scores[item.id]=0;});
+  document.getElementById('evalList').innerHTML=EVAL_ITEMS.map(item=>'<div class="eval-item"><div class="eval-ih"><div><div class="eval-il">'+item.label+'</div><div class="eval-id">'+item.desc+'</div></div><div class="score-lbl" id="slabel-'+item.id+'">—</div></div><div class="stars" id="stars-'+item.id+'">'+[1,2,3,4,5].map(v=>'<button class="star" id="star-'+item.id+'-'+v+'" onclick="setScore(\''+item.id+'\','+v+')">⭐</button>').join('')+'</div></div>').join('');
+}
+
+// 스텝
+function openStep(n){for(let i=1;i<=4;i++){const b=document.getElementById('body'+i);if(b)b.classList.toggle('hidden',i!==n);}setTalkStep(n);}
+function toggleStep(n){document.getElementById('body'+n)?.classList.toggle('hidden');}
+function goStep1(){openStep(1);document.getElementById('body1').classList.remove('hidden');}
+function goStep2(){if(S.topicIdx<0){toast('주제를 먼저 골라봐! 🗂️');return;}openStep(2);}
+function goStep3(){openStep(3);}
+
+function selectTopic(idx){
+  S.topicIdx=idx;
+  const sel=S.mode==='unit'?'.unit-chip':'.topic-chip';
+  document.querySelectorAll(sel).forEach((c,i)=>c.classList.toggle('selected',i===idx));
+  const t=curList()[idx];
+  document.getElementById('exPrompt').textContent=t.prompt;
+  document.getElementById('exSentences').innerHTML=t.sentences.map(s=>'<div class="ex-sent">💬 '+s+'</div>').join('');
+  document.getElementById('goalChips').innerHTML=t.goals.map(g=>'<span class="goal-chip">✓ '+g+'</span>').join('');
+  document.getElementById('exampleBox').classList.add('show');
+  document.getElementById('btn1').disabled=false;
+}
+
+// 녹음
+async function toggleRec(){if(S.isRecording)stopRec();else await startRec();}
+async function startRec(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    S.isRecording=true;S.timerSec=0;S.transcript='';S._srInterim='';
+    // UI 먼저 업데이트
+    document.getElementById('recBtn').textContent='⏹';
+    document.getElementById('recBtn').classList.add('on');
+    document.getElementById('recHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
+    document.getElementById('transcriptArea').innerHTML='<span class="tp">인식 중... 🎤</span>';
+    document.getElementById('audioSection').classList.remove('show');
+    // SR 먼저 시작 (MediaRecorder보다 먼저)
+    startSR();
+    // 잠깐 후 MediaRecorder 시작
+    await new Promise(r=>setTimeout(r,200));
+    const chunks=[];
+    const mimeType=MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':
+      MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
+    S.mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
+    S.mediaRecorder.ondataavailable=e=>chunks.push(e.data);
+    S.mediaRecorder.onstop=()=>{
+      S.audioBlob=new Blob(chunks,{type:'audio/webm'});
+      document.getElementById('audioPlayer').src=URL.createObjectURL(S.audioBlob);
+      document.getElementById('audioSection').classList.add('show');
+      S.attemptCount=Math.min(S.attemptCount+1,3);updateDots();
+    };
+    S.mediaRecorder.start();
+    S.timerInterval=setInterval(()=>{S.timerSec++;const m=String(Math.floor(S.timerSec/60)).padStart(2,'0');const s=String(S.timerSec%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;},1000);
+  }catch(e){toast('마이크 권한이 필요해요! 🎤');}
+}
+function stopRec(){
+  S.isRecording=false; // 먼저 false로 (재시작 방지)
+  if(S._srInterim)S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
+  S._srInterim='';
+  if(S.recognition){try{S.recognition.abort();}catch(e){}}
+  if(S.mediaRecorder?.state!=='inactive'){S.mediaRecorder.stop();S.mediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  clearInterval(S.timerInterval);
+  document.getElementById('recBtn').textContent='🎤';
+  document.getElementById('recBtn').classList.remove('on');
+  if(S.transcript){
+    document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+    document.getElementById('recHint').textContent='잘했어! 들어보고 AI와 대화해봐! 💬';
+  }else{
+    document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 조금 더 크게 말하거나 다시 눌러봐! 🎤</span>';
+    document.getElementById('recHint').textContent='다시 눌러서 말해봐! 🎤';
+  }
+}
+function startSR(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">⚠️ 이 브라우저는 음성인식을 지원하지 않아요.<br>Chrome 또는 Safari를 사용해주세요.</span>';
+    return;
+  }
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  S.transcript='';S._srInterim='';
+  function run(){
+    if(!S.isRecording)return;
+    try{
+      const r=new SR();
+      r.lang='en-US';
+      r.continuous=!isIOS; // iOS는 false, 그 외는 true
+      r.interimResults=true;
+      r.onresult=e=>{
+        let final='',interim='';
+        for(let i=0;i<e.results.length;i++){
+          if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+          else interim+=e.results[i][0].transcript;
+        }
+        if(final.trim())S.transcript=(S.transcript?S.transcript+' ':'')+final.trim();
+        S._srInterim=interim;
+        document.getElementById('transcriptArea').innerHTML=
+          (S.transcript?'<span>'+S.transcript+'</span>':'')+
+          (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
+      };
+      r.onend=()=>{
+        if(S._srInterim){
+          S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
+          S._srInterim='';
+          document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+        }
+        // iOS는 onend에서 재시작, 그 외도 끊기면 재시작
+        if(S.isRecording)setTimeout(run,50);
+      };
+      r.onerror=e=>{
+        if(e.error==='not-allowed'||e.error==='service-not-allowed'){
+          toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+        }else if(e.error!=='aborted'&&S.isRecording){
+          setTimeout(run,300);
+        }
+      };
+      r.start();
+      S.recognition=r;
+    }catch(e){if(S.isRecording)setTimeout(run,300);}
+  }
+  run();
+}
+function retryRec(){
+  S.audioBlob=null;S.transcript='';clearInterval(S.timerInterval);S.timerSec=0;S.isRecording=false;
+  document.getElementById('recTimer').textContent='00:00';
+  document.getElementById('recBtn').textContent='🎤';document.getElementById('recBtn').classList.remove('on');
+  document.getElementById('recHint').textContent='버튼을 누르고 영어로 말해봐! 🗣️';
+  document.getElementById('transcriptArea').innerHTML='<span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span>';
+  document.getElementById('audioSection').classList.remove('show');
+  document.getElementById('convSection').style.display='none';
+  convHistory=[];convTurn=0;convTranscript='';convInterim='';aiQuestion='';aiQuestionKo='';
+}
+function updateDots(){for(let i=1;i<=3;i++)document.getElementById('d'+i).classList.toggle('done',i<=S.attemptCount);}
+
+// 자기평가
+function setScore(id,val){
+  S.scores[id]=val;
+  for(let v=1;v<=5;v++)document.getElementById('star-'+id+'-'+v)?.classList.toggle('on',v<=val);
+  document.getElementById('slabel-'+id).textContent=SL[val];
+}
+
+// ── 대화형 말하기 ──
+function speakQuestion(){
+  if(!aiQuestion)return;
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const utter=new SpeechSynthesisUtterance(aiQuestion);
+    utter.lang='en-US';utter.rate=0.85;utter.pitch=1;
+    const voices=window.speechSynthesis.getVoices();
+    const enVoice=voices.find(v=>v.lang.startsWith('en-'));
+    if(enVoice)utter.voice=enVoice;
+    window.speechSynthesis.speak(utter);
+  }else{toast('이 브라우저는 음성 지원이 안 돼요 😢');}
+}
+
+function addConvBubble(role,text,ko){
+  const history=document.getElementById('convHistory');
+  const isAI=role==='ai';
+  const wrap=document.createElement('div');
+  wrap.className='conv-bubble-wrap'+(isAI?'':' student');
+  wrap.innerHTML='<div style="font-size:18px;flex-shrink:0">'+(isAI?'🤖':'👤')+'</div>'
+    +'<div><div class="conv-bubble '+(isAI?'ai':'student')+'">'+text+'</div>'
+    +(ko?'<div class="conv-ko">'+ko+'</div>':'')+'</div>';
+  history.appendChild(wrap);
+  history.scrollTop=history.scrollHeight;
+}
+
+async function startConversation(){
+  if(!S.audioBlob){toast('먼저 말하기를 해봐! 🎤');return;}
+  convHistory=[];convTurn=0;convTranscript='';
+  document.getElementById('convHistory').innerHTML='';
+  document.getElementById('convSection').style.display='block';
+  document.getElementById('convBtnRow').style.display='none';
+  document.getElementById('convTranscriptArea').innerHTML='<span class="tp">여기에 네 답변이 나타날 거야 ✨</span>';
+  if(S.transcript)addConvBubble('student',S.transcript);
+  await askAI();
+}
+
+async function askAI(){
+  const topic=curList()[S.topicIdx];
+  document.getElementById('questionLoading').style.display='flex';
+  document.getElementById('currentQBox').style.display='none';
+  document.getElementById('convRecArea').style.display='none';
+  document.getElementById('convBtnRow').style.display='none';
+  document.getElementById('convTurnBadge').textContent=(convTurn+1)+'/'+MAX_TURNS;
+
+  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
+  const historyText=convHistory.map(h=>(h.role==='ai'?'AI: ':'Student: ')+h.text).join('\n');
+
+  const prompt='You are an English teacher having a conversation with a Korean 5th grader.\n'
+    +'Topic: '+topic.label.replace('\n',' - ')+'\n'
+    +'Key expressions to practice: '+topic.keywords.join(', ')+'\n'
+    +'Textbook sentences: '+topic.sentences.join(' / ')+'\n'
+    +'Conversation so far:\n'+(historyText||'(just started, student free speech: "'+(S.transcript||'none')+'")')+'\n'
+    +'Turn '+(convTurn+1)+' of '+MAX_TURNS+'.\n'
+    +'RULE: Ask a question DIRECTLY related to the topic keywords and sentences above.\n'
+    +'Turn 1: Use the first key expression as your question (e.g. "Where are you from?" for L1).\n'
+    +'Turn 2: Use second key expression or build on student answer naturally.\n'
+    +'Turn 3: Use another key expression or ask for more detail about their answer.\n'
+    +'NEVER ask generic questions like "Can you say more" or "What do you like about it".\n'
+    +'Keep it short, simple, and encouraging for a 5th grader.\n'
+    +'Respond ONLY:\nQ: [question]\nKO: [Korean translation]';
+
+  try{
+    if(key){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:150,messages:[{role:'user',content:prompt}]})
+      });
+      const data=await res.json();
+      const txt=data.content?.[0]?.text||'';
+      const qm=txt.match(/Q:\s*(.+)/);const km=txt.match(/KO:\s*(.+)/);
+      aiQuestion=qm?qm[1].trim():topic.keywords[convTurn]||topic.sentences[convTurn]||'Tell me more!';
+      aiQuestionKo=km?km[1].trim():'더 말해봐요!';
+    }else{
+      await new Promise(r=>setTimeout(r,500));
+      aiQuestion=topic.sentences[convTurn]||topic.keywords[convTurn]||'Tell me more!';
+      aiQuestionKo='더 말해봐요!';
+    }
+    addConvBubble('ai',aiQuestion,aiQuestionKo);
+    convHistory.push({role:'ai',text:aiQuestion});
+    document.getElementById('aiQuestion').textContent=aiQuestion;
+    document.getElementById('aiQuestionKo').textContent=aiQuestionKo;
+    document.getElementById('questionLoading').style.display='none';
+    document.getElementById('currentQBox').style.display='block';
+    document.getElementById('convRecArea').style.display='block';
+    setTimeout(()=>speakQuestion(),500);
+    toast('🔊 AI가 질문했어요! 잘 듣고 답해봐!');
+  }catch(e){
+    aiQuestion=topic.sentences[convTurn]||topic.keywords[convTurn]||'Tell me!';
+    aiQuestionKo='더 말해봐요!';
+    addConvBubble('ai',aiQuestion,aiQuestionKo);
+    convHistory.push({role:'ai',text:aiQuestion});
+    document.getElementById('aiQuestion').textContent=aiQuestion;
+    document.getElementById('aiQuestionKo').textContent=aiQuestionKo;
+    document.getElementById('questionLoading').style.display='none';
+    document.getElementById('currentQBox').style.display='block';
+    document.getElementById('convRecArea').style.display='block';
+    setTimeout(()=>speakQuestion(),500);
+  }
+}
+
+function toggleConvRec(){if(convRecording)stopConvRec();else startConvRec();}
+async function startConvRec(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    convRecording=true;convTranscript='';convInterim='';
+    document.getElementById('convRecBtn').textContent='⏹';
+    document.getElementById('convRecBtn').classList.add('on');
+    document.getElementById('convRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
+    document.getElementById('convBtnRow').style.display='none';
+    document.getElementById('convTranscriptArea').innerHTML='<span class="tp">인식 중... 🎤</span>';
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){toast('Chrome 또는 Safari 브라우저를 사용해주세요.');return;}
+    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+    function runConv(){
+      if(!convRecording)return;
+      try{
+        const r=new SR();
+        r.lang='en-US';
+        r.continuous=!isIOS;
+        r.interimResults=true;
+        r.onresult=e=>{
+          let final='',interim='';
+          for(let i=0;i<e.results.length;i++){
+            if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+            else interim+=e.results[i][0].transcript;
+          }
+          if(final.trim())convTranscript=(convTranscript?convTranscript+' ':'')+final.trim();
+          convInterim=interim;
+          document.getElementById('convTranscriptArea').innerHTML=
+            (convTranscript?'<span>'+convTranscript+'</span>':'')+
+            (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
+        };
+        r.onend=()=>{
+          if(convInterim){convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();convInterim='';}
+          if(convRecording)setTimeout(runConv,50);
+        };
+        r.onerror=e=>{
+          if(e.error==='not-allowed'||e.error==='service-not-allowed'){
+            toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+          }else if(e.error!=='aborted'&&convRecording){
+            setTimeout(runConv,300);
+          }
+        };
+        r.start();convRecognition=r;
+      }catch(e){if(convRecording)setTimeout(runConv,300);}
+    }
+    runConv();
+    // MediaRecorder - iOS 호환 포맷
+    await new Promise(res=>setTimeout(res,200));
+    const mimeType=MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':
+      MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
+    const chunks=[];
+    convMediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
+    convMediaRecorder.ondataavailable=e=>chunks.push(e.data);
+    convMediaRecorder.onstop=()=>{};
+    convMediaRecorder.start();
+  }catch(e){toast('마이크 권한을 허용해야 녹음할 수 있어요.');}
+}
+function stopConvRec(){
+  convRecording=false; // 먼저 false (재시작 방지)
+  if(convInterim)convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();
+  convInterim='';
+  if(convRecognition){try{convRecognition.abort();}catch(e){}}
+  if(convMediaRecorder?.state!=='inactive'){convMediaRecorder.stop();convMediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  document.getElementById('convRecBtn').textContent='🎤';
+  document.getElementById('convRecBtn').classList.remove('on');
+  if(!convTranscript){
+    document.getElementById('convTranscriptArea').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+    document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
+    toast('음성이 인식되지 않았어요. 다시 말해봐! 🎤');
+    return;
+  }
+  document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+  const remaining=MAX_TURNS-convTurn-1;
+  document.getElementById('btnNextTurn').textContent=remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
+  document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
+  document.getElementById('convBtnRow').style.display='block';
+  toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
+}
+async function nextConvTurn(){
+  if(!convTranscript){
+    toast('답변을 먼저 말해봐! 🎤 마이크 버튼을 눌러줘!');
+    return;
+  }
+  addConvBubble('student',convTranscript);
+  convHistory.push({role:'student',text:convTranscript});
+  convTurn++;convTranscript='';convInterim='';
+  document.getElementById('convTranscriptArea').innerHTML='<span class="tp">여기에 네 답변이 나타날 거야 ✨</span>';
+  document.getElementById('convBtnRow').style.display='none';
+  if(convTurn>=MAX_TURNS){
+    toast('🎉 대화 완료! 자기평가하러 가봐!');
+    document.getElementById('convRecArea').style.display='none';
+    document.getElementById('currentQBox').style.display='none';
+    const endDiv=document.createElement('div');endDiv.style.marginTop='10px';
+    endDiv.innerHTML='<button class="btn btn-green btn-full" onclick="goStep3()">✅ 대화 완료! 자기평가하기 →</button>';
+    document.getElementById('convSection').appendChild(endDiv);
+    return;
+  }
+  await askAI();
+}
+
+// AI 피드백
+async function getFeedback(){
+  const allDone=EVAL_ITEMS.every(item=>S.scores[item.id]>0);
+  if(!allDone){toast('모든 항목을 별로 평가해봐! ⭐');return;}
+  openStep(4);document.getElementById('body4').classList.remove('hidden');
+  const content=document.getElementById('feedbackContent');
+  content.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI가 열심히 분석 중이야... 🤖</div>';
+  document.getElementById('afterFeedback').style.display='none';
+
+  const topic=curList()[S.topicIdx];
+  const comment=document.getElementById('evalComment').value.trim();
+  const avg=(Object.values(S.scores).reduce((a,b)=>a+b,0)/EVAL_ITEMS.length).toFixed(1);
+  const detail=EVAL_ITEMS.map(item=>item.label+': '+S.scores[item.id]+'/5').join(', ');
+  const convSummary=convHistory.length?'\n[CONVERSATION]\n'+convHistory.map(h=>(h.role==='ai'?'AI: ':'Student: ')+h.text).join('\n'):'';
+
+  const sys='You are an expert English speech coach for Korean 5th graders (age 11).\n'
+    +'CRITICAL: Score ONLY based on actual speech. NEVER let self-evaluation scores affect SCORE.\n'
+    +'SCORING: 90-100=3+expressions+full sentences, 75-89=2expressions, 60-74=1expression short, 40-59=very short/errors, 20-39=single words, 0-19=silent. Under 3 words=below 30.\n'
+    +'USE self-eval ONLY for tone: low confidence->warm cheer, low fluency->flow tips, low accuracy->grammar fix, low content->suggest more.\n'
+    +'Consider BOTH free speech and conversation when evaluating.\n'
+    +'Respond ONLY:\nSCORE: [0-100]\nGOOD: [quote actual words in quotes, 2-3 specific praises]\nIMPROVE: [1-2 gentle fixes with exact correction]\nEXAMPLE: [model sentence + Korean translation]\nNEXT: [specific challenge]\nCHEER: [warm Korean encouragement]';
+
+  const usr='Topic: '+topic.emoji+' '+topic.label.replace('\n',' - ')+'\nPrompt: '+topic.prompt+'\n[FREE SPEECH] "'+(S.transcript||'(no speech)')+'"\n'+convSummary+'\nDuration: '+S.timerSec+'s | Attempts: '+S.attemptCount+'\nSelf-eval (reference only, NOT for scoring): '+detail+' avg:'+avg+'/5\nComment: "'+(comment||'none')+'"';
+
+  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
+  try{
+    let txt='';
+    if(key){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})
+      });
+      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.error?.message||'API 오류 ('+res.status+')');}
+      const data=await res.json();txt=data.content?.[0]?.text||'';
+    }else{
+      await new Promise(r=>setTimeout(r,1500));
+      txt='SCORE: 72\nGOOD: 영어로 용감하게 말하려고 노력한 점이 훌륭해요! 핵심 표현을 사용하려고 한 점도 좋아요.\nIMPROVE: 문장을 조금 더 길게 말해봐요. "because"를 붙여서 이유도 말해봐요!\nEXAMPLE: "I like pizza because it is very delicious." (피자가 맛있어서 좋아해요.)\nNEXT: 다음엔 "because"로 이유를 꼭 설명해봐요!\nCHEER: 오늘 정말 잘했어요! 포기하지 않는 네가 자랑스러워요! 💪🌟';
+    }
+    renderFeedback(txt,avg,topic,comment);
+  }catch(e){
+    content.innerHTML='<div style="text-align:center;padding:22px;color:#E53E3E"><div style="font-size:34px;margin-bottom:9px">😢</div><div style="font-weight:700;margin-bottom:7px">피드백을 가져오지 못했어요</div><div style="font-size:12px;color:var(--text-soft);margin-bottom:14px">'+e.message+'</div><button class="btn btn-blue" style="width:auto;padding:9px 18px" onclick="getFeedback()">다시 시도</button></div>';
+  }
+}
+
+function renderFeedback(text,avgScore,topic,comment){
+  const parse=key=>{const m=text.match(new RegExp(key+':\\s*([\\s\\S]*?)(?=\\n[A-Z]+:|$)'));return m?m[1].trim():'';};
+  const score=parseInt(parse('SCORE'))||Math.round(parseFloat(avgScore)*20);
+  const good=parse('GOOD'),improve=parse('IMPROVE'),example=parse('EXAMPLE'),next=parse('NEXT'),cheer=parse('CHEER');
+  const sc=score>=80?'#276749':score>=60?'#2B6CB0':'#744210';
+  S.lastFeedback={good,improve,example,next,cheer};S.lastScore=score;
+
+  document.getElementById('feedbackContent').innerHTML=
+    '<div class="ai-bubble">'
+    +'<div class="ai-score-row"><div class="ai-score-big" style="color:'+sc+'">'+score+'</div><div class="ai-score-info"><div class="ai-score-lbl">오늘의 스피치 점수</div><div class="ai-bar-wrap"><div class="ai-bar" style="width:0%" id="scoreBar"></div></div><div style="font-size:10px;color:var(--text-soft);margin-top:3px">'+(score>=80?'🌟 훌륭해요!':score>=60?'👍 잘 하고 있어요!':'💪 조금 더 도전해봐!')+'</div></div></div>'
+    +(good?'<div class="ai-sec"><div class="ai-sec-title good">✅ 잘한 점</div><div class="ai-sec-body">'+good+'</div></div>':'')
+    +(improve?'<div class="ai-sec"><div class="ai-sec-title improve">💡 이렇게 하면 더 좋아요</div><div class="ai-sec-body">'+improve+'</div></div>':'')
+    +(example?'<div class="ai-sec"><div class="ai-sec-title example">✍️ 수정 예문</div><div class="ai-sec-body" style="background:#fff;border-radius:7px;padding:7px 10px;border-left:3px solid var(--purple)">'+example+'</div></div>':'')
+    +(next?'<div class="ai-sec"><div class="ai-sec-title next">🚀 다음 도전 과제</div><div class="ai-sec-body">'+next+'</div></div>':'')
+    +(cheer?'<div class="ai-cheer">🌟 '+cheer+'</div>':'')
+    +'</div>';
+  setTimeout(()=>{const b=document.getElementById('scoreBar');if(b)b.style.width=Math.min(score,100)+'%';},100);
+  document.getElementById('afterFeedback').style.display='block';
+
+  const name=document.getElementById('studentName').value.trim()||'이름 없음';
+  const evalAvg=(Object.values(S.scores).reduce((a,b)=>a+b,0)/EVAL_ITEMS.length).toFixed(1);
+  saveRec({name,date:new Date().toLocaleDateString('ko-KR'),time:new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}),
+    topic:topic.emoji+' '+(topic.label.split('\n')[1]||topic.label),
+    score,evalAvg:parseFloat(evalAvg),attempts:S.attemptCount,timerSec:S.timerSec,
+    scores:{...S.scores},transcript:S.transcript.slice(0,200),comment,
+    feedback:{good,improve,example,next,cheer}});
+  toast('🎉 피드백 완료! 성장 기록에 저장됐어!');
+}
+
+// 성장 기록
+function renderGrowth(){
+  const name=document.getElementById('studentName').value.trim();
+  const all=loadRecs();const recs=name?all.filter(r=>r.name===name):all;
+  const list=document.getElementById('recordList');const cw=document.getElementById('chartWrap');
+  if(!recs.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">📈</div>아직 기록이 없어요!<br>말하기 연습을 완료하면 여기에 나타나요 🌱</div>';cw.style.display='none';return;}
+  cw.style.display='block';
+  list.innerHTML='<div style="font-size:11px;color:var(--text-soft);margin-bottom:7px">'+(name?name+'의 기록 '+recs.length+'개':'전체 기록 '+recs.length+'개')+'</div>'+
+    [...recs].reverse().map(r=>'<div class="rec-item"><div class="rec-item-top"><div class="rec-item-name">👤 '+r.name+'</div><div class="rec-item-date">'+r.date+' '+(r.time||'')+'</div></div><div style="font-size:11px;color:var(--blue);font-weight:600;margin-bottom:4px">'+r.topic+'</div><div class="rc-chips"><span class="rc rc-s">🎯 '+r.score+'점</span><span class="rc rc-a">🔄 '+r.attempts+'회</span><span class="rc rc-e">⭐ '+r.evalAvg+'/5</span>'+(r.timerSec?'<span class="rc" style="background:#FEF3C7;color:#92400E">⏱️ '+r.timerSec+'초</span>':'')+'</div>'+(r.comment?'<div style="margin-top:5px;font-size:11px;color:var(--text-soft);font-style:italic">"'+r.comment+'"</div>':'')+'</div>').join('');
+  if(scChart)scChart.destroy();if(atChart)atChart.destroy();
+  const labels=recs.map(r=>r.date.replace(/\d{4}\./,'').trim());
+  scChart=new Chart(document.getElementById('scoreChart'),{type:'line',data:{labels,datasets:[{label:'점수',data:recs.map(r=>r.score),borderColor:'#4A90E2',backgroundColor:'rgba(74,144,226,0.1)',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#4A90E2',tension:0.35,fill:true}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{stepSize:20}}}}});
+  atChart=new Chart(document.getElementById('attemptChart'),{type:'bar',data:{labels,datasets:[{label:'도전',data:recs.map(r=>r.attempts),backgroundColor:'rgba(72,187,120,0.7)',borderColor:'#48BB78',borderWidth:2,borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:3,ticks:{stepSize:1}}}}});
+}
+function clearMyRecords(){
+  const name=document.getElementById('studentName').value.trim();
+  if(!confirm(name?name+'의 기록을 삭제할까요?':'모든 기록을 삭제할까요?'))return;
+  if(name){localStorage.setItem(LS_KEY,JSON.stringify(loadRecs().filter(r=>r.name!==name)));}
+  else{localStorage.removeItem(LS_KEY);}
+  renderGrowth();toast('기록을 초기화했어요.');
+}
+
+// 교사 대시보드
+async function renderDash(){
+  const dash=document.getElementById('dashContent');
+  dash.innerHTML='<div class="empty-state"><div class="spinner" style="margin:0 auto 10px"></div>학생 데이터 불러오는 중...</div>';
+  try{
+    const res=await fetch(SCRIPT_URL);const json=await res.json();const all=json.data||[];
+    if(!all.length){dash.innerHTML='<div class="empty-state"><div class="empty-icon">👩‍🏫</div>아직 학생 기록이 없어요!</div>';return;}
+    const by={};
+    all.forEach(r=>{const name=r['이름']||'이름없음';if(!by[name])by[name]={name,scores:[],attempts:[],count:0};by[name].scores.push(Number(r['점수'])||0);by[name].attempts.push(Number(r['도전횟수'])||0);by[name].count++;});
+    const sts=Object.values(by).map(s=>({...s,avgScore:(s.scores.reduce((a,b)=>a+b,0)/s.scores.length).toFixed(1),totalAtt:s.attempts.reduce((a,b)=>a+b,0)}));
+    const oa=(all.reduce((a,r)=>a+(Number(r['점수'])||0),0)/all.length).toFixed(1);
+    const ts=[...sts].sort((a,b)=>b.avgScore-a.avgScore)[0];
+    const ta=[...sts].sort((a,b)=>b.totalAtt-a.totalAtt)[0];
+    dash.innerHTML='<div class="stat-grid">'
+      +'<div class="stat-box"><div class="stat-val" style="color:var(--blue)">'+all.length+'</div><div class="stat-lbl">총 연습 횟수</div></div>'
+      +'<div class="stat-box"><div class="stat-val" style="color:var(--green)">'+sts.length+'</div><div class="stat-lbl">참여 학생 수</div></div>'
+      +'<div class="stat-box"><div class="stat-val" style="color:var(--purple)">'+oa+'</div><div class="stat-lbl">전체 평균 점수</div></div>'
+      +'<div class="stat-box"><div class="stat-val" style="color:var(--orange)">'+all.reduce((a,r)=>a+(Number(r['도전횟수'])||0),0)+'</div><div class="stat-lbl">총 도전 횟수</div></div></div>'
+      +(ts?'<div class="top-box" style="background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-color:#F6E05E"><div class="top-box-title" style="color:#744210">🌟 최고 성장 학생</div><div class="top-box-name">'+ts.name+' — '+ts.avgScore+'점 평균</div></div>':'')
+      +(ta?'<div class="top-box" style="background:linear-gradient(135deg,#E6FFFA,#C6F6D5);border-color:#48BB78"><div class="top-box-title" style="color:#276749">💪 가장 많이 도전한 학생</div><div class="top-box-name">'+ta.name+' — 총 '+ta.totalAtt+'회 도전</div></div>':'')
+      +'<table class="dash-table"><thead><tr><th>이름</th><th>기록수</th><th>평균점수</th><th>총도전</th></tr></thead><tbody>'
+      +sts.sort((a,b)=>b.avgScore-a.avgScore).map(s=>'<tr><td><strong>'+s.name+'</strong></td><td>'+s.count+'회</td><td><strong style="color:var(--blue)">'+s.avgScore+'점</strong></td><td>'+s.totalAtt+'회</td></tr>').join('')
+      +'</tbody></table>'
+      +'<button class="btn btn-green btn-full" style="margin-top:10px" onclick="renderDash()">🔄 새로고침</button>';
+  }catch(e){
+    dash.innerHTML='<div class="empty-state"><div class="empty-icon">😢</div>데이터 로드 실패<br><small>'+e.message+'</small><br><button class="btn btn-blue" style="margin-top:10px;width:auto;padding:8px 16px" onclick="renderDash()">다시 시도</button></div>';
+  }
+}
+function downloadCSV(){
+  const all=loadRecs();if(!all.length){toast('저장된 기록이 없어요!');return;}
+  const h=['이름','날짜','시간','주제','점수','자기평가평균','도전횟수','말하기시간(초)','소감','잘한점','개선점','수정예문','다음도전'];
+  const rows=all.map(r=>[r.name,r.date,r.time||'',r.topic,r.score,r.evalAvg,r.attempts,r.timerSec||0,(r.comment||'').replace(/,/g,' '),(r.feedback?.good||'').replace(/,/g,' ').slice(0,50),(r.feedback?.improve||'').replace(/,/g,' ').slice(0,50),(r.feedback?.example||'').replace(/,/g,' ').slice(0,50),(r.feedback?.next||'').replace(/,/g,' ').slice(0,50)]);
+  const csv='\uFEFF'+[h,...rows].map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='TALKTALK_'+new Date().toLocaleDateString('ko-KR').replace(/\./g,'').replace(/ /g,'')+'.csv';a.click();toast('📥 CSV 다운로드 완료!');
+}
+function clearAllRecords(){if(!confirm('모든 학생 기록을 삭제할까요?'))return;localStorage.removeItem(LS_KEY);renderDash();toast('전체 기록 초기화 완료.');}
+
+// 학습 리포트
+function openReport(){
+  const name=document.getElementById('studentName').value.trim()||'이름 없음';
+  const topic=curList()[S.topicIdx];
+  const ed=EVAL_ITEMS.map(item=>item.label+' '+S.scores[item.id]+'/5').join(' · ');
+  const ea=(Object.values(S.scores).reduce((a,b)=>a+b,0)/EVAL_ITEMS.length).toFixed(1);
+  const fb=S.lastFeedback||{};
+  document.getElementById('reportBody').innerHTML=
+    '<div style="text-align:center;padding:8px 0 12px"><div class="rpt-score">'+S.lastScore+'</div><div style="font-size:11px;color:var(--text-soft);margin-top:1px">스피치 점수 / 100</div><div style="background:var(--border);border-radius:20px;height:7px;overflow:hidden;max-width:180px;margin:7px auto 0"><div style="height:100%;border-radius:20px;background:linear-gradient(to right,var(--blue),var(--green));width:'+S.lastScore+'%"></div></div></div>'
+    +'<div class="rpt-div"></div>'
+    +'<div class="rpt-sec"><div class="rpt-lbl">👤 학생</div><div class="rpt-val"><strong>'+name+'</strong> · '+new Date().toLocaleDateString('ko-KR')+'</div></div>'
+    +'<div class="rpt-sec"><div class="rpt-lbl">📚 주제</div><div class="rpt-val">'+(topic?topic.emoji+' '+(topic.label.split('\n')[1]||topic.label):'—')+'</div></div>'
+    +'<div class="rpt-sec"><div class="rpt-lbl">✅ 자기평가</div><div class="rpt-val">'+ed+'<br><strong>평균 '+ea+' / 5</strong></div></div>'
+    +'<div class="rpt-div"></div>'
+    +(fb.good?'<div class="rpt-sec"><div class="rpt-lbl">👍 잘한 점</div><div class="rpt-val">'+fb.good+'</div></div>':'')
+    +(fb.improve?'<div class="rpt-sec"><div class="rpt-lbl">💡 개선할 점</div><div class="rpt-val">'+fb.improve+'</div></div>':'')
+    +(fb.example?'<div class="rpt-sec"><div class="rpt-lbl">✍️ 수정 예문</div><div class="rpt-val" style="background:var(--bg);border-radius:7px;padding:7px 9px">'+fb.example+'</div></div>':'')
+    +(fb.next?'<div class="rpt-sec"><div class="rpt-lbl">🚀 다음 도전</div><div class="rpt-val">'+fb.next+'</div></div>':'')
+    +(fb.cheer?'<div style="background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:9px;padding:10px 12px;text-align:center;margin-top:6px"><div style="font-size:14px;font-weight:700;color:#744210">🌟 '+fb.cheer+'</div></div>':'')
+    +'<div class="rpt-div"></div>'
+    +'<div style="font-size:9px;color:var(--text-soft);text-align:center">TALK:TALK AI 영어 스피치 교실 · 오현초등학교 5학년</div>';
+  document.getElementById('reportModal').classList.add('open');
+}
+function closeReport(){document.getElementById('reportModal').classList.remove('open');}
+function closeReportBg(e){if(e.target===document.getElementById('reportModal'))closeReport();}
+
+// 초기화
+function resetAll(){
+  S.topicIdx=-1;S.audioBlob=null;S.transcript='';S.attemptCount=0;S.timerSec=0;
+  clearInterval(S.timerInterval);S.isRecording=false;S.lastFeedback=null;S.lastScore=0;
+  convHistory=[];convTurn=0;convTranscript='';convInterim='';aiQuestion='';aiQuestionKo='';
+  renderTopics();renderUnits();renderEvalItems();
+  document.getElementById('evalComment').value='';
+  document.getElementById('recTimer').textContent='00:00';
+  document.getElementById('recBtn').textContent='🎤';document.getElementById('recBtn').classList.remove('on');
+  document.getElementById('recHint').textContent='버튼을 누르고 영어로 말해봐! 🗣️';
+  document.getElementById('transcriptArea').innerHTML='<span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span>';
+  document.getElementById('audioSection').classList.remove('show');
+  document.getElementById('exampleBox').classList.remove('show');
+  document.getElementById('btn1').disabled=true;
+  document.getElementById('convSection').style.display='none';
+  updateDots();
+  document.getElementById('feedbackContent').innerHTML='<div style="text-align:center;padding:26px;color:var(--text-soft);font-size:13px">STEP 3에서 자기평가 후 AI 피드백을 받아봐! 🌟</div>';
+  document.getElementById('afterFeedback').style.display='none';
+  openStep(1);document.getElementById('body1').classList.remove('hidden');
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body>
+</html>

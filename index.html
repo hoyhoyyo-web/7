@@ -450,7 +450,6 @@ const EVAL_ITEMS=[
 const SL=['','아직 어려워요','조금 됐어요','보통이에요','잘 됐어요','아주 잘 됐어요!'];
 
 let S={mode:'free',topicIdx:-1,attemptCount:0,scores:{},transcript:'',mediaRecorder:null,isRecording:false,timerInterval:null,timerSec:0,recognition:null,audioBlob:null,lastFeedback:null,lastScore:0};
-let convInterim = '';
 let convHistory=[],convTurn=0,convTranscript='',convInterim='',aiQuestion='',aiQuestionKo='';
 let sharedStream=null;
 let convRecording=false,convRecognition=null,convMediaRecorder=null;
@@ -562,15 +561,20 @@ function goStep2(){if(S.topicIdx<0){toast('주제를 먼저 골라봐! 🗂️')
 function goStep3(){openStep(3);}
 
 function selectTopic(idx){
-  S.topicIdx=idx;
-  const sel=S.mode==='unit'?'.unit-chip':'.topic-chip';
-  document.querySelectorAll(sel).forEach((c,i)=>c.classList.toggle('selected',i===idx));
-  const t=curList()[idx];
-  document.getElementById('exPrompt').textContent=t.prompt;
-  document.getElementById('exSentences').innerHTML=t.sentences.map(s=>'<div class="ex-sent">💬 '+s+'</div>').join('');
-  document.getElementById('goalChips').innerHTML=t.goals.map(g=>'<span class="goal-chip">✓ '+g+'</span>').join('');
-  document.getElementById('exampleBox').classList.add('show');
-  document.getElementById('btn1').disabled=false;
+  try{
+    S.topicIdx=idx;
+    const list=curList();
+    if(!list||idx>=list.length)return;
+    const t=list[idx];
+    if(!t)return;
+    const sel=S.mode==='unit'?'.unit-chip':'.topic-chip';
+    document.querySelectorAll(sel).forEach((c,i)=>c.classList.toggle('selected',i===idx));
+    document.getElementById('exPrompt').textContent=t.prompt||'';
+    document.getElementById('exSentences').innerHTML=(t.sentences||[]).map(s=>'<div class="ex-sent">💬 '+s+'</div>').join('');
+    document.getElementById('goalChips').innerHTML=(t.goals||[]).map(g=>'<span class="goal-chip">✓ '+g+'</span>').join('');
+    document.getElementById('exampleBox').classList.add('show');
+    document.getElementById('btn1').disabled=false;
+  }catch(e){console.error('selectTopic error:',e);}
 }
 
 // 녹음

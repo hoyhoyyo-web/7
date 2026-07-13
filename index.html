@@ -20,11 +20,14 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .header-sub{font-size:11px;opacity:0.85;margin-top:1px}
 .header-key-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 /* TALK BAR */
-.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
-.talk-step{flex:1;text-align:center;padding:7px 4px;font-size:10px;font-weight:700;color:var(--text-soft);border-bottom:3px solid transparent;transition:all 0.2s;cursor:default}
-.talk-step .tl{display:block;font-size:17px;font-weight:900;line-height:1;margin-bottom:1px}
-.talk-step.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
-.talk-step.done{color:var(--green-dark);border-bottom-color:var(--green)}
+.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.talk-step{flex:1;text-align:center;padding:8px 4px;font-size:10px;font-weight:700;color:var(--text-soft);border-bottom:4px solid transparent;transition:all 0.25s;cursor:default;position:relative}
+.talk-step .tl{display:block;font-size:20px;font-weight:900;line-height:1;margin-bottom:2px;transition:all 0.25s}
+.talk-step.active{color:#92400E;border-bottom-color:#F59E0B;background:linear-gradient(to bottom,#FFFDE7,#FFF9E6)}
+.talk-step.active .tl{font-size:26px;color:#D97706;text-shadow:0 2px 10px rgba(245,158,11,0.4);animation:tpulse 1.5s ease-in-out infinite}
+@keyframes tpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.talk-step.done{color:var(--green-dark);border-bottom-color:var(--green);background:linear-gradient(to bottom,#E6FFFA,#fff)}
+.talk-step.done .tl{color:var(--green)}
 .talk-sep{width:1px;background:var(--border);height:38px}
 /* NAV */
 .nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border)}
@@ -43,9 +46,9 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .step-body{padding:13px 15px}
 .step-body.hidden{display:none}
 /* NAME */
-.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:11px 13px;margin-bottom:12px}
+.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15)}
 .name-row label{font-size:12px;font-weight:700;color:var(--blue-dark);white-space:nowrap}
-.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:6px 11px;font-size:14px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit}
+.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s}
 .name-input:focus{border-color:var(--blue)}
 /* MODE */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#F7FAFC;border-radius:13px;padding:5px;margin-bottom:12px}
@@ -192,7 +195,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <body>
 
 <div class="header">
-  <div class="header-title">TALK<span>:</span>TALK <span style="font-size:16px;font-weight:700;opacity:0.9">ENGLISH</span></div>
+  <div class="header-title">TALK<span>:</span>TALK <span style="font-size:15px;font-weight:700;letter-spacing:1px;opacity:0.9">ENGLISH</span></div>
   <div class="header-sub">✨ 톡톡 잉글리쉬 — AI 영어 스피치 코치</div>
   <button class="header-key-btn" onclick="openApiSetting()">🔑 교사 설정</button>
 </div>
@@ -209,8 +212,10 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('practice')" id="nt-practice">🗣️ 말하기</button>
+  <button class="nav-tab" onclick="switchTab('roleplay')" id="nt-roleplay">🎭 역할극</button>
   <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈 성장 기록</button>
   <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫 교사 대시보드</button>
+  <button class="nav-tab" onclick="switchTab('tutorial')" id="nt-tutorial">❓ 도움말</button>
 </div>
 
 <!-- PRACTICE -->
@@ -219,7 +224,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
   <div class="step-card">
     <div class="step-body" style="padding:11px 14px">
       <div class="name-row">
-        <label>👤 이름</label>
+        <label style="font-size:14px;font-weight:800;color:var(--blue-dark);white-space:nowrap">👤 이름</label>
         <input class="name-input" id="studentName" placeholder="내 이름을 입력해봐!" maxlength="10">
       </div>
     </div>
@@ -255,6 +260,15 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       <div class="step-badge" id="badge2">STEP 2 · Attempt</div>
     </div>
     <div class="step-body hidden" id="body2">
+      <!-- 오늘의 말하기 과제 (STEP 2에 표시) -->
+      <div id="step2TaskBox" style="display:none;margin-bottom:13px">
+        <div class="ex-box show">
+          <div class="ex-label">🎯 오늘의 말하기 과제</div>
+          <div id="step2TaskText" class="ex-prompt"></div>
+          <div id="step2Sentences"></div>
+          <div id="step2Goals" class="goal-chips"></div>
+        </div>
+      </div>
       <div class="rec-center">
         <div class="rec-timer" id="recTimer">00:00</div>
         <button class="rec-btn" id="recBtn" onclick="toggleRec()">🎤</button>
@@ -372,6 +386,108 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       <div class="btn-row" style="margin-top:10px">
         <button class="btn btn-green" onclick="downloadCSV()">📥 CSV 다운로드</button>
         <button class="btn btn-outline-red" onclick="clearAllRecords()">🗑️ 전체 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ROLEPLAY TAB -->
+<div id="tab-roleplay" style="display:none">
+<div class="main">
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-icon">🎭</div>
+      <div class="step-title">역할극 — 상황을 골라서 대화해봐!</div>
+      <div class="step-badge active">ROLE PLAY</div>
+    </div>
+    <div class="step-body">
+      <div style="font-size:12px;color:var(--text-soft);margin-bottom:12px;line-height:1.6">
+        📌 교과서 단원별 실생활 상황을 골라서 AI와 역할극을 해봐요!
+      </div>
+      <div class="topic-grid" id="rpSceneGrid"></div>
+      <div id="rpSceneBox" style="display:none;margin-top:12px">
+        <div style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border-radius:11px;padding:13px 15px;margin-bottom:12px;border:2px solid #DDD6FE">
+          <div style="font-size:10px;font-weight:800;color:#553C9A;margin-bottom:5px;text-transform:uppercase">🎭 오늘의 상황</div>
+          <div id="rpSituation" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px"></div>
+          <div id="rpRole" style="font-size:12px;color:#553C9A;font-weight:600"></div>
+        </div>
+        <div id="rpHistory" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:300px;overflow-y:auto"></div>
+        <div class="ai-loading" id="rpLoading" style="display:none">
+          <div class="spinner"></div>AI가 생각 중이에요...
+        </div>
+        <div id="rpCurrentQ" style="display:none;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:11px;padding:12px 14px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+            <div style="font-size:10px;font-weight:700;color:var(--blue-dark);text-transform:uppercase">🤖 AI 대사</div>
+            <button onclick="rpSpeak()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">🔊 듣기</button>
+          </div>
+          <div id="rpAILine" style="font-size:14px;font-weight:700;color:var(--text)"></div>
+          <div id="rpAILineKo" style="font-size:12px;color:var(--text-soft);margin-top:3px"></div>
+        </div>
+        <div id="rpRecArea" style="display:none">
+          <div class="rec-center" style="padding:4px 0;gap:8px">
+            <button class="rec-btn" id="rpRecBtn" onclick="toggleRpRec()" style="width:64px;height:64px;font-size:24px">🎤</button>
+            <div class="rec-hint" id="rpRecHint">버튼을 누르고 대사를 말해봐! 🗣️</div>
+          </div>
+          <div class="tr-area" id="rpTranscript" style="margin-top:8px;min-height:44px">
+            <span class="tp">여기에 네 대사가 나타날 거야 ✨</span>
+          </div>
+          <div id="rpBtnRow" style="display:none;margin-top:8px">
+            <div class="btn-row">
+              <button class="btn btn-outline" onclick="nextRpTurn()">💬 계속하기</button>
+              <button class="btn btn-green" onclick="endRoleplay()">✅ 역할극 종료</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TUTORIAL TAB -->
+<div id="tab-tutorial" style="display:none">
+<div class="main">
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-icon">❓</div>
+      <div class="step-title">도움말 & AI 튜터</div>
+      <div class="step-badge active">HELP</div>
+    </div>
+    <div class="step-body">
+      <!-- 사용 방법 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:11px 13px;border-left:4px solid var(--blue)">
+            <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">T — Think (생각하기)</div>
+            <div style="font-size:12px;color:var(--text-soft);margin-top:3px">이름 입력 → 주제 선택 → 예시 문장 읽기</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#FFF5F5,#FED7D7);border-radius:10px;padding:11px 13px;border-left:4px solid #FC8181">
+            <div style="font-size:12px;font-weight:800;color:#C53030">A — Attempt (도전하기)</div>
+            <div style="font-size:12px;color:var(--text-soft);margin-top:3px">🎤 버튼 → 영어로 말하기 → 녹음 듣기</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#F0FFF4,#C6F6D5);border-radius:10px;padding:11px 13px;border-left:4px solid var(--green)">
+            <div style="font-size:12px;font-weight:800;color:var(--green-dark)">L — Learn (배우기)</div>
+            <div style="font-size:12px;color:var(--text-soft);margin-top:3px">AI 대화 → 자기평가 → AI 피드백 받기</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:10px;padding:11px 13px;border-left:4px solid var(--yellow)">
+            <div style="font-size:12px;font-weight:800;color:#744210">K — Keep Talking (계속 말하기)</div>
+            <div style="font-size:12px;color:var(--text-soft);margin-top:3px">역할극 도전 → 성장 기록 확인 → 반복 연습!</div>
+          </div>
+        </div>
+      </div>
+      <!-- AI 튜터 -->
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">🤖 AI 튜터에게 질문해봐!</div>
+      <div id="tutorHistory" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;max-height:250px;overflow-y:auto"></div>
+      <div style="display:flex;gap:8px">
+        <input id="tutorInput" type="text" placeholder="궁금한 것을 물어봐! (한국어 OK)" 
+          style="flex:1;border:2px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13px;font-family:inherit;outline:none"
+          onkeydown="if(event.key==='Enter')askTutor()">
+        <button class="btn btn-blue" style="flex:none;padding:9px 16px" onclick="askTutor()">전송</button>
+      </div>
+      <div class="ai-loading" id="tutorLoading" style="display:none;margin-top:8px">
+        <div class="spinner"></div>AI 튜터가 답하고 있어요...
       </div>
     </div>
   </div>
@@ -520,12 +636,15 @@ function switchTab(tab){
       sessionStorage.setItem('talktalk_teacher','ok');
     }
   }
-  ['practice','growth','dashboard'].forEach(t=>{
-    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
-    document.getElementById('nt-'+t).classList.toggle('active',t===tab);
+  ['practice','roleplay','growth','dashboard','tutorial'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    if(el)el.style.display=t===tab?'block':'none';
+    const btn=document.getElementById('nt-'+t);
+    if(btn)btn.classList.toggle('active',t===tab);
   });
   if(tab==='growth')renderGrowth();
   if(tab==='dashboard')renderDash();
+  if(tab==='roleplay')initRoleplay();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -545,7 +664,7 @@ function setMode(mode){
   document.getElementById('topicGrid').style.display=mode==='free'?'grid':'none';
   document.getElementById('unitGrid').style.display=mode==='unit'?'grid':'none';
   document.querySelectorAll('.topic-chip.selected,.unit-chip.selected').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('exampleBox').classList.remove('show');
+  // exampleBox는 STEP 2에서만 표시
   document.getElementById('btn1').disabled=true;
 }
 function renderEvalItems(){
@@ -557,7 +676,30 @@ function renderEvalItems(){
 function openStep(n){for(let i=1;i<=4;i++){const b=document.getElementById('body'+i);if(b)b.classList.toggle('hidden',i!==n);}setTalkStep(n);}
 function toggleStep(n){document.getElementById('body'+n)?.classList.toggle('hidden');}
 function goStep1(){openStep(1);document.getElementById('body1').classList.remove('hidden');}
-function goStep2(){if(S.topicIdx<0){toast('주제를 먼저 골라봐! 🗂️');return;}openStep(2);}
+function goStep2(){
+  const name=document.getElementById('studentName').value.trim();
+  if(!name){
+    document.getElementById('studentName').focus();
+    document.getElementById('studentName').style.borderColor='#E53E3E';
+    document.getElementById('studentName').style.boxShadow='0 0 0 3px rgba(229,62,62,0.2)';
+    toast('⚠️ 이름을 먼저 입력해야 다음 단계로 갈 수 있어요! 👤');
+    setTimeout(()=>{
+      document.getElementById('studentName').style.borderColor='';
+      document.getElementById('studentName').style.boxShadow='';
+    },2500);
+    return;
+  }
+  if(S.topicIdx<0){toast('주제를 먼저 골라봐! 🗂️');return;}
+  // STEP 2에 과제 전체 표시
+  const t=curList()[S.topicIdx];
+  if(t){
+    document.getElementById('step2TaskText').textContent=t.prompt;
+    document.getElementById('step2Sentences').innerHTML=(t.sentences||[]).map(s=>'<div class="ex-sent">💬 '+s+'</div>').join('');
+    document.getElementById('step2Goals').innerHTML=(t.goals||[]).map(g=>'<span class="goal-chip">✓ '+g+'</span>').join('');
+    document.getElementById('step2TaskBox').style.display='block';
+  }
+  openStep(2);
+}
 function goStep3(){openStep(3);}
 
 function selectTopic(idx){
@@ -572,8 +714,8 @@ function selectTopic(idx){
     document.getElementById('exPrompt').textContent=t.prompt||'';
     document.getElementById('exSentences').innerHTML=(t.sentences||[]).map(s=>'<div class="ex-sent">💬 '+s+'</div>').join('');
     document.getElementById('goalChips').innerHTML=(t.goals||[]).map(g=>'<span class="goal-chip">✓ '+g+'</span>').join('');
-    document.getElementById('exampleBox').classList.add('show');
     document.getElementById('btn1').disabled=false;
+    // 예시문장은 STEP 2에서만 표시
   }catch(e){console.error('selectTopic error:',e);}
 }
 
@@ -597,15 +739,12 @@ async function startRec(){
     // 잠깐 후 MediaRecorder 시작
     await new Promise(r=>setTimeout(r,200));
     const chunks=[];
-    const mimeType=MediaRecorder.isTypeSupported('audio/mp4;codecs=mp4a.40.2')?'audio/mp4;codecs=mp4a.40.2':
-      MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':
-      MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':
+    const mimeType=MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':
       MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
     S.mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     S.mediaRecorder.ondataavailable=e=>chunks.push(e.data);
     S.mediaRecorder.onstop=()=>{
-      const blobType=mimeType||'audio/mp4';
-      S.audioBlob=new Blob(chunks,{type:blobType});
+      S.audioBlob=new Blob(chunks,{type:'audio/webm'});
       document.getElementById('audioPlayer').src=URL.createObjectURL(S.audioBlob);
       document.getElementById('audioSection').classList.add('show');
       S.attemptCount=Math.min(S.attemptCount+1,3);updateDots();
@@ -747,7 +886,7 @@ async function askAI(){
   const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
   const historyText=convHistory.map(h=>(h.role==='ai'?'AI: ':'Student: ')+h.text).join('\n');
 
-  const prompt='You are an English teacher having a conversation with a Korean 5th grader.\n'
+  const prompt='SAFETY RULE - If student said profanity/insults/gibberish/completely off-topic, reply ONLY with: Q:Please try again in English about our topic! KO:주제에 맞는 영어로 다시 말해봐요! Otherwise you are an English teacher having a conversation with a Korean 5th grader.\n'
     +'Topic: '+topic.label.replace('\n',' - ')+'\n'
     +'Key expressions to practice: '+topic.keywords.join(', ')+'\n'
     +'Textbook sentences: '+topic.sentences.join(' / ')+'\n'
@@ -921,7 +1060,7 @@ async function getFeedback(){
   const detail=EVAL_ITEMS.map(item=>item.label+': '+S.scores[item.id]+'/5').join(', ');
   const convSummary=convHistory.length?'\n[CONVERSATION]\n'+convHistory.map(h=>(h.role==='ai'?'AI: ':'Student: ')+h.text).join('\n'):'';
 
-  const sys='You are an expert English speech coach for Korean 5th graders (age 11).\n'
+  const sys='You are a safe, educational English speech coach for Korean 5th graders (age 11) in a school setting. SAFETY RULES: If the student said anything inappropriate (profanity, insults, off-topic, gibberish, Korean slang/swear words), respond with SCORE:0, GOOD:없음, IMPROVE:영어 말하기 주제에 맞게 다시 말해봐요! 😊, EXAMPLE:주제와 관련된 영어 문장을 말해봐요, NEXT:주제에 맞는 영어로 다시 도전!, CHEER:괜찮아요! 다시 한 번 도전해봐요 💪 and nothing else. Otherwise: You are an expert English speech coach for Korean 5th graders (age 11).\n'
     +'CRITICAL: Score ONLY based on actual speech. NEVER let self-evaluation scores affect SCORE.\n'
     +'SCORING: 90-100=3+expressions+full sentences, 75-89=2expressions, 60-74=1expression short, 40-59=very short/errors, 20-39=single words, 0-19=silent. Under 3 words=below 30.\n'
     +'USE self-eval ONLY for tone: low confidence->warm cheer, low fluency->flow tips, low accuracy->grammar fix, low content->suggest more.\n'
@@ -1081,13 +1220,242 @@ function resetAll(){
   document.getElementById('recHint').textContent='버튼을 누르고 영어로 말해봐! 🗣️';
   document.getElementById('transcriptArea').innerHTML='<span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span>';
   document.getElementById('audioSection').classList.remove('show');
-  document.getElementById('exampleBox').classList.remove('show');
+  // exampleBox는 STEP 2에서만 표시
   document.getElementById('btn1').disabled=true;
   document.getElementById('convSection').style.display='none';
   updateDots();
   document.getElementById('feedbackContent').innerHTML='<div style="text-align:center;padding:26px;color:var(--text-soft);font-size:13px">STEP 3에서 자기평가 후 AI 피드백을 받아봐! 🌟</div>';
   document.getElementById('afterFeedback').style.display='none';
   openStep(1);document.getElementById('body1').classList.remove('hidden');
+}
+
+
+// ── 역할극 데이터 ──
+const RP_SCENES = [
+  {unit:'L1',emoji:'✈️',title:'공항에서',situation:'공항에서 외국 친구를 처음 만났어요!',studentRole:'나 (학생)',aiRole:'외국 친구',starter:'Hi! I just arrived. Where are you from?',starterKo:'안녕! 나 방금 도착했어. 어디서 왔어?'},
+  {unit:'L2',emoji:'🏫',title:'교실에서',situation:'교실에서 새 친구가 물건을 가리키며 물어봐요!',studentRole:'나 (학생)',aiRole:'새 친구',starter:"What's this? Is this your pencil case?",starterKo:'이게 뭐야? 이거 너의 필통이야?'},
+  {unit:'L3',emoji:'📸',title:'박물관에서',situation:'박물관 견학 중이에요. 사진을 찍어도 되는지 물어봐요!',studentRole:'나 (관람객)',aiRole:'박물관 직원',starter:'Excuse me, can I take pictures here?',starterKo:'실례합니다, 여기서 사진 찍어도 되나요?'},
+  {unit:'L4',emoji:'🎒',title:'분실물 센터',situation:'가방을 잃어버렸어요. 분실물 센터에서 찾고 있어요!',studentRole:'나 (학생)',aiRole:'분실물 센터 직원',starter:"Excuse me, I found this bag. Whose bag is this?",starterKo:'실례합니다, 이 가방을 찾았는데요. 누구 가방인가요?'},
+  {unit:'L5',emoji:'🛒',title:'마트에서',situation:'마트에서 쇼핑을 해요!',studentRole:'나 (손님)',aiRole:'마트 직원',starter:'Hello! Can I help you? What are you looking for?',starterKo:'안녕하세요! 도와드릴까요? 무엇을 찾고 계세요?'},
+  {unit:'L6',emoji:'☀️',title:'여름방학 계획',situation:'친구와 여름방학 계획을 이야기해요!',studentRole:'나 (학생)',aiRole:'친구',starter:"Summer vacation is coming! What will you do this summer?",starterKo:'여름방학이 다가오고 있어! 이번 여름에 뭐 할 거야?'},
+  {unit:'L7',emoji:'🎪',title:'방학 후 대화',situation:'방학이 끝나고 친구와 방학 이야기를 나눠요!',studentRole:'나 (학생)',aiRole:'친구',starter:'Welcome back! How was your vacation? Where did you go?',starterKo:'돌아온 걸 환영해! 방학 어땠어? 어디 갔었어?'},
+  {unit:'L8',emoji:'🍽️',title:'식당에서',situation:'식당에서 음식을 주문해요!',studentRole:'나 (손님)',aiRole:'웨이터',starter:"Good evening! Welcome to our restaurant. What would you like?",starterKo:'안녕하세요! 저희 식당에 오신 걸 환영해요. 무엇을 드시겠어요?'},
+  {unit:'L9',emoji:'🛍️',title:'시장에서',situation:'시장에서 물건 가격을 물어봐요!',studentRole:'나 (손님)',aiRole:'상인',starter:'Welcome! These apples are fresh today. Would you like some?',starterKo:'어서오세요! 오늘 사과가 신선해요. 좀 드실래요?'},
+  {unit:'L10',emoji:'⏰',title:'아침 루틴',situation:'친구와 아침 일과를 이야기해요!',studentRole:'나 (학생)',aiRole:'친구',starter:"Hey! You look tired. What time do you usually get up?",starterKo:'야! 피곤해 보여. 보통 몇 시에 일어나?'},
+  {unit:'L11',emoji:'📚',title:'수업 시간표',situation:'새 학기에 시간표를 보며 이야기해요!',studentRole:'나 (학생)',aiRole:'친구',starter:"Let me see your timetable! What's your favorite subject this year?",starterKo:'시간표 좀 보자! 이번에 제일 좋아하는 과목이 뭐야?'},
+  {unit:'L12',emoji:'🌟',title:'미래 직업 인터뷰',situation:'선생님이 미래 직업에 대해 인터뷰해요!',studentRole:'나 (학생)',aiRole:'선생님',starter:"Today I'd like to ask about your dream! What do you want to be in the future?",starterKo:'오늘은 꿈에 대해 물어볼게요! 미래에 무엇이 되고 싶나요?'}
+];
+
+let rpScene=null, rpRecording=false, rpRecognition=null, rpTranscript='', rpInterim='', rpHistory=[];
+
+function initRoleplay(){
+  const grid=document.getElementById('rpSceneGrid');
+  if(grid&&!grid.innerHTML){
+    grid.innerHTML=RP_SCENES.map((s,i)=>'<button class="unit-chip" onclick="selectRpScene('+i+')">'
+      +'<span class="ub">'+s.unit+'</span>'
+      +'<span>'+s.emoji+' '+s.title+'</span>'
+      +'<span style="font-size:10px;color:var(--text-soft)">'+s.situation.slice(0,15)+'...</span>'
+      +'</button>').join('');
+  }
+}
+
+function selectRpScene(idx){
+  rpScene=RP_SCENES[idx];
+  rpHistory=[];rpTranscript='';rpInterim='';
+  document.querySelectorAll('#rpSceneGrid .unit-chip').forEach((c,i)=>c.classList.toggle('selected',i===idx));
+  document.getElementById('rpSituation').textContent='📍 '+rpScene.situation;
+  document.getElementById('rpRole').textContent='내 역할: '+rpScene.studentRole+' | AI 역할: '+rpScene.aiRole;
+  document.getElementById('rpHistory').innerHTML='';
+  document.getElementById('rpSceneBox').style.display='block';
+  document.getElementById('rpBtnRow').style.display='none';
+  document.getElementById('rpTranscript').innerHTML='<span class="tp">여기에 네 대사가 나타날 거야 ✨</span>';
+  // AI 첫 대사
+  addRpBubble('ai', rpScene.starter, rpScene.starterKo);
+  rpHistory.push({role:'ai',text:rpScene.starter});
+  document.getElementById('rpAILine').textContent=rpScene.starter;
+  document.getElementById('rpAILineKo').textContent=rpScene.starterKo;
+  document.getElementById('rpCurrentQ').style.display='block';
+  document.getElementById('rpRecArea').style.display='block';
+  setTimeout(()=>rpSpeak(),400);
+  document.getElementById('rpSceneBox').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function addRpBubble(role, text, koText=''){
+  const div=document.createElement('div');
+  div.style.cssText='display:flex;gap:8px;align-items:flex-start;'+(role==='ai'?'':'flex-direction:row-reverse');
+  div.innerHTML='<div style="font-size:20px;flex-shrink:0">'+(role==='ai'?'🤖':'👤')+'</div>'
+    +'<div style="max-width:85%">'
+    +'<div style="background:'+(role==='ai'?'linear-gradient(135deg,#EBF8FF,#E6FFFA)':'linear-gradient(135deg,#E6FFFA,#F0FFF4)')+';border-radius:'+(role==='ai'?'4px 12px 12px 12px':'12px 4px 12px 12px')+';padding:9px 12px;font-size:13px;font-weight:600;line-height:1.5">'+text+'</div>'
+    +(koText?'<div style="font-size:11px;color:var(--text-soft);margin-top:3px;padding:0 4px">'+koText+'</div>':'')
+    +'</div>';
+  document.getElementById('rpHistory').appendChild(div);
+  document.getElementById('rpHistory').scrollTop=99999;
+}
+
+function rpSpeak(){
+  const line=document.getElementById('rpAILine').textContent;
+  if(!line||!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(line);
+  u.lang='en-US';u.rate=0.85;
+  const v=window.speechSynthesis.getVoices().find(v=>v.lang.startsWith('en'));
+  if(v)u.voice=v;
+  window.speechSynthesis.speak(u);
+}
+
+function toggleRpRec(){if(rpRecording)stopRpRec();else startRpRec();}
+
+function startRpRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Chrome 또는 Safari를 사용해주세요.');return;}
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  rpTranscript='';rpInterim='';
+  function runRp(){
+    if(!rpRecording)return;
+    try{
+      const r=new SR();
+      r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+      r.onresult=e=>{
+        let final='',interim='';
+        for(let i=0;i<e.results.length;i++){
+          if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+          else interim+=e.results[i][0].transcript;
+        }
+        if(final.trim())rpTranscript=(rpTranscript?rpTranscript+' ':'')+final.trim();
+        rpInterim=interim;
+        document.getElementById('rpTranscript').innerHTML=
+          (rpTranscript?'<span>'+rpTranscript+'</span>':'')+
+          (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
+      };
+      r.onend=()=>{if(rpInterim){rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();rpInterim='';}if(rpRecording)setTimeout(runRp,50);};
+      r.onerror=e=>{if(e.error!=='aborted'&&rpRecording)setTimeout(runRp,300);};
+      r.start();rpRecognition=r;
+    }catch(e){if(rpRecording)setTimeout(runRp,300);}
+  }
+  rpRecording=true;
+  document.getElementById('rpRecBtn').textContent='⏹';
+  document.getElementById('rpRecBtn').classList.add('on');
+  document.getElementById('rpRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
+  document.getElementById('rpBtnRow').style.display='none';
+  runRp();
+}
+
+function stopRpRec(){
+  rpRecording=false;
+  if(rpInterim)rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();
+  if(rpRecognition){try{rpRecognition.abort();}catch(e){}}
+  document.getElementById('rpRecBtn').textContent='🎤';
+  document.getElementById('rpRecBtn').classList.remove('on');
+  if(!rpTranscript){
+    document.getElementById('rpTranscript').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 눌러봐! 🎤</span>';
+    document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
+    return;
+  }
+  document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
+  document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
+  document.getElementById('rpBtnRow').style.display='block';
+}
+
+async function nextRpTurn(){
+  if(!rpTranscript){toast('대사를 먼저 말해봐! 🎤');return;}
+  addRpBubble('student', rpTranscript);
+  rpHistory.push({role:'student',text:rpTranscript});
+  rpTranscript='';rpInterim='';
+  document.getElementById('rpTranscript').innerHTML='<span class="tp">여기에 네 대사가 나타날 거야 ✨</span>';
+  document.getElementById('rpBtnRow').style.display='none';
+  document.getElementById('rpCurrentQ').style.display='none';
+  document.getElementById('rpLoading').style.display='flex';
+
+  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
+  const hist=rpHistory.map(h=>(h.role==='ai'?rpScene.aiRole+': ':rpScene.studentRole+': ')+h.text).join('\n');
+  const prompt='You are roleplaying as '+rpScene.aiRole+' in this situation: '+rpScene.situation+'. The student is playing: '+rpScene.studentRole+'. Conversation so far:\n'+hist+'\nContinue the roleplay naturally. SAFETY: if student said profanity/off-topic/gibberish, respond: LINE:Please stay in character and try again in English! LINEKO:역할에 맞게 영어로 다시 말해봐요! Otherwise respond with ONE natural line. Format ONLY:\nLINE:[English line]\nLINEKO:[Korean translation]';
+
+  try{
+    let line='', lineko='';
+    if(key){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:200,messages:[{role:'user',content:prompt}]})
+      });
+      const data=await res.json();
+      const txt=data.content?.[0]?.text||'';
+      const lm=txt.match(/LINE:\s*(.+)/);
+      const km=txt.match(/LINEKO:\s*(.+)/);
+      line=lm?lm[1].trim():'Great! Keep going!';
+      lineko=km?km[1].trim():'잘하고 있어! 계속해봐!';
+    } else {
+      line="That's great! Tell me more!";
+      lineko='멋져요! 더 말해봐요!';
+    }
+    document.getElementById('rpLoading').style.display='none';
+    addRpBubble('ai', line, lineko);
+    rpHistory.push({role:'ai',text:line});
+    document.getElementById('rpAILine').textContent=line;
+    document.getElementById('rpAILineKo').textContent=lineko;
+    document.getElementById('rpCurrentQ').style.display='block';
+    document.getElementById('rpRecArea').style.display='block';
+    setTimeout(()=>rpSpeak(),400);
+    toast('🎭 AI가 대답했어요!');
+  }catch(e){
+    document.getElementById('rpLoading').style.display='none';
+    toast('오류가 났어요. 다시 시도해봐!');
+  }
+}
+
+function endRoleplay(){
+  if(!rpTranscript&&rpHistory.filter(h=>h.role==='student').length===0){toast('역할극을 먼저 해봐! 🎭');return;}
+  if(rpTranscript){addRpBubble('student',rpTranscript);rpHistory.push({role:'student',text:rpTranscript});}
+  document.getElementById('rpRecArea').style.display='none';
+  document.getElementById('rpCurrentQ').style.display='none';
+  const endDiv=document.createElement('div');
+  endDiv.style.cssText='text-align:center;padding:16px;background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:11px;margin-top:8px';
+  endDiv.innerHTML='<div style="font-size:20px;margin-bottom:6px">🎉</div><div style="font-weight:800;color:#744210">역할극 완료! 정말 잘했어요!</div><div style="font-size:12px;color:#92400E;margin-top:4px">말하기 연습 탭으로 가서 AI 피드백도 받아봐요!</div>';
+  document.getElementById('rpHistory').appendChild(endDiv);
+  toast('🎭 역할극 완료! 수고했어요!');
+}
+
+// ── AI 튜터 ──
+async function askTutor(){
+  const input=document.getElementById('tutorInput');
+  const q=input.value.trim();
+  if(!q)return;
+  input.value='';
+  const hist=document.getElementById('tutorHistory');
+  // 학생 말풍선
+  const userDiv=document.createElement('div');
+  userDiv.style.cssText='display:flex;justify-content:flex-end;gap:8px;align-items:flex-start';
+  userDiv.innerHTML='<div style="background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:12px 4px 12px 12px;padding:9px 12px;font-size:13px;max-width:80%;font-weight:600">'+q+'</div><div style="font-size:20px">👤</div>';
+  hist.appendChild(userDiv);
+  hist.scrollTop=99999;
+  document.getElementById('tutorLoading').style.display='flex';
+
+  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
+  const prompt='You are a friendly AI tutor for Korean 5th grade students using the TALK:TALK ENGLISH app. Answer questions about the app, English learning, or the T-A-L-K model in simple Korean. If asked something inappropriate or off-topic from education, kindly redirect. Question: '+q;
+
+  try{
+    let answer='';
+    if(key){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompt}]})
+      });
+      const data=await res.json();
+      answer=data.content?.[0]?.text||'죄송해요, 다시 질문해주세요!';
+    } else {
+      answer='TALK:TALK ENGLISH는 T(생각)-A(도전)-L(배움)-K(계속말하기) 4단계로 영어 말하기를 연습하는 앱이에요! 궁금한 게 있으면 더 물어봐요 😊';
+    }
+    document.getElementById('tutorLoading').style.display='none';
+    const aiDiv=document.createElement('div');
+    aiDiv.style.cssText='display:flex;gap:8px;align-items:flex-start';
+    aiDiv.innerHTML='<div style="font-size:20px">🤖</div><div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:4px 12px 12px 12px;padding:9px 12px;font-size:13px;max-width:85%;line-height:1.6">'+answer+'</div>';
+    hist.appendChild(aiDiv);
+    hist.scrollTop=99999;
+  }catch(e){
+    document.getElementById('tutorLoading').style.display='none';
+    toast('오류가 났어요. 다시 시도해봐!');
+  }
 }
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}

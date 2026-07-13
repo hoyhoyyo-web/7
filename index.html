@@ -773,49 +773,45 @@ function stopRec(){
 function startSR(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){
-    document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">⚠️ 이 브라우저는 음성인식을 지원하지 않아요.<br>Chrome 또는 Safari를 사용해주세요.</span>';
+    document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">⚠️ Chrome 또는 Safari를 사용해주세요.</span>';
     return;
   }
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   S.transcript='';S._srInterim='';
   function run(){
     if(!S.isRecording)return;
-    try{
-      const r=new SR();
-      r.lang='en-US';
-      r.continuous=!isIOS; // iOS는 false, 그 외는 true
-      r.interimResults=true;
-      r.onresult=e=>{
-        let final='',interim='';
-        for(let i=e.resultIndex;i<e.results.length;i++){
-          if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
-          else interim+=e.results[i][0].transcript;
-        }
-        if(final.trim())S.transcript=(S.transcript?S.transcript+' ':'')+final.trim();
-        S._srInterim=interim;
-        document.getElementById('transcriptArea').innerHTML=
-          (S.transcript?'<span>'+S.transcript+'</span>':'')+
-          (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
-      };
-      r.onend=()=>{
-        if(S._srInterim){
-          S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
-          S._srInterim='';
-          document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
-        }
-        // iOS는 onend에서 재시작, 그 외도 끊기면 재시작
-        if(S.isRecording)setTimeout(run,50);
-      };
-      r.onerror=e=>{
-        if(e.error==='not-allowed'||e.error==='service-not-allowed'){
-          toast('마이크 권한을 허용해야 녹음할 수 있어요.');
-        }else if(e.error!=='aborted'&&S.isRecording){
-          setTimeout(run,300);
-        }
-      };
-      r.start();
-      S.recognition=r;
-    }catch(e){if(S.isRecording)setTimeout(run,300);}
+    const r=new SR();
+    r.lang='en-US';
+    r.continuous=!isIOS;
+    r.interimResults=true;
+    let sessionFinal=''; // 이번 인스턴스에서만 받은 final
+    r.onresult=e=>{
+      let interim='';
+      // 이번 인스턴스의 새 결과만
+      for(let i=e.resultIndex;i<e.results.length;i++){
+        if(e.results[i].isFinal) sessionFinal+=e.results[i][0].transcript+' ';
+        else interim+=e.results[i][0].transcript;
+      }
+      S._srInterim=interim;
+      // 화면에는 기존+이번final+interim 합쳐서 표시
+      const display=(S.transcript+(sessionFinal?(' '+sessionFinal):'').trimEnd()).trim();
+      document.getElementById('transcriptArea').innerHTML=
+        (display?'<span>'+display+'</span>':'')+
+        (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
+    };
+    r.onend=()=>{
+      // 이번 인스턴스 final 확정 저장
+      if(sessionFinal.trim()) S.transcript=(S.transcript+' '+sessionFinal).trim();
+      else if(S._srInterim) S.transcript=(S.transcript+' '+S._srInterim).trim();
+      S._srInterim='';
+      sessionFinal='';
+      if(S.isRecording) setTimeout(run,80);
+    };
+    r.onerror=e=>{
+      if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+      else if(e.error!=='aborted'&&S.isRecording) setTimeout(run,300);
+    };
+    try{r.start();S.recognition=r;}catch(e){if(S.isRecording)setTimeout(run,300);}
   }
   run();
 }
@@ -961,31 +957,29 @@ async function startConvRec(){
       if(!convRecording)return;
       try{
         const r=new SR();
-        r.lang='en-US';
-        r.continuous=!isIOS;
-        r.interimResults=true;
+        r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+        let sf='';
         r.onresult=e=>{
-          let final='',interim='';
+          let interim='';
           for(let i=e.resultIndex;i<e.results.length;i++){
-            if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+            if(e.results[i].isFinal) sf+=e.results[i][0].transcript+' ';
             else interim+=e.results[i][0].transcript;
           }
-          if(final.trim())convTranscript=(convTranscript?convTranscript+' ':'')+final.trim();
           convInterim=interim;
+          const disp=(convTranscript+(sf?' '+sf.trimEnd():'')).trim();
           document.getElementById('convTranscriptArea').innerHTML=
-            (convTranscript?'<span>'+convTranscript+'</span>':'')+
-            (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
+            (disp?'<span>'+disp+'</span>':'')+
+            (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
         };
         r.onend=()=>{
-          if(convInterim){convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();convInterim='';}
-          if(convRecording)setTimeout(runConv,50);
+          if(sf.trim()) convTranscript=(convTranscript+' '+sf).trim();
+          else if(convInterim) convTranscript=(convTranscript+' '+convInterim).trim();
+          convInterim='';sf='';
+          if(convRecording) setTimeout(runConv,80);
         };
         r.onerror=e=>{
-          if(e.error==='not-allowed'||e.error==='service-not-allowed'){
-            toast('마이크 권한을 허용해야 녹음할 수 있어요.');
-          }else if(e.error!=='aborted'&&convRecording){
-            setTimeout(runConv,300);
-          }
+          if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+          else if(e.error!=='aborted'&&convRecording) setTimeout(runConv,300);
         };
         r.start();convRecognition=r;
       }catch(e){if(convRecording)setTimeout(runConv,300);}
@@ -1315,23 +1309,29 @@ function startRpRec(){
     try{
       const r=new SR();
       r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+      let sf='';
       r.onresult=e=>{
-        let final='',interim='';
+        let interim='';
         for(let i=e.resultIndex;i<e.results.length;i++){
-          if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+          if(e.results[i].isFinal) sf+=e.results[i][0].transcript+' ';
           else interim+=e.results[i][0].transcript;
         }
-        if(final.trim())rpTranscript=(rpTranscript?rpTranscript+' ':'')+final.trim();
         rpInterim=interim;
+        const disp=(rpTranscript+(sf?' '+sf.trimEnd():'')).trim();
         document.getElementById('rpTranscript').innerHTML=
-          (rpTranscript?'<span>'+rpTranscript+'</span>':'')+
-          (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
+          (disp?'<span>'+disp+'</span>':'')+
+          (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
       };
       r.onend=()=>{
-        if(rpInterim){rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();rpInterim='';}
-        if(rpRecording)setTimeout(runRp,50);
+        if(sf.trim()) rpTranscript=(rpTranscript+' '+sf).trim();
+        else if(rpInterim) rpTranscript=(rpTranscript+' '+rpInterim).trim();
+        rpInterim='';sf='';
+        if(rpRecording) setTimeout(runRp,80);
       };
-      r.onerror=e=>{if(e.error!=='aborted'&&rpRecording)setTimeout(runRp,300);};
+      r.onerror=e=>{
+        if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+        else if(e.error!=='aborted'&&rpRecording) setTimeout(runRp,300);
+      };
       r.start();rpRecognition=r;
     }catch(e){if(rpRecording)setTimeout(runRp,300);}
   }

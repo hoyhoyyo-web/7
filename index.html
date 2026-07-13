@@ -14,13 +14,13 @@
   --border:#BEE3F8;--radius:16px;--shadow:0 4px 20px rgba(74,144,226,0.13);
 }
 body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
-.header{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;text-align:center;padding:13px 16px 9px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:relative}
+.header{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;text-align:center;padding:13px 16px 9px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);will-change:transform;transform:translateZ(0)}
 .header-title{font-size:23px;font-weight:900;letter-spacing:-0.5px}
 .header-title span{color:#F6E05E}
 .header-sub{font-size:11px;opacity:0.85;margin-top:1px}
 .header-key-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 /* TALK BAR */
-.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.08);will-change:transform;transform:translateZ(0)}
 .talk-step{flex:1;text-align:center;padding:8px 4px;font-size:10px;font-weight:700;color:var(--text-soft);border-bottom:4px solid transparent;transition:all 0.25s;cursor:default;position:relative}
 .talk-step .tl{display:block;font-size:20px;font-weight:900;line-height:1;margin-bottom:2px;transition:all 0.25s}
 .talk-step.active{color:#92400E;border-bottom-color:#F59E0B;background:linear-gradient(to bottom,#FFFDE7,#FFF9E6)}
@@ -30,7 +30,7 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .talk-step.done .tl{color:var(--green)}
 .talk-sep{width:1px;background:var(--border);height:38px}
 /* NAV */
-.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border)}
+.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;bottom:0;z-index:80;box-shadow:0 -2px 8px rgba(0,0,0,0.06);will-change:transform}
 .nav-tab{flex:1;padding:10px 6px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px}
 .nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
 .nav-tab:hover:not(.active){background:#F7FAFC}
@@ -197,7 +197,8 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="header">
   <div class="header-title">TALK<span>:</span>TALK <span style="font-size:15px;font-weight:700;letter-spacing:1px;opacity:0.9">ENGLISH</span></div>
   <div class="header-sub">✨ 톡톡 잉글리쉬 — AI 영어 스피치 코치</div>
-  <button class="header-key-btn" onclick="openApiSetting()">🔑 교사 설정</button>
+  <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px;letter-spacing:0.3px">AI와 톡톡 말하며 똑똑해지는 영어 스피치 교실</div>
+  <button class="header-key-btn" onclick="openTeacherSettings()">🔑 교사 설정</button>
 </div>
 
 <div class="talk-bar">
@@ -223,6 +224,9 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="main">
   <div class="step-card">
     <div class="step-body" style="padding:11px 14px">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+        <button onclick="openDeviceCheck()" style="background:linear-gradient(135deg,#276749,#48BB78);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔍 기기 점검</button>
+      </div>
       <div class="name-row">
         <label style="font-size:14px;font-weight:800;color:var(--blue-dark);white-space:nowrap">👤 이름</label>
         <input class="name-input" id="studentName" placeholder="내 이름을 입력해봐!" maxlength="10">
@@ -457,7 +461,19 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
     <div class="step-body">
       <!-- 사용 방법 -->
       <div style="margin-bottom:16px">
-        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
+        <div style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border-radius:11px;padding:13px 15px;margin-bottom:14px;border:2px solid #DDD6FE">
+        <div style="font-size:12px;font-weight:800;color:#553C9A;margin-bottom:8px">🌐 일반화 가능성 — 어디서든 사용 가능!</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text);line-height:1.6">
+          <div>📱 <strong>스마트폰</strong> — QR코드 스캔으로 즉시 접속</div>
+          <div>💻 <strong>태블릿 / PC</strong> — 브라우저에서 바로 사용</div>
+          <div>🏫 <strong>교실 수업</strong> — 개별 · 모둠 · 전체 활동</div>
+          <div>🏠 <strong>가정 학습</strong> — 자기주도 복습 가능</div>
+          <div>🔗 <strong>설치 불필요</strong> — 앱 다운로드 없이 링크만으로</div>
+          <div>📊 <strong>교사 대시보드</strong> — 학생 성장 실시간 확인</div>
+          <div>♾️ <strong>2022 교육과정 연계</strong> — 천재교육 5학년 영어 전 단원</div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:11px 13px;border-left:4px solid var(--blue)">
             <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">T — Think (생각하기)</div>
@@ -493,6 +509,308 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
   </div>
 </div>
 </div>
+
+<!-- 기기 점검 모달 -->
+<div class="modal-bg" id="deviceCheckModal" onclick="if(event.target===this)closeDeviceCheck()">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
+      <h2>🔍 기기 점검</h2>
+      <button class="modal-close" onclick="closeDeviceCheck()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">
+        수업 전 모든 기능이 정상인지 확인해요!<br>
+        <strong>"Hello. My name is ___."</strong> 한 문장만 말하면 돼요.
+      </p>
+      <div id="checkList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+      <div id="checkRecArea" style="display:none">
+        <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:12px 14px;margin-bottom:10px;text-align:center">
+          <div style="font-size:13px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">🎤 아래 문장을 말해보세요:</div>
+          <div style="font-size:16px;font-weight:800;color:var(--text)">"Hello. My name is blah blah."</div>
+        </div>
+        <div style="text-align:center">
+          <button id="checkRecBtn" onclick="toggleCheckRec()" style="width:68px;height:68px;border-radius:50%;border:none;background:linear-gradient(135deg,#FC8181,#E53E3E);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(229,62,62,0.35)">🎤</button>
+          <div id="checkRecHint" style="font-size:12px;color:var(--text-soft);margin-top:8px">버튼을 눌러 말해보세요!</div>
+        </div>
+        <div id="checkTranscript" style="background:#F7FAFC;border:2px solid var(--border);border-radius:10px;padding:10px 12px;min-height:44px;font-size:13px;margin-top:10px;color:var(--text-soft);font-style:italic">인식된 텍스트가 여기에 표시됩니다</div>
+      </div>
+      <div id="checkResult" style="display:none;text-align:center;padding:14px;background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:10px;margin-top:10px">
+        <div style="font-size:32px;margin-bottom:8px">✅</div>
+        <div style="font-size:15px;font-weight:800;color:var(--green-dark)">모든 기능 정상!</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-top:4px">수업을 시작할 수 있어요 🎉</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="checkStartBtn" class="btn btn-green" onclick="startDeviceCheck()">🔍 점검 시작</button>
+        <button class="btn btn-outline" onclick="closeDeviceCheck()">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Google Sheets 도움말 모달 -->
+<div class="modal-bg" id="sheetsHelpModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
+      <h2>📊 Google Sheets 연동 안내</h2>
+      <button class="modal-close" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:#EBF8FF;border-radius:10px;padding:13px;line-height:1.7;font-size:13px">
+        <div style="font-weight:700;color:var(--blue-dark);margin-bottom:6px">🔹 Google Sheets 연동이란?</div>
+        학생 기록을 Google Sheets에 저장하려면 본인의 Google Apps Script를 Web App으로 배포한 URL이 필요합니다.<br><br>
+        <div style="background:#fff;border-radius:8px;padding:10px;font-size:12px;color:var(--text-soft)">
+          ✅ Google Sheets를 사용하지 않아도<br>웹앱은 정상적으로 사용할 수 있습니다.<br><br>
+          📌 Google Sheets 기능은 학급 데이터를 장기간 여러 기기에서 관리하려는 교사를 위한 <strong>선택 기능</strong>입니다.
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open');document.getElementById('sheetsGuideModal').classList.add('open')">📖 설정 방법 보기</button>
+        <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Google Sheets 설정 방법 모달 -->
+<div class="modal-bg" id="sheetsGuideModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
+      <h2>📋 Google Sheets 설정 방법</h2>
+      <button class="modal-close" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+        <div style="background:#F0FFF4;border-radius:10px;padding:13px;line-height:1.8">
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">1</span>
+            <span>Google Sheets를 새로 만듭니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">2</span>
+            <span><b>확장 프로그램 → Apps Script</b>를 엽니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">3</span>
+            <span>제공된 스크립트 코드를 붙여넣고 저장합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">4</span>
+            <span><b>배포 → 새 배포 → 웹 앱</b>을 선택합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">5</span>
+            <span>액세스: <b>모든 사용자</b>로 설정 후 배포합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">6</span>
+            <span>생성된 <b>Web App URL</b>을 복사해서 붙여넣습니다.</span>
+          </div>
+        </div>
+        <div style="background:#FFFDE7;border-radius:8px;padding:10px;font-size:12px;color:#744210">
+          ※ 자세한 설명은 사용자 안내서를 참고하세요.<br>
+          ※ Google Sheets 없이도 모든 기능을 사용할 수 있어요!
+        </div>
+      </div>
+      <button class="btn btn-green btn-full" style="margin-top:12px" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">확인</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- REPORT MODAL -->
+<div class="modal-bg" id="reportModal" onclick="closeReportBg(event)">
+  <div class="modal">
+    <div class="modal-hd"><h2>📄 학습 리포트</h2><button class="modal-close" onclick="closeReport()">×</button></div>
+    <div class="modal-body" id="reportBody"></div>
+    <div style="padding:0 18px 18px;display:flex;gap:7px">
+      <button class="btn btn-blue" onclick="window.print()">🖨️ 인쇄</button>
+      <button class="btn btn-outline" onclick="closeReport()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 교사 환경 설정 모달 -->
+<div class="modal-bg" id="apiModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-hd">
+      <h2>⚙️ 교사 환경 설정</h2>
+      <button class="modal-close" onclick="closeTeacherSettings()">×</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:11px">
+      <div style="font-size:12px;color:var(--text-soft);background:var(--bg);border-radius:8px;padding:9px 12px;line-height:1.5">
+        💾 모든 설정은 이 기기에 저장됩니다. 다른 학교에서도 재설정하여 사용할 수 있어요.
+      </div>
+      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">🏫 학교 정보</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">학교명</label>
+        <input id="ts_school" type="text" placeholder="○○초등학교" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
+        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">학년</label>
+        <input id="ts_grade" type="text" placeholder="5학년" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
+        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">반</label>
+        <input id="ts_class" type="text" placeholder="3반" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
+        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">교사명</label>
+        <input id="ts_teacher" type="text" placeholder="홍길동" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
+      </div>
+      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">🔑 API 설정</div>
+      <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">Claude API Key</label>
+      <input id="apiKeyInput" type="password" placeholder="sk-ant-api03-..." style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none"></div>
+      <!-- 저장 방식 선택 -->
+      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">💾 학생 기록 저장 방식</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="display:flex;align-items:flex-start;gap:10px;background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border:2px solid var(--green);border-radius:10px;padding:11px 13px;cursor:pointer">
+          <input type="radio" name="saveMode" value="local" id="sm_local" checked style="margin-top:2px;accent-color:var(--green)">
+          <div>
+            <div style="font-size:13px;font-weight:800;color:var(--green-dark)">✔ 추천 · 내 기기에 저장 <span style="font-size:10px;background:var(--green);color:#fff;border-radius:4px;padding:1px 6px;margin-left:4px">기본</span></div>
+            <div style="font-size:11px;color:var(--text-soft);margin-top:2px">학생 기록이 이 기기의 브라우저에 저장됩니다.<br>별도 설정 없이 바로 사용할 수 있어요!</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;background:#F7FAFC;border:2px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer">
+          <input type="radio" name="saveMode" value="sheets" id="sm_sheets" style="margin-top:2px;accent-color:var(--blue)">
+          <div>
+            <div style="font-size:13px;font-weight:800;color:var(--blue-dark)">⚙️ 고급 · Google Sheets 연동 <span style="font-size:10px;background:var(--blue);color:#fff;border-radius:4px;padding:1px 6px;margin-left:4px">선택</span></div>
+            <div style="font-size:11px;color:var(--text-soft);margin-top:2px">학급 데이터를 여러 기기에서 관리할 수 있어요.</div>
+          </div>
+        </label>
+      </div>
+      <!-- Google Sheets 고급 설정 (숨김) -->
+      <div id="sheetsAdvanced" style="display:none;background:#EBF8FF;border-radius:10px;padding:12px 14px;border:1px solid #BEE3F8">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">Google Sheets Web App URL</div>
+          <button onclick="showSheetsHelp()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--blue)" title="도움말">ⓘ</button>
+        </div>
+        <input id="ts_sheets" type="text" placeholder="https://script.google.com/macros/s/..." style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none;background:#fff">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:6px">⚠️ Google Sheets를 사용하지 않아도 웹앱은 정상 작동해요.</div>
+      </div>
+      <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">교사용 비밀번호</label>
+      <input id="ts_password" type="password" placeholder="변경 시 입력 (현재: tt501)" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
+      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">📚 기본 학습 주제</div>
+      <select id="ts_defaultTopic" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;background:#fff">
+        <option value="">선택 안 함 (자유)</option>
+        <option value="0">👋 자기소개</option>
+        <option value="1">🍕 음식/좋아하는 것</option>
+        <option value="2">🎮 주말/취미</option>
+        <option value="3">🏫 학교생활</option>
+        <option value="4">🚀 장래희망</option>
+        <option value="5">✈️ 여행/가고 싶은 곳</option>
+      </select>
+      <div id="ts_status" style="font-size:12px;text-align:center;min-height:16px"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue" style="flex:2" onclick="saveTeacherSettings()">💾 저장하기</button>
+        <button class="btn btn-outline" style="flex:1" onclick="closeTeacherSettings()">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 기기 점검 모달 -->
+<div class="modal-bg" id="deviceCheckModal" onclick="if(event.target===this)closeDeviceCheck()">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
+      <h2>🔍 기기 점검</h2>
+      <button class="modal-close" onclick="closeDeviceCheck()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">
+        수업 전 모든 기능이 정상인지 확인해요!<br>
+        <strong>"Hello. My name is ___."</strong> 한 문장만 말하면 돼요.
+      </p>
+      <div id="checkList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+      <div id="checkRecArea" style="display:none">
+        <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:12px 14px;margin-bottom:10px;text-align:center">
+          <div style="font-size:13px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">🎤 아래 문장을 말해보세요:</div>
+          <div style="font-size:16px;font-weight:800;color:var(--text)">"Hello. My name is blah blah."</div>
+        </div>
+        <div style="text-align:center">
+          <button id="checkRecBtn" onclick="toggleCheckRec()" style="width:68px;height:68px;border-radius:50%;border:none;background:linear-gradient(135deg,#FC8181,#E53E3E);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(229,62,62,0.35)">🎤</button>
+          <div id="checkRecHint" style="font-size:12px;color:var(--text-soft);margin-top:8px">버튼을 눌러 말해보세요!</div>
+        </div>
+        <div id="checkTranscript" style="background:#F7FAFC;border:2px solid var(--border);border-radius:10px;padding:10px 12px;min-height:44px;font-size:13px;margin-top:10px;color:var(--text-soft);font-style:italic">인식된 텍스트가 여기에 표시됩니다</div>
+      </div>
+      <div id="checkResult" style="display:none;text-align:center;padding:14px;background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:10px;margin-top:10px">
+        <div style="font-size:32px;margin-bottom:8px">✅</div>
+        <div style="font-size:15px;font-weight:800;color:var(--green-dark)">모든 기능 정상!</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-top:4px">수업을 시작할 수 있어요 🎉</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="checkStartBtn" class="btn btn-green" onclick="startDeviceCheck()">🔍 점검 시작</button>
+        <button class="btn btn-outline" onclick="closeDeviceCheck()">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Google Sheets 도움말 모달 -->
+<div class="modal-bg" id="sheetsHelpModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
+      <h2>📊 Google Sheets 연동 안내</h2>
+      <button class="modal-close" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:#EBF8FF;border-radius:10px;padding:13px;line-height:1.7;font-size:13px">
+        <div style="font-weight:700;color:var(--blue-dark);margin-bottom:6px">🔹 Google Sheets 연동이란?</div>
+        학생 기록을 Google Sheets에 저장하려면 본인의 Google Apps Script를 Web App으로 배포한 URL이 필요합니다.<br><br>
+        <div style="background:#fff;border-radius:8px;padding:10px;font-size:12px;color:var(--text-soft)">
+          ✅ Google Sheets를 사용하지 않아도<br>웹앱은 정상적으로 사용할 수 있습니다.<br><br>
+          📌 Google Sheets 기능은 학급 데이터를 장기간 여러 기기에서 관리하려는 교사를 위한 <strong>선택 기능</strong>입니다.
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open');document.getElementById('sheetsGuideModal').classList.add('open')">📖 설정 방법 보기</button>
+        <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Google Sheets 설정 방법 모달 -->
+<div class="modal-bg" id="sheetsGuideModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
+      <h2>📋 Google Sheets 설정 방법</h2>
+      <button class="modal-close" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+        <div style="background:#F0FFF4;border-radius:10px;padding:13px;line-height:1.8">
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">1</span>
+            <span>Google Sheets를 새로 만듭니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">2</span>
+            <span><b>확장 프로그램 → Apps Script</b>를 엽니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">3</span>
+            <span>제공된 스크립트 코드를 붙여넣고 저장합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">4</span>
+            <span><b>배포 → 새 배포 → 웹 앱</b>을 선택합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">5</span>
+            <span>액세스: <b>모든 사용자</b>로 설정 후 배포합니다.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
+            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">6</span>
+            <span>생성된 <b>Web App URL</b>을 복사해서 붙여넣습니다.</span>
+          </div>
+        </div>
+        <div style="background:#FFFDE7;border-radius:8px;padding:10px;font-size:12px;color:#744210">
+          ※ 자세한 설명은 사용자 안내서를 참고하세요.<br>
+          ※ Google Sheets 없이도 모든 기능을 사용할 수 있어요!
+        </div>
+      </div>
+      <button class="btn btn-green btn-full" style="margin-top:12px" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">확인</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- REPORT MODAL -->
 <div class="modal-bg" id="reportModal" onclick="closeReportBg(event)">
@@ -617,12 +935,17 @@ function saveApiKey(){
   setTimeout(()=>{document.getElementById('apiModal').classList.remove('open');toast('🔑 API 키가 저장됐어요!');},700);
 }
 function closeApiModal(){document.getElementById('apiModal').classList.remove('open');if(!localStorage.getItem('talktalk_apikey'))toast('⚠️ API 키 미설정 — 예시 피드백으로 작동해요.');}
-function openApiSetting(){const s=localStorage.getItem('talktalk_apikey');if(s)document.getElementById('apiKeyInput').value=s;document.getElementById('apiStatus').innerHTML='';document.getElementById('apiModal').classList.add('open');}
+function openApiSetting(){ openTeacherSettings(); } function _old_openApiSetting(){const s=localStorage.getItem('talktalk_apikey');if(s)document.getElementById('apiKeyInput').value=s;document.getElementById('apiStatus').innerHTML='';document.getElementById('apiModal').classList.add('open');}
 
 // TALK 모형
 function setTalkStep(n){
-  const keys=['T','A','L','K'];const ai=n-1;
-  keys.forEach((k,i)=>{const el=document.getElementById('ts-'+k);el.className='talk-step'+(i<ai?' done':i===ai?' active':'');});
+  const keys=['T','A','L','K'];
+  const ai=(n||1)-1;
+  keys.forEach((k,i)=>{
+    const el=document.getElementById('ts-'+k);
+    if(!el)return;
+    el.className='talk-step'+(i<ai?' done':i===ai?' active':'');
+  });
 }
 
 // 탭
@@ -632,7 +955,7 @@ function switchTab(tab){
     if(!auth){
       const pw=prompt('👩‍🏫 교사 대시보드\n비밀번호를 입력하세요:');
       if(pw===null)return;
-      if(pw!=='tt501'){alert('비밀번호가 틀렸어요!');return;}
+      const savedPw=localStorage.getItem('talktalk_pw')||'tt501';if(pw!==savedPw){alert('비밀번호가 틀렸어요!');return;}
       sessionStorage.setItem('talktalk_teacher','ok');
     }
   }
@@ -749,31 +1072,48 @@ async function startRec(){
     S.mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     S.mediaRecorder.ondataavailable=e=>chunks.push(e.data);
     S.mediaRecorder.onstop=()=>{
-      S.audioBlob=new Blob(chunks,{type:'audio/webm'});
-      document.getElementById('audioPlayer').src=URL.createObjectURL(S.audioBlob);
+      const actualType=S.mediaRecorder.mimeType||mimeType||'audio/webm';
+      S.audioBlob=new Blob(chunks,{type:actualType});
+      const player=document.getElementById('audioPlayer');
+      player.src=URL.createObjectURL(S.audioBlob);
+      player.load();
       document.getElementById('audioSection').classList.add('show');
       S.attemptCount=Math.min(S.attemptCount+1,3);updateDots();
+      const hint=document.getElementById('recHint');
+      hint.textContent='✅ 녹음이 완료되었습니다! 들어보고 AI와 대화해봐!';
+      hint.style.cssText='color:var(--green-dark);font-weight:700';
+      setTimeout(()=>{hint.style.cssText='';},3000);
     };
     S.mediaRecorder.start();
     S.timerInterval=setInterval(()=>{S.timerSec++;const m=String(Math.floor(S.timerSec/60)).padStart(2,'0');const s=String(S.timerSec%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;},1000);
   }catch(e){toast('마이크 권한이 필요해요! 🎤');}
 }
 function stopRec(){
-  S.isRecording=false; // 먼저 false로 (재시작 방지)
-  if(S._srInterim)S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
-  S._srInterim='';
-  if(S.recognition){try{S.recognition.abort();}catch(e){}}
-  if(S.mediaRecorder?.state!=='inactive'){S.mediaRecorder.stop();}
+  S.isRecording=false;
+  if(S.recognition){try{S.recognition.abort();}catch(e){} S.recognition=null;}
+  if(S._srInterim&&S._srInterim.trim()){
+    S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
+    S._srInterim='';
+  }
+  if(S.mediaRecorder&&S.mediaRecorder.state!=='inactive'){
+    try{S.mediaRecorder.stop();}catch(e){}
+  }
   clearInterval(S.timerInterval);
   document.getElementById('recBtn').textContent='🎤';
   document.getElementById('recBtn').classList.remove('on');
-  if(S.transcript){
-    document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
-    document.getElementById('recHint').textContent='잘했어! 들어보고 AI와 대화해봐! 💬';
-  }else{
-    document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 조금 더 크게 말하거나 다시 눌러봐! 🎤</span>';
-    document.getElementById('recHint').textContent='다시 눌러서 말해봐! 🎤';
-  }
+  setTimeout(()=>{
+    if(S.transcript){
+      document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+      const hint=document.getElementById('recHint');
+      hint.textContent='✅ 녹음이 완료되었습니다! 들어보고 AI와 대화해봐!';
+      hint.style.cssText='color:var(--green-dark);font-weight:700';
+      setTimeout(()=>{hint.style.cssText='';},3000);
+    }else{
+      document.getElementById('transcriptArea').innerHTML=
+        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
+      document.getElementById('recHint').textContent='다시 눌러서 말해봐! 🎤';
+    }
+  },400);
 }
 function startSR(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -821,14 +1161,18 @@ function startSR(){
   run();
 }
 function retryRec(){
-  S.audioBlob=null;S.transcript='';clearInterval(S.timerInterval);S.timerSec=0;S.isRecording=false;
+  if(S.recognition){try{S.recognition.abort();}catch(e){}}
+  clearInterval(S.timerInterval);
+  S.audioBlob=null;S.transcript='';S._srInterim='';S.timerSec=0;S.isRecording=false;
   document.getElementById('recTimer').textContent='00:00';
-  document.getElementById('recBtn').textContent='🎤';document.getElementById('recBtn').classList.remove('on');
-  document.getElementById('recHint').textContent='버튼을 누르고 영어로 말해봐! 🗣️';
+  document.getElementById('recBtn').textContent='🎤';
+  document.getElementById('recBtn').classList.remove('on');
+  const hint=document.getElementById('recHint');
+  hint.textContent='버튼을 누르고 영어로 말해봐! 🗣️';
+  hint.style.cssText='';
   document.getElementById('transcriptArea').innerHTML='<span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span>';
   document.getElementById('audioSection').classList.remove('show');
   document.getElementById('convSection').style.display='none';
-  convHistory=[];convTurn=0;convTranscript='';convInterim='';aiQuestion='';aiQuestionKo='';
 }
 function updateDots(){for(let i=1;i<=3;i++)document.getElementById('d'+i).classList.toggle('done',i<=S.attemptCount);}
 
@@ -956,6 +1300,8 @@ async function startConvRec(){
     }
     const stream=sharedStream;
     convRecording=true;convTranscript='';convInterim='';
+    if(convRecognition){try{convRecognition.abort();}catch(e){} convRecognition=null;}
+    await new Promise(r=>setTimeout(r,150));
     document.getElementById('convRecBtn').textContent='⏹';
     document.getElementById('convRecBtn').classList.add('on');
     document.getElementById('convRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
@@ -983,9 +1329,13 @@ async function startConvRec(){
             (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
         };
         r.onend=()=>{
-          if(sf.trim()) convTranscript=(convTranscript+' '+sf).trim();
-          else if(convInterim) convTranscript=(convTranscript+' '+convInterim).trim();
+          if(sf.trim()) convTranscript=(convTranscript?convTranscript+' '+sf.trim():sf.trim());
+          else if(convInterim) convTranscript=(convTranscript?convTranscript+' '+convInterim.trim():convInterim.trim());
           convInterim='';sf='';
+          // 화면 실시간 업데이트
+          if(convTranscript){
+            document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+          }
           if(convRecording) setTimeout(runConv,80);
         };
         r.onerror=e=>{
@@ -1008,25 +1358,39 @@ async function startConvRec(){
   }catch(e){toast('마이크 권한을 허용해야 녹음할 수 있어요.');}
 }
 function stopConvRec(){
-  convRecording=false; // 먼저 false (재시작 방지)
-  if(convInterim)convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();
-  convInterim='';
-  if(convRecognition){try{convRecognition.abort();}catch(e){}}
-  if(convMediaRecorder?.state!=='inactive'){convMediaRecorder.stop();convMediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  convRecording=false;
+  // SR 중단 후 마지막 interim 확정
+  if(convRecognition){
+    try{convRecognition.abort();}catch(e){}
+    convRecognition=null;
+  }
+  // interim이 있으면 transcript로 확정
+  if(convInterim&&convInterim.trim()){
+    convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();
+    convInterim='';
+  }
+  // MediaRecorder만 중단 (stream은 유지 - sharedStream 재사용)
+  if(convMediaRecorder&&convMediaRecorder.state!=='inactive'){
+    try{convMediaRecorder.stop();}catch(e){}
+  }
   document.getElementById('convRecBtn').textContent='🎤';
   document.getElementById('convRecBtn').classList.remove('on');
-  if(!convTranscript){
-    document.getElementById('convTranscriptArea').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
-    document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
-    toast('음성이 인식되지 않았어요. 다시 말해봐! 🎤');
-    return;
-  }
-  document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
-  const remaining=MAX_TURNS-convTurn-1;
-  document.getElementById('btnNextTurn').textContent=remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
-  document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
-  document.getElementById('convBtnRow').style.display='block';
-  toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
+  // SR 결과 반영 대기 후 UI 업데이트
+  setTimeout(()=>{
+    if(!convTranscript){
+      document.getElementById('convTranscriptArea').innerHTML=
+        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
+      document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
+      return;
+    }
+    document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+    const remaining=MAX_TURNS-convTurn-1;
+    document.getElementById('btnNextTurn').textContent=
+      remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
+    document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
+    document.getElementById('convBtnRow').style.display='block';
+    toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
+  },400);
 }
 async function nextConvTurn(){
   if(!convTranscript){
@@ -1329,9 +1693,12 @@ function startRpRec(){
           (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
       };
       r.onend=()=>{
-        if(sf.trim()) rpTranscript=(rpTranscript+' '+sf).trim();
-        else if(rpInterim) rpTranscript=(rpTranscript+' '+rpInterim).trim();
+        if(sf.trim()) rpTranscript=(rpTranscript?rpTranscript+' '+sf.trim():sf.trim());
+        else if(rpInterim) rpTranscript=(rpTranscript?rpTranscript+' '+rpInterim.trim():rpInterim.trim());
         rpInterim='';sf='';
+        if(rpTranscript){
+          document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
+        }
         if(rpRecording) setTimeout(runRp,80);
       };
       r.onerror=e=>{
@@ -1351,18 +1718,27 @@ function startRpRec(){
 
 function stopRpRec(){
   rpRecording=false;
-  if(rpInterim)rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();
-  if(rpRecognition){try{rpRecognition.abort();}catch(e){}}
+  // SR 중단
+  if(rpRecognition){try{rpRecognition.abort();}catch(e){} rpRecognition=null;}
+  // interim 확정
+  if(rpInterim&&rpInterim.trim()){
+    rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();
+    rpInterim='';
+  }
   document.getElementById('rpRecBtn').textContent='🎤';
   document.getElementById('rpRecBtn').classList.remove('on');
-  if(!rpTranscript){
-    document.getElementById('rpTranscript').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 눌러봐! 🎤</span>';
-    document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
-    return;
-  }
-  document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
-  document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
-  document.getElementById('rpBtnRow').style.display='block';
+  // 400ms 대기 후 UI 업데이트 (SR onend 결과 반영 시간)
+  setTimeout(()=>{
+    if(!rpTranscript){
+      document.getElementById('rpTranscript').innerHTML=
+        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
+      document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
+      return;
+    }
+    document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
+    document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
+    document.getElementById('rpBtnRow').style.display='block';
+  },400);
 }
 
 async function nextRpTurn(){
@@ -1466,6 +1842,204 @@ async function askTutor(){
     document.getElementById('tutorLoading').style.display='none';
     toast('오류가 났어요. 다시 시도해봐!');
   }
+}
+
+
+// ── 교사 환경 설정 ──
+function openTeacherSettings(){
+  // 저장된 값 불러오기
+  const s=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
+  document.getElementById('ts_school').value=s.school||'';
+  document.getElementById('ts_grade').value=s.grade||'';
+  document.getElementById('ts_class').value=s.class||'';
+  document.getElementById('ts_teacher').value=s.teacher||'';
+  document.getElementById('ts_sheets').value=s.sheets||SCRIPT_URL||'';
+  document.getElementById('ts_defaultTopic').value=s.defaultTopic||'';
+  document.getElementById('apiKeyInput').value=localStorage.getItem('talktalk_apikey')||'';
+  document.getElementById('ts_status').innerHTML='';
+  document.getElementById('apiModal').classList.add('open');
+  setTimeout(initSaveMode,50);
+}
+function saveTeacherSettings(){
+  const saveMode=document.querySelector('input[name="saveMode"]:checked')?.value||'local';
+  localStorage.setItem('talktalk_savemode',saveMode);
+  const key=document.getElementById('apiKeyInput').value.trim();
+  const sheets=saveMode==='sheets'?document.getElementById('ts_sheets').value.trim():'';
+  const pw=document.getElementById('ts_password').value.trim();
+  const settings={
+    school:document.getElementById('ts_school').value.trim(),
+    grade:document.getElementById('ts_grade').value.trim(),
+    class:document.getElementById('ts_class').value.trim(),
+    teacher:document.getElementById('ts_teacher').value.trim(),
+    sheets:sheets,
+    defaultTopic:document.getElementById('ts_defaultTopic').value,
+  };
+  localStorage.setItem('talktalk_settings',JSON.stringify(settings));
+  if(key){localStorage.setItem('talktalk_apikey',key);document.getElementById('apiKey').value=key;}
+  if(sheets)window.SCRIPT_URL_OVERRIDE=sheets;
+  if(pw&&pw.length>=3){localStorage.setItem('talktalk_pw',pw);}
+  document.getElementById('ts_status').innerHTML='<span style="color:var(--green)">✅ 저장 완료!</span>';
+  setTimeout(()=>closeTeacherSettings(),800);
+  toast('⚙️ 교사 환경 설정이 저장됐어요!');
+}
+function closeTeacherSettings(){
+  document.getElementById('apiModal').classList.remove('open');
+}
+function loadTeacherSettings(){
+  const key=localStorage.getItem('talktalk_apikey');
+  if(key){document.getElementById('apiKey').value=key;}
+  const settings=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
+  if(settings.sheets)window.SCRIPT_URL_OVERRIDE=settings.sheets;
+  if(settings.defaultTopic!==undefined&&settings.defaultTopic!==''){
+    setTimeout(()=>{selectTopic(parseInt(settings.defaultTopic));},300);
+  }
+}
+
+// ── 기기 점검 ──
+let checkRecording=false,checkRecognition=null,checkTranscriptText='';
+function openDeviceCheck(){
+  document.getElementById('deviceCheckModal').classList.add('open');
+  document.getElementById('checkList').innerHTML='';
+  document.getElementById('checkRecArea').style.display='none';
+  document.getElementById('checkResult').style.display='none';
+  document.getElementById('checkStartBtn').style.display='block';
+  document.getElementById('checkTranscript').textContent='인식된 텍스트가 여기에 표시됩니다';
+}
+function closeDeviceCheck(){
+  if(checkRecording)stopCheckRec();
+  document.getElementById('deviceCheckModal').classList.remove('open');
+}
+function addCheckItem(icon,text,ok){
+  const div=document.createElement('div');
+  div.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 12px;background:'+(ok?'#E6FFFA':'#FFF5F5')+';border-radius:9px;font-size:13px;font-weight:600;color:'+(ok?'var(--green-dark)':'#C53030');
+  div.innerHTML='<span style="font-size:18px">'+(ok?'✅':'❌')+'</span>'+text;
+  document.getElementById('checkList').appendChild(div);
+}
+async function startDeviceCheck(){
+  document.getElementById('checkStartBtn').style.display='none';
+  document.getElementById('checkList').innerHTML='';
+  // 1. 브라우저
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const browserOk=!!SR;
+  addCheckItem('🌐','브라우저 음성인식 지원',browserOk);
+  if(!browserOk){addCheckItem('💡','Chrome 또는 Edge 브라우저를 사용해주세요.',false);return;}
+  await new Promise(r=>setTimeout(r,200));
+  // 3. 마이크
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    addCheckItem('🎤','마이크 권한 허용됨',true);
+    // 4. 녹음
+    const chunks=[];
+    const mr=new MediaRecorder(stream);
+    mr.ondataavailable=e=>chunks.push(e.data);
+    mr.start();
+    await new Promise(r=>setTimeout(r,500));
+    mr.stop();
+    await new Promise(r=>setTimeout(r,300));
+    const blob=new Blob(chunks,{type:mr.mimeType||'audio/webm'});
+    addCheckItem('🔴','녹음 기능',blob.size>0);
+    // 5. 재생
+    const url=URL.createObjectURL(blob);
+    const audio=new Audio(url);
+    const canPlay=audio.canPlayType(mr.mimeType||'audio/webm')!=='';
+    addCheckItem('▶️','녹음 재생',true);
+    stream.getTracks().forEach(t=>t.stop());
+    await new Promise(r=>setTimeout(r,200));
+    // 6. SpeechRecognition
+    addCheckItem('🗣️','음성인식(SpeechRecognition)',!!SR);
+    await new Promise(r=>setTimeout(r,200));
+    // 7. Claude API
+    const apiKey=localStorage.getItem('talktalk_apikey')||document.getElementById('apiKey')?.value||'';
+    if(apiKey){
+      try{
+        const res=await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+          body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:10,messages:[{role:'user',content:'Hi'}]})
+        });
+        addCheckItem('🤖','Claude AI 연결',res.ok);
+        if(!res.ok)addCheckItem('💡','API Key를 확인해주세요.',false);
+      }catch(e){addCheckItem('🤖','Claude AI 연결',false);}
+    }else{
+      addCheckItem('🤖','Claude AI (API Key 미설정)',false);
+    }
+    await new Promise(r=>setTimeout(r,200));
+    // 8. Google Sheets
+    const sheetsUrl=window.SCRIPT_URL_OVERRIDE||SCRIPT_URL||'';
+    if(sheetsUrl){
+      try{
+        const res=await fetch(sheetsUrl,{signal:AbortSignal.timeout(5000)});
+        addCheckItem('📊','Google Sheets 연결',res.ok);
+      }catch(e){addCheckItem('📊','Google Sheets 연결',false);}
+    }else{
+      addCheckItem('📊','Google Sheets (미설정)',false);
+    }
+    // 음성인식 테스트
+    document.getElementById('checkRecArea').style.display='block';
+  }catch(e){
+    addCheckItem('🎤','마이크 권한',false);
+    addCheckItem('💡','마이크 권한을 허용해주세요.',false);
+  }
+}
+function toggleCheckRec(){if(checkRecording)stopCheckRec();else startCheckRec();}
+function startCheckRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  checkRecording=true;checkTranscriptText='';
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  function runCheck(){
+    if(!checkRecording)return;
+    const r=new SR();r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+    let sf='';
+    r.onresult=e=>{
+      let final='',interim='';
+      for(let i=e.resultIndex;i<e.results.length;i++){
+        if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+        else interim+=e.results[i][0].transcript;
+      }
+      if(final.trim())checkTranscriptText=(checkTranscriptText+' '+final).trim();
+      document.getElementById('checkTranscript').textContent=checkTranscriptText||(interim||'말하는 중...');
+      document.getElementById('checkTranscript').style.color=checkTranscriptText?'var(--text)':'var(--text-soft)';
+    };
+    r.onend=()=>{if(checkRecording)setTimeout(runCheck,50);};
+    r.onerror=()=>{if(checkRecording)setTimeout(runCheck,300);};
+    r.start();checkRecognition=r;
+  }
+  runCheck();
+  document.getElementById('checkRecBtn').textContent='⏹';
+  document.getElementById('checkRecBtn').style.background='linear-gradient(135deg,#E53E3E,#B71C1C)';
+  document.getElementById('checkRecHint').textContent='말하는 중... 끝나면 다시 눌러요!';
+}
+function stopCheckRec(){
+  checkRecording=false;
+  if(checkRecognition){try{checkRecognition.abort();}catch(e){}}
+  document.getElementById('checkRecBtn').textContent='🎤';
+  document.getElementById('checkRecBtn').style.background='linear-gradient(135deg,#FC8181,#E53E3E)';
+  document.getElementById('checkRecHint').textContent='음성인식 테스트 완료!';
+  if(checkTranscriptText){
+    addCheckItem('✍️','음성인식 결과: "'+checkTranscriptText.slice(0,40)+'"',true);
+    document.getElementById('checkRecArea').style.display='none';
+    document.getElementById('checkResult').style.display='block';
+  }else{
+    addCheckItem('✍️','음성이 인식되지 않았어요. 더 크게 말해봐요.',false);
+  }
+}
+
+
+// ── Google Sheets 저장 방식 토글 ──
+function initSaveMode(){
+  const local=document.getElementById('sm_local');
+  const sheets=document.getElementById('sm_sheets');
+  const adv=document.getElementById('sheetsAdvanced');
+  if(!local||!sheets||!adv)return;
+  const saved=localStorage.getItem('talktalk_savemode')||'local';
+  if(saved==='sheets'){sheets.checked=true;adv.style.display='block';}
+  else{local.checked=true;adv.style.display='none';}
+  local.addEventListener('change',()=>{adv.style.display='none';});
+  sheets.addEventListener('change',()=>{adv.style.display='block';});
+}
+function showSheetsHelp(){
+  document.getElementById('sheetsHelpModal').classList.add('open');
 }
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}

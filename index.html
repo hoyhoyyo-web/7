@@ -787,7 +787,7 @@ function startSR(){
       r.interimResults=true;
       r.onresult=e=>{
         let final='',interim='';
-        for(let i=0;i<e.results.length;i++){
+        for(let i=e.resultIndex;i<e.results.length;i++){
           if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
           else interim+=e.results[i][0].transcript;
         }
@@ -966,7 +966,7 @@ async function startConvRec(){
         r.interimResults=true;
         r.onresult=e=>{
           let final='',interim='';
-          for(let i=0;i<e.results.length;i++){
+          for(let i=e.resultIndex;i<e.results.length;i++){
             if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
             else interim+=e.results[i][0].transcript;
           }
@@ -1317,7 +1317,7 @@ function startRpRec(){
       r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
       r.onresult=e=>{
         let final='',interim='';
-        for(let i=0;i<e.results.length;i++){
+        for(let i=e.resultIndex;i<e.results.length;i++){
           if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
           else interim+=e.results[i][0].transcript;
         }
@@ -1327,7 +1327,10 @@ function startRpRec(){
           (rpTranscript?'<span>'+rpTranscript+'</span>':'')+
           (interim?'<span style="color:#A0AEC0">'+interim+'</span>':'');
       };
-      r.onend=()=>{if(rpInterim){rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();rpInterim='';}if(rpRecording)setTimeout(runRp,50);};
+      r.onend=()=>{
+        if(rpInterim){rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();rpInterim='';}
+        if(rpRecording)setTimeout(runRp,50);
+      };
       r.onerror=e=>{if(e.error!=='aborted'&&rpRecording)setTimeout(runRp,300);};
       r.start();rpRecognition=r;
     }catch(e){if(rpRecording)setTimeout(runRp,300);}

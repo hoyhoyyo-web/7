@@ -46,9 +46,9 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .step-body{padding:13px 15px}
 .step-body.hidden{display:none}
 /* NAME */
-.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15)}
+.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15);min-width:0;overflow:hidden}
 .name-row label{font-size:12px;font-weight:700;color:var(--blue-dark);white-space:nowrap}
-.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s}
+.name-input{flex:1;min-width:0;width:0;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s;-webkit-appearance:none}
 .name-input:focus{border-color:var(--blue)}
 /* MODE */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#F7FAFC;border-radius:13px;padding:5px;margin-bottom:12px}
@@ -1128,8 +1128,8 @@ function startSR(){
     const r=new SR();
     r.lang='en-US';
     r.continuous=!isIOS;
-    r.interimResults=true;
-    let sessionFinal=''; // 이번 인스턴스에서만 받은 final
+    r.interimResults=!isIOS; // iOS는 interim 지원 불안정 → false
+    let sessionFinal='';
     r.onresult=e=>{
       let interim='';
       // 이번 인스턴스의 새 결과만
@@ -1150,7 +1150,7 @@ function startSR(){
       else if(S._srInterim) S.transcript=(S.transcript+' '+S._srInterim).trim();
       S._srInterim='';
       sessionFinal='';
-      if(S.isRecording) setTimeout(run,80);
+      if(S.isRecording) setTimeout(run,isIOS?200:80);
     };
     r.onerror=e=>{
       if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1314,7 +1314,7 @@ async function startConvRec(){
       if(!convRecording)return;
       try{
         const r=new SR();
-        r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+        r.lang='en-US';r.continuous=!isIOS;r.interimResults=!isIOS;
         let sf='';
         r.onresult=e=>{
           let interim='';
@@ -1336,7 +1336,7 @@ async function startConvRec(){
           if(convTranscript){
             document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
           }
-          if(convRecording) setTimeout(runConv,80);
+          if(convRecording) setTimeout(runConv,isIOS?200:80);
         };
         r.onerror=e=>{
           if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1678,7 +1678,7 @@ function startRpRec(){
     if(!rpRecording)return;
     try{
       const r=new SR();
-      r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+      r.lang='en-US';r.continuous=!isIOS;r.interimResults=!isIOS;
       let sf='';
       r.onresult=e=>{
         let interim='';
@@ -1699,7 +1699,7 @@ function startRpRec(){
         if(rpTranscript){
           document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
         }
-        if(rpRecording) setTimeout(runRp,80);
+        if(rpRecording) setTimeout(runRp,isIOS?200:80);
       };
       r.onerror=e=>{
         if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1916,13 +1916,18 @@ function addCheckItem(icon,text,ok){
   document.getElementById('checkList').appendChild(div);
 }
 async function startDeviceCheck(){
+  const checkIsIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
   document.getElementById('checkStartBtn').style.display='none';
   document.getElementById('checkList').innerHTML='';
   // 1. 브라우저
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const isIOSCheck=/iPad|iPhone|iPod/.test(navigator.userAgent);
   const browserOk=!!SR;
   addCheckItem('🌐','브라우저 음성인식 지원',browserOk);
-  if(!browserOk){addCheckItem('💡','Chrome 또는 Edge 브라우저를 사용해주세요.',false);return;}
+  if(!browserOk){
+    addCheckItem('💡',isIOSCheck?'Safari 브라우저를 사용해주세요. (iOS)':'Chrome 또는 Edge 브라우저를 사용해주세요.',false);
+    return;
+  }
   await new Promise(r=>setTimeout(r,200));
   // 3. 마이크
   try{
@@ -1959,7 +1964,7 @@ async function startDeviceCheck(){
         });
         addCheckItem('🤖','Claude AI 연결',res.ok);
         if(!res.ok)addCheckItem('💡','API Key를 확인해주세요.',false);
-      }catch(e){addCheckItem('🤖','Claude AI 연결',false);}
+      }catch(e){addCheckItem('🤖','Claude AI 연결 실패',false);addCheckItem('💡','인터넷 연결 또는 API Key를 확인해주세요.',false);}
     }else{
       addCheckItem('🤖','Claude AI (API Key 미설정)',false);
     }
@@ -1970,15 +1975,19 @@ async function startDeviceCheck(){
       try{
         const res=await fetch(sheetsUrl,{signal:AbortSignal.timeout(5000)});
         addCheckItem('📊','Google Sheets 연결',res.ok);
-      }catch(e){addCheckItem('📊','Google Sheets 연결',false);}
+      }catch(e){addCheckItem('📊','Google Sheets 연결 실패',false);addCheckItem('💡','내 기기에 저장 모드를 사용하거나 URL을 확인해주세요.',false);}
     }else{
-      addCheckItem('📊','Google Sheets (미설정)',false);
+      addCheckItem('📊','Google Sheets 미설정 (선택 기능)',true);addCheckItem('ℹ️','내 기기에 저장 모드로 정상 사용 가능해요! ✅',true);
     }
     // 음성인식 테스트
     document.getElementById('checkRecArea').style.display='block';
   }catch(e){
     addCheckItem('🎤','마이크 권한',false);
-    addCheckItem('💡','마이크 권한을 허용해주세요.',false);
+    if(isIOSCheck){
+      addCheckItem('💡','설정 → Safari → 마이크 → 허용으로 변경해주세요. (iOS)',false);
+    } else {
+      addCheckItem('💡','주소창 왼쪽 🔒 아이콘 → 마이크 허용을 눌러주세요.',false);
+    }
   }
 }
 function toggleCheckRec(){if(checkRecording)stopCheckRec();else startCheckRec();}
@@ -2021,7 +2030,8 @@ function stopCheckRec(){
     document.getElementById('checkRecArea').style.display='none';
     document.getElementById('checkResult').style.display='block';
   }else{
-    addCheckItem('✍️','음성이 인식되지 않았어요. 더 크게 말해봐요.',false);
+    addCheckItem('✍️','음성인식 실패',false);
+    addCheckItem('💡',checkIsIOS?'조용한 곳에서 Safari로 다시 시도해주세요.':'조용한 환경에서 더 크게 말하거나 Chrome을 사용해주세요.',false);
   }
 }
 

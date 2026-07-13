@@ -636,6 +636,11 @@ function switchTab(tab){
       sessionStorage.setItem('talktalk_teacher','ok');
     }
   }
+  // 탭 전환 시 진행 중인 녹음/SR 중단
+  if(S.isRecording)stopRec();
+  if(typeof convRecording!=='undefined'&&convRecording)stopConvRec();
+  if(typeof rpRecording!=='undefined'&&rpRecording)stopRpRec();
+  window.speechSynthesis?.cancel();
   ['practice','roleplay','growth','dashboard','tutorial'].forEach(t=>{
     const el=document.getElementById('tab-'+t);
     if(el)el.style.display=t===tab?'block':'none';
@@ -835,17 +840,23 @@ function setScore(id,val){
 }
 
 // ── 대화형 말하기 ──
-function speakQuestion(){
-  if(!aiQuestion)return;
-  if('speechSynthesis' in window){
-    window.speechSynthesis.cancel();
-    const utter=new SpeechSynthesisUtterance(aiQuestion);
+function _doSpeak(text){
+  if(!text||!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const speak=()=>{
+    const utter=new SpeechSynthesisUtterance(text);
     utter.lang='en-US';utter.rate=0.85;utter.pitch=1;
     const voices=window.speechSynthesis.getVoices();
-    const enVoice=voices.find(v=>v.lang.startsWith('en-'));
+    const enVoice=voices.find(v=>v.lang.startsWith('en'));
     if(enVoice)utter.voice=enVoice;
     window.speechSynthesis.speak(utter);
-  }else{toast('이 브라우저는 음성 지원이 안 돼요 😢');}
+  };
+  if(window.speechSynthesis.getVoices().length>0)speak();
+  else{window.speechSynthesis.onvoiceschanged=()=>{window.speechSynthesis.onvoiceschanged=null;speak();};}
+}
+function speakQuestion(){
+  const text=document.getElementById('aiQuestion')?.textContent||aiQuestion;
+  _doSpeak(text);
 }
 
 function addConvBubble(role,text,ko){
@@ -1043,6 +1054,7 @@ async function nextConvTurn(){
 async function getFeedback(){
   const allDone=EVAL_ITEMS.every(item=>S.scores[item.id]>0);
   if(!allDone){toast('모든 항목을 별로 평가해봐! ⭐');return;}
+  if(!document.getElementById('studentName').value.trim()){toast('이름을 입력해야 기록이 저장돼요! 👤');return;}
   openStep(4);document.getElementById('body4').classList.remove('hidden');
   const content=document.getElementById('feedbackContent');
   content.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI가 열심히 분석 중이야... 🤖</div>';
@@ -1287,14 +1299,8 @@ function addRpBubble(role, text, koText=''){
 }
 
 function rpSpeak(){
-  const line=document.getElementById('rpAILine').textContent;
-  if(!line||!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(line);
-  u.lang='en-US';u.rate=0.85;
-  const v=window.speechSynthesis.getVoices().find(v=>v.lang.startsWith('en'));
-  if(v)u.voice=v;
-  window.speechSynthesis.speak(u);
+  const line=document.getElementById('rpAILine')?.textContent;
+  _doSpeak(line);
 }
 
 function toggleRpRec(){if(rpRecording)stopRpRec();else startRpRec();}
@@ -1360,6 +1366,7 @@ function stopRpRec(){
 }
 
 async function nextRpTurn(){
+  if(!rpScene){toast('상황을 먼저 골라봐! 🎭');return;}
   if(!rpTranscript){toast('대사를 먼저 말해봐! 🎤');return;}
   addRpBubble('student', rpTranscript);
   rpHistory.push({role:'student',text:rpTranscript});

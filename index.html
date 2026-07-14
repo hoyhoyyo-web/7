@@ -14,13 +14,13 @@
   --border:#BEE3F8;--radius:16px;--shadow:0 4px 20px rgba(74,144,226,0.13);
 }
 body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
-.header{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;text-align:center;padding:13px 16px 9px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);will-change:transform;transform:translateZ(0)}
+.header{background:linear-gradient(135deg,#2B6CB0,#4A90E2,#48BB78);color:#fff;text-align:center;padding:13px 16px 9px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:relative}
 .header-title{font-size:23px;font-weight:900;letter-spacing:-0.5px}
 .header-title span{color:#F6E05E}
 .header-sub{font-size:11px;opacity:0.85;margin-top:1px}
 .header-key-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 /* TALK BAR */
-.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.08);will-change:transform;transform:translateZ(0)}
+.talk-bar{background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:sticky;top:60px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .talk-step{flex:1;text-align:center;padding:8px 4px;font-size:10px;font-weight:700;color:var(--text-soft);border-bottom:4px solid transparent;transition:all 0.25s;cursor:default;position:relative}
 .talk-step .tl{display:block;font-size:20px;font-weight:900;line-height:1;margin-bottom:2px;transition:all 0.25s}
 .talk-step.active{color:#92400E;border-bottom-color:#F59E0B;background:linear-gradient(to bottom,#FFFDE7,#FFF9E6)}
@@ -30,8 +30,8 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .talk-step.done .tl{color:var(--green)}
 .talk-sep{width:1px;background:var(--border);height:38px}
 /* NAV */
-.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;bottom:0;z-index:80;box-shadow:0 -2px 8px rgba(0,0,0,0.06);will-change:transform}
-.nav-tab{flex:1;padding:6px 2px;border:none;background:transparent;font-size:14px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.2}
+.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border)}
+.nav-tab{flex:1;padding:10px 6px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px}
 .nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
 .nav-tab:hover:not(.active){background:#F7FAFC}
 /* MAIN */
@@ -46,9 +46,9 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .step-body{padding:13px 15px}
 .step-body.hidden{display:none}
 /* NAME */
-.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15);min-width:0;overflow:hidden}
+.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15)}
 .name-row label{font-size:12px;font-weight:700;color:var(--blue-dark);white-space:nowrap}
-.name-input{flex:1;min-width:0;width:0;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s;-webkit-appearance:none}
+.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s}
 .name-input:focus{border-color:var(--blue)}
 /* MODE */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#F7FAFC;border-radius:13px;padding:5px;margin-bottom:12px}
@@ -198,7 +198,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
   <div class="header-title">TALK<span>:</span>TALK <span style="font-size:15px;font-weight:700;letter-spacing:1px;opacity:0.9">ENGLISH</span></div>
   <div class="header-sub">✨ 톡톡 잉글리쉬 — AI 영어 스피치 코치</div>
   <div style="font-size:11px;color:#FFE066;margin-top:2px;letter-spacing:0.3px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.2)">✨ AI와 톡톡 말하며 똑똑해지는 영어 스피치 교실</div>
-  <button class="header-key-btn" onclick="openTeacherSettings()">🔑 교사 설정</button>
+  <button class="header-key-btn" onclick="openApiSetting()">🔑 교사 설정</button>
 </div>
 
 <div class="talk-bar">
@@ -212,11 +212,11 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 </div>
 
 <div class="nav-tabs">
-  <button class="nav-tab active" onclick="switchTab('practice')" id="nt-practice">🗣️<br><span style="font-size:9px">말하기</span></button>
-  <button class="nav-tab" onclick="switchTab('roleplay')" id="nt-roleplay">🎭<br><span style="font-size:9px">역할극</span></button>
-  <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈<br><span style="font-size:9px">성장 기록</span></button>
-  <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫<br><span style="font-size:9px">교사 대시보드</span></button>
-  <button class="nav-tab" onclick="switchTab('tutorial')" id="nt-tutorial">❓<br><span style="font-size:9px">도움말</span></button>
+  <button class="nav-tab active" onclick="switchTab('practice')" id="nt-practice">🗣️ 말하기</button>
+  <button class="nav-tab" onclick="switchTab('roleplay')" id="nt-roleplay">🎭 역할극</button>
+  <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈 성장 기록</button>
+  <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫 교사 대시보드</button>
+  <button class="nav-tab" onclick="switchTab('tutorial')" id="nt-tutorial">❓ 도움말</button>
 </div>
 
 <!-- PRACTICE -->
@@ -224,9 +224,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="main">
   <div class="step-card">
     <div class="step-body" style="padding:11px 14px">
-      <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
-        <button onclick="openDeviceCheck()" style="background:linear-gradient(135deg,#276749,#48BB78);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔍 기기 점검</button>
-      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="openDeviceCheck()" style="background:linear-gradient(135deg,#276749,#48BB78);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔍 기기 점검</button></div>
       <div class="name-row">
         <label style="font-size:14px;font-weight:800;color:var(--blue-dark);white-space:nowrap">👤 이름</label>
         <input class="name-input" id="studentName" placeholder="내 이름을 입력해봐!" maxlength="10">
@@ -459,9 +457,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       <div class="step-badge active">HELP</div>
     </div>
     <div class="step-body">
-      <!-- 사용 방법 -->
-      <div style="margin-bottom:16px">
-        <!-- 앱 소개 카드들 -->
+      <!-- 앱 소개 카드들 -->
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
         <!-- 핵심 장점 -->
         <div style="background:linear-gradient(135deg,#FFFDE7,#FEF9C3);border-radius:12px;padding:13px 15px;border:2px solid #F6E05E">
@@ -478,18 +474,10 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
         <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;border:2px solid #90CDF4">
           <div style="font-size:13px;font-weight:800;color:var(--blue-dark);margin-bottom:8px">📖 이렇게 사용해요!</div>
           <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text);line-height:1.6">
-            <div style="background:#fff;border-radius:8px;padding:7px 10px">
-              🏫 <strong>수업 중</strong> — QR 띄우기 → 학생들 스캔 → 개별 말하기 연습
-            </div>
-            <div style="background:#fff;border-radius:8px;padding:7px 10px">
-              🏠 <strong>과제로</strong> — 링크 공유 → 가정에서 자기주도 복습
-            </div>
-            <div style="background:#fff;border-radius:8px;padding:7px 10px">
-              👩‍🏫 <strong>교사 확인</strong> — 교사 대시보드에서 전체 학생 현황 파악
-            </div>
-            <div style="background:#fff;border-radius:8px;padding:7px 10px">
-              📱 <strong>모든 기기</strong> — 스마트폰·태블릿·PC, 설치 없이 QR 하나로!
-            </div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">🏫 <strong>수업 중</strong> — QR 띄우기 → 학생들 스캔 → 개별 말하기 연습</div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">🏠 <strong>과제로</strong> — 링크 공유 → 가정에서 자기주도 복습</div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">👩‍🏫 <strong>교사 확인</strong> — 교사 대시보드에서 전체 학생 현황 파악</div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">📱 <strong>모든 기기</strong> — 스마트폰·태블릿·PC, 설치 없이 QR 하나로!</div>
           </div>
         </div>
         <!-- 교육과정 연계 -->
@@ -511,12 +499,13 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
             <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">🏫<br><strong>교실 수업</strong><br><span style="font-size:10px;color:var(--text-soft)">개별·모둠</span></div>
             <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">🏠<br><strong>가정 학습</strong><br><span style="font-size:10px;color:var(--text-soft)">자기주도</span></div>
           </div>
-          <div style="font-size:11px;color:#553C9A;margin-top:8px;text-align:center;font-weight:700">
-            🔗 설치 불필요 · 앱 다운로드 없이 링크만으로!
-          </div>
+          <div style="font-size:11px;color:#553C9A;margin-top:8px;text-align:center;font-weight:700">🔗 설치 불필요 · 앱 다운로드 없이 링크만으로!</div>
         </div>
       </div>
-      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
+
+      <!-- 사용 방법 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:11px 13px;border-left:4px solid var(--blue)">
             <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">T — Think (생각하기)</div>
@@ -554,7 +543,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 </div>
 
 <!-- 기기 점검 모달 -->
-<div class="modal-bg" id="deviceCheckModal" onclick="if(event.target===this)closeDeviceCheck()">
+<div class="modal-bg" id="deviceCheckModal" style="z-index:1500" onclick="if(event.target===this)closeDeviceCheck()">
   <div class="modal" style="max-width:420px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
       <h2>🔍 기기 점검</h2>
@@ -563,7 +552,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
     <div class="modal-body">
       <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">
         수업 전 모든 기능이 정상인지 확인해요!<br>
-        <strong>"Hello. My name is ___."</strong> 한 문장만 말하면 돼요.
+        <strong>"Hello. My name is blah blah."</strong> 한 문장만 말하면 돼요.
       </p>
       <div id="checkList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
       <div id="checkRecArea" style="display:none">
@@ -586,288 +575,6 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
         <button id="checkStartBtn" class="btn btn-green" onclick="startDeviceCheck()">🔍 점검 시작</button>
         <button class="btn btn-outline" onclick="closeDeviceCheck()">닫기</button>
       </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Google Sheets 도움말 모달 -->
-<div class="modal-bg" id="sheetsHelpModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
-      <h2>📊 Google Sheets 연동 안내</h2>
-      <button class="modal-close" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">×</button>
-    </div>
-    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
-      <div style="background:#EBF8FF;border-radius:10px;padding:13px;line-height:1.7;font-size:13px">
-        <div style="font-weight:700;color:var(--blue-dark);margin-bottom:6px">🔹 Google Sheets 연동이란?</div>
-        학생 기록을 Google Sheets에 저장하려면 본인의 Google Apps Script를 Web App으로 배포한 URL이 필요합니다.<br><br>
-        <div style="background:#fff;border-radius:8px;padding:10px;font-size:12px;color:var(--text-soft)">
-          ✅ Google Sheets를 사용하지 않아도<br>웹앱은 정상적으로 사용할 수 있습니다.<br><br>
-          📌 Google Sheets 기능은 학급 데이터를 장기간 여러 기기에서 관리하려는 교사를 위한 <strong>선택 기능</strong>입니다.
-        </div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-blue" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open');document.getElementById('sheetsGuideModal').classList.add('open')">📖 설정 방법 보기</button>
-        <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Google Sheets 설정 방법 모달 -->
-<div class="modal-bg" id="sheetsGuideModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
-      <h2>📋 Google Sheets 설정 방법</h2>
-      <button class="modal-close" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">×</button>
-    </div>
-    <div class="modal-body">
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-        <div style="background:#F0FFF4;border-radius:10px;padding:13px;line-height:1.8">
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">1</span>
-            <span>Google Sheets를 새로 만듭니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">2</span>
-            <span><b>확장 프로그램 → Apps Script</b>를 엽니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">3</span>
-            <span>제공된 스크립트 코드를 붙여넣고 저장합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">4</span>
-            <span><b>배포 → 새 배포 → 웹 앱</b>을 선택합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">5</span>
-            <span>액세스: <b>모든 사용자</b>로 설정 후 배포합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">6</span>
-            <span>생성된 <b>Web App URL</b>을 복사해서 붙여넣습니다.</span>
-          </div>
-        </div>
-        <div style="background:#FFFDE7;border-radius:8px;padding:10px;font-size:12px;color:#744210">
-          ※ 자세한 설명은 사용자 안내서를 참고하세요.<br>
-          ※ Google Sheets 없이도 모든 기능을 사용할 수 있어요!
-        </div>
-      </div>
-      <button class="btn btn-green btn-full" style="margin-top:12px" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">확인</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- REPORT MODAL -->
-<div class="modal-bg" id="reportModal" onclick="closeReportBg(event)">
-  <div class="modal">
-    <div class="modal-hd"><h2>📄 학습 리포트</h2><button class="modal-close" onclick="closeReport()">×</button></div>
-    <div class="modal-body" id="reportBody"></div>
-    <div style="padding:0 18px 18px;display:flex;gap:7px">
-      <button class="btn btn-blue" onclick="window.print()">🖨️ 인쇄</button>
-      <button class="btn btn-outline" onclick="closeReport()">닫기</button>
-    </div>
-  </div>
-</div>
-
-<!-- 교사 환경 설정 모달 -->
-<div class="modal-bg" id="apiModal">
-  <div class="modal" style="max-width:440px">
-    <div class="modal-hd">
-      <h2>⚙️ 교사 환경 설정</h2>
-      <button class="modal-close" onclick="closeTeacherSettings()">×</button>
-    </div>
-    <div class="modal-body" style="display:flex;flex-direction:column;gap:11px">
-      <div style="font-size:12px;color:var(--text-soft);background:var(--bg);border-radius:8px;padding:9px 12px;line-height:1.5">
-        💾 모든 설정은 이 기기에 저장됩니다. 다른 학교에서도 재설정하여 사용할 수 있어요.
-      </div>
-      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">🏫 학교 정보</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">학교명</label>
-        <input id="ts_school" type="text" placeholder="○○초등학교" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
-        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">학년</label>
-        <input id="ts_grade" type="text" placeholder="5학년" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
-        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">반</label>
-        <input id="ts_class" type="text" placeholder="3반" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
-        <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">교사명</label>
-        <input id="ts_teacher" type="text" placeholder="홍길동" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
-      </div>
-      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">🔑 API 설정</div>
-      <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">Claude API Key</label>
-      <input id="apiKeyInput" type="password" placeholder="sk-ant-api03-..." style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none"></div>
-      <!-- 저장 방식 선택 -->
-      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">💾 학생 기록 저장 방식</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <label style="display:flex;align-items:flex-start;gap:10px;background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border:2px solid var(--green);border-radius:10px;padding:11px 13px;cursor:pointer">
-          <input type="radio" name="saveMode" value="local" id="sm_local" checked style="margin-top:2px;accent-color:var(--green)">
-          <div>
-            <div style="font-size:13px;font-weight:800;color:var(--green-dark)">✔ 추천 · 내 기기에 저장 <span style="font-size:10px;background:var(--green);color:#fff;border-radius:4px;padding:1px 6px;margin-left:4px">기본</span></div>
-            <div style="font-size:11px;color:var(--text-soft);margin-top:2px">학생 기록이 이 기기의 브라우저에 저장됩니다.<br>별도 설정 없이 바로 사용할 수 있어요!</div>
-          </div>
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:10px;background:#F7FAFC;border:2px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer">
-          <input type="radio" name="saveMode" value="sheets" id="sm_sheets" style="margin-top:2px;accent-color:var(--blue)">
-          <div>
-            <div style="font-size:13px;font-weight:800;color:var(--blue-dark)">⚙️ 고급 · Google Sheets 연동 <span style="font-size:10px;background:var(--blue);color:#fff;border-radius:4px;padding:1px 6px;margin-left:4px">선택</span></div>
-            <div style="font-size:11px;color:var(--text-soft);margin-top:2px">학급 데이터를 여러 기기에서 관리할 수 있어요.</div>
-          </div>
-        </label>
-      </div>
-      <!-- Google Sheets 고급 설정 -->
-      <div id="sheetsAdvanced" style="display:none;background:#EBF8FF;border-radius:10px;padding:13px 14px;border:1px solid #BEE3F8">
-        <!-- 설정 순서 안내 -->
-        <div style="background:#fff;border-radius:8px;padding:11px 13px;margin-bottom:10px;border:1px solid #BEE3F8">
-          <div style="font-size:12px;font-weight:800;color:var(--blue-dark);margin-bottom:7px">📋 Google Sheets 연동 순서</div>
-          <div style="font-size:12px;color:var(--text);line-height:1.8">
-            <div>① <a href="https://docs.google.com/spreadsheets" target="_blank" style="color:var(--blue);font-weight:700">Google Sheets</a> 새 스프레드시트 만들기</div>
-            <div>② 상단 메뉴 <strong>확장 프로그램 → Apps Script</strong> 클릭</div>
-            <div>③ 제공된 스크립트 코드 붙여넣기 후 저장</div>
-            <div>④ <strong>배포 → 새 배포 → 웹 앱</strong> 선택</div>
-            <div>⑤ 액세스: <strong>모든 사용자</strong> → 배포 클릭</div>
-            <div>⑥ 생성된 URL을 아래에 붙여넣기 ↓</div>
-          </div>
-
-        </div>
-        <!-- URL 입력 -->
-        <button onclick="showSheetsHelp()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px">📖 자세한 설명 보기</button>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-          <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">Web App URL 입력</div>
-          <button onclick="showSheetsHelp()" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--blue);padding:0" title="도움말">ⓘ</button>
-        </div>
-        <input id="ts_sheets" type="text" placeholder="https://script.google.com/macros/s/여기에붙여넣기/exec" style="width:100%;border:2px solid #4A90E2;border-radius:8px;padding:8px 10px;font-size:12px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
-        <div style="font-size:11px;color:#2B6CB0;margin-top:6px;line-height:1.5">
-          💡 URL은 <code style="background:#fff;padding:1px 4px;border-radius:3px">https://script.google.com</code> 으로 시작해요.<br>
-          ℹ️ Google Sheets 없이도 모든 기능 정상 사용 가능해요!
-        </div>
-      </div>
-      <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">교사용 비밀번호</label>
-      <input id="ts_password" type="password" placeholder="변경 시 입력 (현재: tt501)" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
-      <div style="font-size:11px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.5px">📚 기본 학습 주제</div>
-      <select id="ts_defaultTopic" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;background:#fff">
-        <option value="">선택 안 함 (자유)</option>
-        <option value="0">👋 자기소개</option>
-        <option value="1">🍕 음식/좋아하는 것</option>
-        <option value="2">🎮 주말/취미</option>
-        <option value="3">🏫 학교생활</option>
-        <option value="4">🚀 장래희망</option>
-        <option value="5">✈️ 여행/가고 싶은 곳</option>
-      </select>
-      <div id="ts_status" style="font-size:12px;text-align:center;min-height:16px"></div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-blue" style="flex:2" onclick="saveTeacherSettings()">💾 저장하기</button>
-        <button class="btn btn-outline" style="flex:1" onclick="closeTeacherSettings()">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 기기 점검 모달 -->
-<div class="modal-bg" id="deviceCheckModal" onclick="if(event.target===this)closeDeviceCheck()">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
-      <h2>🔍 기기 점검</h2>
-      <button class="modal-close" onclick="closeDeviceCheck()">×</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">
-        수업 전 모든 기능이 정상인지 확인해요!<br>
-        <strong>"Hello. My name is ___."</strong> 한 문장만 말하면 돼요.
-      </p>
-      <div id="checkList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
-      <div id="checkRecArea" style="display:none">
-        <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:10px;padding:12px 14px;margin-bottom:10px;text-align:center">
-          <div style="font-size:13px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">🎤 아래 문장을 말해보세요:</div>
-          <div style="font-size:16px;font-weight:800;color:var(--text)">"Hello. My name is blah blah."</div>
-        </div>
-        <div style="text-align:center">
-          <button id="checkRecBtn" onclick="toggleCheckRec()" style="width:68px;height:68px;border-radius:50%;border:none;background:linear-gradient(135deg,#FC8181,#E53E3E);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(229,62,62,0.35)">🎤</button>
-          <div id="checkRecHint" style="font-size:12px;color:var(--text-soft);margin-top:8px">버튼을 눌러 말해보세요!</div>
-        </div>
-        <div id="checkTranscript" style="background:#F7FAFC;border:2px solid var(--border);border-radius:10px;padding:10px 12px;min-height:44px;font-size:13px;margin-top:10px;color:var(--text-soft);font-style:italic">인식된 텍스트가 여기에 표시됩니다</div>
-      </div>
-      <div id="checkResult" style="display:none;text-align:center;padding:14px;background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:10px;margin-top:10px">
-        <div style="font-size:32px;margin-bottom:8px">✅</div>
-        <div style="font-size:15px;font-weight:800;color:var(--green-dark)">모든 기능 정상!</div>
-        <div style="font-size:12px;color:var(--text-soft);margin-top:4px">수업을 시작할 수 있어요 🎉</div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="checkStartBtn" class="btn btn-green" onclick="startDeviceCheck()">🔍 점검 시작</button>
-        <button class="btn btn-outline" onclick="closeDeviceCheck()">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Google Sheets 도움말 모달 -->
-<div class="modal-bg" id="sheetsHelpModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
-      <h2>📊 Google Sheets 연동 안내</h2>
-      <button class="modal-close" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">×</button>
-    </div>
-    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
-      <div style="background:#EBF8FF;border-radius:10px;padding:13px;line-height:1.7;font-size:13px">
-        <div style="font-weight:700;color:var(--blue-dark);margin-bottom:6px">🔹 Google Sheets 연동이란?</div>
-        학생 기록을 Google Sheets에 저장하려면 본인의 Google Apps Script를 Web App으로 배포한 URL이 필요합니다.<br><br>
-        <div style="background:#fff;border-radius:8px;padding:10px;font-size:12px;color:var(--text-soft)">
-          ✅ Google Sheets를 사용하지 않아도<br>웹앱은 정상적으로 사용할 수 있습니다.<br><br>
-          📌 Google Sheets 기능은 학급 데이터를 장기간 여러 기기에서 관리하려는 교사를 위한 <strong>선택 기능</strong>입니다.
-        </div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-blue" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open');document.getElementById('sheetsGuideModal').classList.add('open')">📖 설정 방법 보기</button>
-        <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('sheetsHelpModal').classList.remove('open')">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Google Sheets 설정 방법 모달 -->
-<div class="modal-bg" id="sheetsGuideModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
-      <h2>📋 Google Sheets 설정 방법</h2>
-      <button class="modal-close" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">×</button>
-    </div>
-    <div class="modal-body">
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-        <div style="background:#F0FFF4;border-radius:10px;padding:13px;line-height:1.8">
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">1</span>
-            <span>Google Sheets를 새로 만듭니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">2</span>
-            <span><b>확장 프로그램 → Apps Script</b>를 엽니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">3</span>
-            <span>제공된 스크립트 코드를 붙여넣고 저장합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">4</span>
-            <span><b>배포 → 새 배포 → 웹 앱</b>을 선택합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #C6F6D5">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">5</span>
-            <span>액세스: <b>모든 사용자</b>로 설정 후 배포합니다.</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
-            <span style="background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">6</span>
-            <span>생성된 <b>Web App URL</b>을 복사해서 붙여넣습니다.</span>
-          </div>
-        </div>
-        <div style="background:#FFFDE7;border-radius:8px;padding:10px;font-size:12px;color:#744210">
-          ※ 자세한 설명은 사용자 안내서를 참고하세요.<br>
-          ※ Google Sheets 없이도 모든 기능을 사용할 수 있어요!
-        </div>
-      </div>
-      <button class="btn btn-green btn-full" style="margin-top:12px" onclick="document.getElementById('sheetsGuideModal').classList.remove('open')">확인</button>
     </div>
   </div>
 </div>
@@ -888,26 +595,74 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <!-- API MODAL -->
 <div class="modal-bg" id="apiModal">
   <div class="modal" style="max-width:400px">
-    <div class="modal-hd"><h2>🔑 교사 API 설정</h2></div>
-    <div class="modal-body">
-      <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">수업 시작 전 <strong>선생님이 한 번만</strong> 입력하면 이 브라우저에 저장돼요!</p>
-      <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:6px">Claude API Key</label>
-      <input type="password" id="apiKeyInput" style="width:100%;border:2px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;margin-bottom:6px" placeholder="Anthropic API Key를 붙여넣으세요">
-      <div style="font-size:11px;color:var(--text-soft);margin-bottom:16px">🔒 키는 이 기기의 브라우저에만 저장돼요.</div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-blue" style="flex:2" onclick="saveApiKey()">💾 저장하고 시작하기</button>
-        <button class="btn btn-outline" style="flex:1" onclick="closeApiModal()">나중에</button>
+    <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#4A90E2)">
+      <h2>⚙️ 교사 환경 설정</h2>
+      <button class="modal-close" onclick="closeTeacherSettings()">×</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;color:var(--text-soft);line-height:1.6;background:var(--bg);border-radius:8px;padding:10px 12px">
+        🔗 Cloudflare Worker 주소를 입력하면 됩니다.<br>
+        <span style="font-size:11px;color:var(--text-soft)">다른 선생님도 Worker URL만 입력하면 바로 사용할 수 있어요!</span>
       </div>
-      <div id="apiStatus" style="margin-top:10px;font-size:12px;text-align:center"></div>
+      <div>
+        <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">AI 서버 주소 (Worker URL)</label>
+        <input id="ts_worker" type="text"
+          placeholder="https://talktalk-english.workers.dev"
+          style="width:100%;border:2px solid var(--blue);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:5px">예) https://xxxxx.workers.dev</div>
+        <!-- Worker 발급 도움말 -->
+        <div style="background:#F0FFF4;border-radius:10px;padding:12px 14px;margin-top:10px;border:1px solid #9AE6B4">
+          <div style="font-size:12px;font-weight:800;color:var(--green-dark);margin-bottom:8px">🚀 Worker URL 발급 방법 (5분)</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.9">
+            <div style="margin-bottom:6px">① 아래 버튼을 순서대로 클릭하세요:</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px">
+              <button onclick="copyWorkerCode()" style="background:var(--green);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
+                📋 1단계: Worker 코드 복사하기
+              </button>
+              <a href="https://workers.cloudflare.com/playground" target="_blank"
+                style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left;text-decoration:none;display:block">
+                🌐 2단계: Playground 열기 (새 탭)
+              </a>
+            </div>
+            <div style="font-size:11px;color:var(--text-soft);background:#EBF8FF;border-radius:6px;padding:7px 10px;margin-bottom:4px">
+              💡 Playground가 열리면 기존 코드 전체 선택(Ctrl+A) 후<br>복사한 코드 붙여넣기(Ctrl+V) → <strong>Deploy</strong>
+            </div>
+            <div>③ 오른쪽 위 <strong>Deploy</strong> 클릭 → 로그인/회원가입</div>
+            <div>④ Worker 이름 입력 (예: talktalk-english) → <strong>Deploy</strong></div>
+            <div>⑤ 배포 후 <strong>Settings → Variables → Add variable</strong></div>
+            <div style="padding-left:14px;font-size:11px;color:var(--text-soft)">
+              이름: <code style="background:#E2E8F0;padding:1px 5px;border-radius:3px">OPENAI_API_KEY</code><br>
+              값: <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--blue)">platform.openai.com</a> 에서 발급한 Key<br>
+              → <strong>Encrypt 체크</strong> → Save
+            </div>
+            <div>⑥ 생성된 <strong>Worker URL</strong> 위 입력창에 붙여넣기 ✅</div>
+          </div>
+          <div style="margin-top:8px;padding:8px 10px;background:#fff;border-radius:7px;font-size:11px;color:#276749;line-height:1.6">
+            💡 <strong>다른 선생님도 동일하게!</strong><br>
+            각자 Cloudflare 가입 → 동일한 Worker 코드 배포 →<br>
+            본인의 OpenAI Key 입력 → Worker URL 입력하면 끝!<br>
+            <span style="color:var(--text-soft)">※ OpenAI 비용은 각자 계정에서 청구 (학생 1회 약 7원)</span>
+          </div>
+        </div>
+      </div>
+      <div id="ts_status" style="font-size:12px;text-align:center;min-height:16px"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue" style="flex:2" onclick="saveTeacherSettings()">💾 저장</button>
+        <button class="btn btn-outline" style="flex:1" onclick="closeTeacherSettings()">취소</button>
+      </div>
     </div>
   </div>
 </div>
 
-<div style="display:none"><input type="password" id="apiKey" value=""></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const LS_KEY='talktalk_v3';
+// ── AI 모델 상수 (변경 시 여기만 수정) ──
+const STT_MODEL='gpt-4o-mini-transcribe'; // OpenAI STT 모델
+const LLM_MODEL='gpt-4o-mini';           // OpenAI LLM 모델
+let WORKER_URL=localStorage.getItem('talktalk_worker_url')||'';
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbynhiZH5eaonk_RcZy4tZpdQSnlaVuhYg2499EuAmLGxq75ZfT8HwF-tPF9akmyefe_iw/exec';
 
 const FREE_TOPICS=[
@@ -946,6 +701,7 @@ const SL=['','아직 어려워요','조금 됐어요','보통이에요','잘 됐
 
 let S={mode:'free',topicIdx:-1,attemptCount:0,scores:{},transcript:'',mediaRecorder:null,isRecording:false,timerInterval:null,timerSec:0,recognition:null,audioBlob:null,lastFeedback:null,lastScore:0};
 let convHistory=[],convTurn=0,convTranscript='',convInterim='',aiQuestion='',aiQuestionKo='';
+let convAudioBlob=null;
 let sharedStream=null;
 let convRecording=false,convRecognition=null,convMediaRecorder=null;
 const MAX_TURNS=3;
@@ -968,45 +724,29 @@ function saveRec(r){
 
 window.onload=()=>{
   renderTopics();renderUnits();renderEvalItems();openStep(1);
-  const urlKey=new URLSearchParams(location.search).get('k');
-  if(urlKey&&urlKey.startsWith('sk-')){
-    localStorage.setItem('talktalk_apikey',urlKey);
-    document.getElementById('apiKey').value=urlKey;
-    document.getElementById('apiKeyInput').value=urlKey;
+  const _params=new URLSearchParams(location.search);
+  const urlWorker=_params.get('w');
+  if(urlWorker){
+    localStorage.setItem('talktalk_worker_url',urlWorker);
+    WORKER_URL=urlWorker;
     history.replaceState(null,'',location.pathname);
-    setTimeout(()=>toast('✅ AI 피드백 준비 완료! 말하기 연습을 시작해봐! 🎤'),200);
-    return;
+    setTimeout(()=>toast('✅ AI 연결 준비 완료! 🎤'),200);
+    loadTeacherSettings();return;
   }
-  const saved=localStorage.getItem('talktalk_apikey');
-  if(saved){
-    document.getElementById('apiKey').value=saved;
-    document.getElementById('apiKeyInput').value=saved;
-  }else{
+  if(!localStorage.getItem('talktalk_worker_url')){
     document.getElementById('apiModal').classList.add('open');
   }
+  loadTeacherSettings();
 };
 
-// API 설정
-function saveApiKey(){
-  const key=document.getElementById('apiKeyInput').value.trim();
-  if(!key||!key.startsWith('sk-')){document.getElementById('apiStatus').innerHTML='<span style="color:#E53E3E">⚠️ 올바른 API 키를 입력해주세요</span>';return;}
-  localStorage.setItem('talktalk_apikey',key);
-  document.getElementById('apiKey').value=key;
-  document.getElementById('apiStatus').innerHTML='<span style="color:var(--green)">✅ 저장 완료!</span>';
-  setTimeout(()=>{document.getElementById('apiModal').classList.remove('open');toast('🔑 API 키가 저장됐어요!');},700);
-}
-function closeApiModal(){document.getElementById('apiModal').classList.remove('open');if(!localStorage.getItem('talktalk_apikey'))toast('⚠️ API 키 미설정 — 예시 피드백으로 작동해요.');}
-function openApiSetting(){ openTeacherSettings(); } function _old_openApiSetting(){const s=localStorage.getItem('talktalk_apikey');if(s)document.getElementById('apiKeyInput').value=s;document.getElementById('apiStatus').innerHTML='';document.getElementById('apiModal').classList.add('open');}
+// 호환성 유지
+function closeApiModal(){closeTeacherSettings();}
+function openApiSetting(){openTeacherSettings();}
 
 // TALK 모형
 function setTalkStep(n){
-  const keys=['T','A','L','K'];
-  const ai=(n||1)-1;
-  keys.forEach((k,i)=>{
-    const el=document.getElementById('ts-'+k);
-    if(!el)return;
-    el.className='talk-step'+(i<ai?' done':i===ai?' active':'');
-  });
+  const keys=['T','A','L','K'];const ai=n-1;
+  keys.forEach((k,i)=>{const el=document.getElementById('ts-'+k);el.className='talk-step'+(i<ai?' done':i===ai?' active':'');});
 }
 
 // 탭
@@ -1016,7 +756,7 @@ function switchTab(tab){
     if(!auth){
       const pw=prompt('👩‍🏫 교사 대시보드\n비밀번호를 입력하세요:');
       if(pw===null)return;
-      const savedPw=localStorage.getItem('talktalk_pw')||'tt501';if(pw!==savedPw){alert('비밀번호가 틀렸어요!');return;}
+      if(pw!=='tt501'){alert('비밀번호가 틀렸어요!');return;}
       sessionStorage.setItem('talktalk_teacher','ok');
     }
   }
@@ -1132,7 +872,7 @@ async function startRec(){
       MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
     S.mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     S.mediaRecorder.ondataavailable=e=>chunks.push(e.data);
-    S.mediaRecorder.onstop=()=>{
+    S.mediaRecorder.onstop=async()=>{
       const actualType=S.mediaRecorder.mimeType||mimeType||'audio/webm';
       S.audioBlob=new Blob(chunks,{type:actualType});
       const player=document.getElementById('audioPlayer');
@@ -1140,10 +880,35 @@ async function startRec(){
       player.load();
       document.getElementById('audioSection').classList.add('show');
       S.attemptCount=Math.min(S.attemptCount+1,3);updateDots();
-      const hint=document.getElementById('recHint');
-      hint.textContent='✅ 녹음이 완료되었습니다! 들어보고 AI와 대화해봐!';
-      hint.style.cssText='color:var(--green-dark);font-weight:700';
-      setTimeout(()=>{hint.style.cssText='';},3000);
+      // Worker STT 필수 — SR 결과 사용 안 함
+      const w=getWorkerUrl();
+      if(w){
+        try{
+          const t=await transcribeAudio(S.audioBlob);
+          if(t&&t.trim()){
+            S.transcript=t.trim();
+            document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+            document.getElementById('recHint').textContent='✅ 변환 완료! 들어보고 AI와 대화해봐!';
+            // 다음 단계 버튼 활성화
+            document.querySelectorAll('#audioSection button').forEach(b=>b.disabled=false);
+          }else{
+            // 빈 결과 — 다시 시도 안내
+            showSttRetry('transcriptArea','recHint','audioSection',()=>stopRec());
+          }
+        }catch(e){
+          showSttError('transcriptArea','recHint','audioSection',e.message,()=>stopRec());
+        }
+      }else{
+        // Worker 없으면 SR 결과 그대로 사용
+        if(S.transcript){
+          document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+          document.getElementById('recHint').textContent='잘했어! 들어보고 AI와 대화해봐! 💬';
+        }else{
+          document.getElementById('transcriptArea').innerHTML='<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+          document.getElementById('recHint').textContent='다시 눌러서 말해봐! 🎤';
+        }
+        document.querySelectorAll('#audioSection button').forEach(b=>b.disabled=false);
+      }
     };
     S.mediaRecorder.start();
     S.timerInterval=setInterval(()=>{S.timerSec++;const m=String(Math.floor(S.timerSec/60)).padStart(2,'0');const s=String(S.timerSec%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;},1000);
@@ -1151,30 +916,23 @@ async function startRec(){
 }
 function stopRec(){
   S.isRecording=false;
+  // SR은 보조 수단이었지만 이제 Worker STT만 사용
+  // SR 중단 (혹시 실행 중이면)
   if(S.recognition){try{S.recognition.abort();}catch(e){} S.recognition=null;}
-  if(S._srInterim&&S._srInterim.trim()){
-    S.transcript=(S.transcript?S.transcript+' ':'')+S._srInterim.trim();
-    S._srInterim='';
-  }
+  S._srInterim='';S.transcript='';
   if(S.mediaRecorder&&S.mediaRecorder.state!=='inactive'){
-    try{S.mediaRecorder.stop();}catch(e){}
+    S.mediaRecorder.stop(); // onstop에서 Worker STT 호출
   }
   clearInterval(S.timerInterval);
   document.getElementById('recBtn').textContent='🎤';
   document.getElementById('recBtn').classList.remove('on');
-  setTimeout(()=>{
-    if(S.transcript){
-      document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
-      const hint=document.getElementById('recHint');
-      hint.textContent='✅ 녹음이 완료되었습니다! 들어보고 AI와 대화해봐!';
-      hint.style.cssText='color:var(--green-dark);font-weight:700';
-      setTimeout(()=>{hint.style.cssText='';},3000);
-    }else{
-      document.getElementById('transcriptArea').innerHTML=
-        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
-      document.getElementById('recHint').textContent='다시 눌러서 말해봐! 🎤';
-    }
-  },400);
+  // 버튼 비활성화 + 변환 중 표시 (onstop에서 STT 완료 후 활성화)
+  document.getElementById('transcriptArea').innerHTML=
+    '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
+  document.getElementById('recHint').textContent='변환 중... 잠시만 기다려줘!';
+  // audioSection 버튼들 비활성화
+  const btns=document.querySelectorAll('#audioSection button');
+  btns.forEach(b=>b.disabled=true);
 }
 function startSR(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1189,8 +947,8 @@ function startSR(){
     const r=new SR();
     r.lang='en-US';
     r.continuous=!isIOS;
-    r.interimResults=!isIOS; // iOS는 interim 지원 불안정 → false
-    let sessionFinal='';
+    r.interimResults=true;
+    let sessionFinal=''; // 이번 인스턴스에서만 받은 final
     r.onresult=e=>{
       let interim='';
       // 이번 인스턴스의 새 결과만
@@ -1211,7 +969,7 @@ function startSR(){
       else if(S._srInterim) S.transcript=(S.transcript+' '+S._srInterim).trim();
       S._srInterim='';
       sessionFinal='';
-      if(S.isRecording) setTimeout(run,isIOS?200:80);
+      if(S.isRecording) setTimeout(run,80);
     };
     r.onerror=e=>{
       if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1222,18 +980,14 @@ function startSR(){
   run();
 }
 function retryRec(){
-  if(S.recognition){try{S.recognition.abort();}catch(e){}}
-  clearInterval(S.timerInterval);
-  S.audioBlob=null;S.transcript='';S._srInterim='';S.timerSec=0;S.isRecording=false;
+  S.audioBlob=null;S.transcript='';clearInterval(S.timerInterval);S.timerSec=0;S.isRecording=false;
   document.getElementById('recTimer').textContent='00:00';
-  document.getElementById('recBtn').textContent='🎤';
-  document.getElementById('recBtn').classList.remove('on');
-  const hint=document.getElementById('recHint');
-  hint.textContent='버튼을 누르고 영어로 말해봐! 🗣️';
-  hint.style.cssText='';
+  document.getElementById('recBtn').textContent='🎤';document.getElementById('recBtn').classList.remove('on');
+  document.getElementById('recHint').textContent='버튼을 누르고 영어로 말해봐! 🗣️';
   document.getElementById('transcriptArea').innerHTML='<span class="tp">여기에 네가 말한 내용이 나타날 거야 ✨</span>';
   document.getElementById('audioSection').classList.remove('show');
   document.getElementById('convSection').style.display='none';
+  convHistory=[];convTurn=0;convTranscript='';convInterim='';aiQuestion='';aiQuestionKo='';
 }
 function updateDots(){for(let i=1;i<=3;i++)document.getElementById('d'+i).classList.toggle('done',i<=S.attemptCount);}
 
@@ -1295,7 +1049,6 @@ async function askAI(){
   document.getElementById('convBtnRow').style.display='none';
   document.getElementById('convTurnBadge').textContent=(convTurn+1)+'/'+MAX_TURNS;
 
-  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
   const historyText=convHistory.map(h=>(h.role==='ai'?'AI: ':'Student: ')+h.text).join('\n');
 
   const prompt='SAFETY RULE - If student said profanity/insults/gibberish/completely off-topic, reply ONLY with: Q:Please try again in English about our topic! KO:주제에 맞는 영어로 다시 말해봐요! Otherwise you are an English teacher having a conversation with a Korean 5th grader.\n'
@@ -1313,20 +1066,14 @@ async function askAI(){
     +'Respond ONLY:\nQ: [question]\nKO: [Korean translation]';
 
   try{
-    if(key){
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:150,messages:[{role:'user',content:prompt}]})
-      });
-      const data=await res.json();
-      const txt=data.content?.[0]?.text||'';
+    try{
+      const txt=await callAI('',prompt,150);
       const qm=txt.match(/Q:\s*(.+)/);const km=txt.match(/KO:\s*(.+)/);
       aiQuestion=qm?qm[1].trim():topic.keywords[convTurn]||topic.sentences[convTurn]||'Tell me more!';
       aiQuestionKo=km?km[1].trim():'더 말해봐요!';
-    }else{
-      await new Promise(r=>setTimeout(r,500));
-      aiQuestion=topic.sentences[convTurn]||topic.keywords[convTurn]||'Tell me more!';
+    }catch(e){
+      // AI 실패 시 기본 질문 사용 (UI 흐름 유지용)
+      aiQuestion=(topic.sentences&&topic.sentences[convTurn])||(topic.keywords&&topic.keywords[convTurn])||'Tell me more!';
       aiQuestionKo='더 말해봐요!';
     }
     addConvBubble('ai',aiQuestion,aiQuestionKo);
@@ -1361,8 +1108,6 @@ async function startConvRec(){
     }
     const stream=sharedStream;
     convRecording=true;convTranscript='';convInterim='';
-    if(convRecognition){try{convRecognition.abort();}catch(e){} convRecognition=null;}
-    await new Promise(r=>setTimeout(r,150));
     document.getElementById('convRecBtn').textContent='⏹';
     document.getElementById('convRecBtn').classList.add('on');
     document.getElementById('convRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
@@ -1375,7 +1120,7 @@ async function startConvRec(){
       if(!convRecording)return;
       try{
         const r=new SR();
-        r.lang='en-US';r.continuous=!isIOS;r.interimResults=!isIOS;
+        r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
         let sf='';
         r.onresult=e=>{
           let interim='';
@@ -1390,14 +1135,10 @@ async function startConvRec(){
             (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
         };
         r.onend=()=>{
-          if(sf.trim()) convTranscript=(convTranscript?convTranscript+' '+sf.trim():sf.trim());
-          else if(convInterim) convTranscript=(convTranscript?convTranscript+' '+convInterim.trim():convInterim.trim());
+          if(sf.trim()) convTranscript=(convTranscript+' '+sf).trim();
+          else if(convInterim) convTranscript=(convTranscript+' '+convInterim).trim();
           convInterim='';sf='';
-          // 화면 실시간 업데이트
-          if(convTranscript){
-            document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
-          }
-          if(convRecording) setTimeout(runConv,isIOS?200:80);
+          if(convRecording) setTimeout(runConv,80);
         };
         r.onerror=e=>{
           if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1414,48 +1155,68 @@ async function startConvRec(){
     const chunks=[];
     convMediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     convMediaRecorder.ondataavailable=e=>chunks.push(e.data);
-    convMediaRecorder.onstop=()=>{};
+    convMediaRecorder.onstop=()=>{
+      // 녹음 Blob 저장 (stopConvRec에서 STT 사용)
+      const mime=convMediaRecorder.mimeType||'audio/webm';
+      convAudioBlob=new Blob(chunks,{type:mime});
+    };
     convMediaRecorder.start();
   }catch(e){toast('마이크 권한을 허용해야 녹음할 수 있어요.');}
 }
 function stopConvRec(){
   convRecording=false;
-  // SR 중단 후 마지막 interim 확정
-  if(convRecognition){
-    try{convRecognition.abort();}catch(e){}
-    convRecognition=null;
-  }
-  // interim이 있으면 transcript로 확정
-  if(convInterim&&convInterim.trim()){
-    convTranscript=(convTranscript?convTranscript+' ':'')+convInterim.trim();
-    convInterim='';
-  }
-  // MediaRecorder만 중단 (stream은 유지 - sharedStream 재사용)
-  if(convMediaRecorder&&convMediaRecorder.state!=='inactive'){
-    try{convMediaRecorder.stop();}catch(e){}
-  }
+  if(convRecognition){try{convRecognition.abort();}catch(e){} convRecognition=null;}
+  convInterim='';
+  if(convMediaRecorder?.state!=='inactive'){try{convMediaRecorder.stop();}catch(e){}}
   document.getElementById('convRecBtn').textContent='🎤';
   document.getElementById('convRecBtn').classList.remove('on');
-  // SR 결과 반영 대기 후 UI 업데이트
-  setTimeout(()=>{
-    if(!convTranscript){
+  // 버튼 비활성화 + 변환 중 표시
+  document.getElementById('convBtnRow').style.display='none';
+  document.getElementById('convTranscriptArea').innerHTML=
+    '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
+  document.getElementById('convRecHint').textContent='변환 중...';
+  // Worker STT
+  const w=getWorkerUrl();
+  if(w&&convAudioBlob){
+    transcribeAudio(convAudioBlob).then(t=>{
+      if(t&&t.trim()){
+        convTranscript=t.trim();
+        document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+        const remaining=MAX_TURNS-convTurn-1;
+        document.getElementById('btnNextTurn').textContent=
+          remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
+        document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
+        document.getElementById('convBtnRow').style.display='block';
+        toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
+      }else{
+        document.getElementById('convTranscriptArea').innerHTML=
+          '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
+          +'<div style="margin-top:6px"><button onclick="toggleConvRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+        document.getElementById('convRecHint').textContent='다시 녹음해주세요 🎤';
+      }
+    }).catch(e=>{
       document.getElementById('convTranscriptArea').innerHTML=
-        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
-      document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
-      return;
-    }
+        '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)
+        +'<div style="margin-top:6px"><button onclick="toggleConvRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+      document.getElementById('convRecHint').textContent='다시 녹음해주세요 🎤';
+    });
+  }else if(convTranscript){
+    // Worker 없으면 SR 결과 사용
     document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
     const remaining=MAX_TURNS-convTurn-1;
     document.getElementById('btnNextTurn').textContent=
       remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
     document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
     document.getElementById('convBtnRow').style.display='block';
-    toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
-  },400);
+  }else{
+    document.getElementById('convTranscriptArea').innerHTML=
+      '<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+    document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
+  }
 }
 async function nextConvTurn(){
-  if(!convTranscript){
-    toast('답변을 먼저 말해봐! 🎤 마이크 버튼을 눌러줘!');
+  if(!convTranscript||!convTranscript.trim()){
+    toast('음성 변환이 완료된 후 진행할 수 있어요! 🔄');
     return;
   }
   addConvBubble('student',convTranscript);
@@ -1479,10 +1240,11 @@ async function nextConvTurn(){
 async function getFeedback(){
   const allDone=EVAL_ITEMS.every(item=>S.scores[item.id]>0);
   if(!allDone){toast('모든 항목을 별로 평가해봐! ⭐');return;}
+  // STT 완료 전 피드백 차단
+  if(!S.transcript||!S.transcript.trim()){
+    toast('먼저 말하기 녹음을 완료하고 음성 변환이 끝나야 해요! 🎤');return;
+  }
   if(!document.getElementById('studentName').value.trim()){toast('이름을 입력해야 기록이 저장돼요! 👤');return;}
-  // AI/Sheets 실패해도 transcript 보존을 위해 임시 저장
-  const tempKey='talktalk_temp_'+Date.now();
-  try{localStorage.setItem(tempKey,JSON.stringify({transcript:S.transcript,time:new Date().toISOString()}));}catch(e){}
   openStep(4);document.getElementById('body4').classList.remove('hidden');
   const content=document.getElementById('feedbackContent');
   content.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI가 열심히 분석 중이야... 🤖</div>';
@@ -1503,24 +1265,21 @@ async function getFeedback(){
 
   const usr='Topic: '+topic.emoji+' '+topic.label.replace('\n',' - ')+'\nPrompt: '+topic.prompt+'\n[FREE SPEECH] "'+(S.transcript||'(no speech)')+'"\n'+convSummary+'\nDuration: '+S.timerSec+'s | Attempts: '+S.attemptCount+'\nSelf-eval (reference only, NOT for scoring): '+detail+' avg:'+avg+'/5\nComment: "'+(comment||'none')+'"';
 
-  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
   try{
     let txt='';
-    if(key){
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})
-      });
-      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.error?.message||'API 오류 ('+res.status+')');}
-      const data=await res.json();txt=data.content?.[0]?.text||'';
-    }else{
-      await new Promise(r=>setTimeout(r,1500));
-      txt='SCORE: 72\nGOOD: 영어로 용감하게 말하려고 노력한 점이 훌륭해요! 핵심 표현을 사용하려고 한 점도 좋아요.\nIMPROVE: 문장을 조금 더 길게 말해봐요. "because"를 붙여서 이유도 말해봐요!\nEXAMPLE: "I like pizza because it is very delicious." (피자가 맛있어서 좋아해요.)\nNEXT: 다음엔 "because"로 이유를 꼭 설명해봐요!\nCHEER: 오늘 정말 잘했어요! 포기하지 않는 네가 자랑스러워요! 💪🌟';
+    try{
+      txt=await callAI(sys,usr,1000);
+    }catch(e){
+      // AI 실패 시 fallback 없음 — 저장하지 않고 오류만 안내
+      const content=document.getElementById('feedbackContent');
+      if(content) showAiError(content, e.message, getFeedback);
+      document.getElementById('step4Body').classList.remove('hidden');
+      return; // 성장 기록 저장 안 함
     }
     renderFeedback(txt,avg,topic,comment);
   }catch(e){
-    content.innerHTML='<div style="text-align:center;padding:22px;color:#E53E3E"><div style="font-size:34px;margin-bottom:9px">😢</div><div style="font-weight:700;margin-bottom:7px">피드백을 가져오지 못했어요</div><div style="font-size:12px;color:var(--text-soft);margin-bottom:14px">'+e.message+'</div><button class="btn btn-blue" style="width:auto;padding:9px 18px" onclick="getFeedback()">다시 시도</button></div>';
+    const friendlyMsg=friendlyNetworkError(e);
+    content.innerHTML='<div style="text-align:center;padding:22px"><div style="font-size:34px;margin-bottom:9px">😢</div><div style="font-weight:700;margin-bottom:7px;color:#E53E3E">피드백을 가져오지 못했어요</div><div style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">'+friendlyMsg+'</div><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn btn-blue" style="width:auto;padding:9px 18px" onclick="getFeedback()">🔄 다시 시도</button><button class="btn btn-outline" style="width:auto;padding:9px 18px" onclick="openTeacherSettings&&openTeacherSettings()">⚙️ 설정 확인</button></div></div>';
   }
 }
 
@@ -1681,6 +1440,7 @@ const RP_SCENES = [
 ];
 
 let rpScene=null, rpRecording=false, rpRecognition=null, rpTranscript='', rpInterim='', rpHistory=[];
+let rpAudioBlob=null, rpStream=null, rpMediaRecorder=null;
 
 function initRoleplay(){
   const grid=document.getElementById('rpSceneGrid');
@@ -1742,7 +1502,7 @@ function startRpRec(){
     if(!rpRecording)return;
     try{
       const r=new SR();
-      r.lang='en-US';r.continuous=!isIOS;r.interimResults=!isIOS;
+      r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
       let sf='';
       r.onresult=e=>{
         let interim='';
@@ -1757,13 +1517,10 @@ function startRpRec(){
           (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
       };
       r.onend=()=>{
-        if(sf.trim()) rpTranscript=(rpTranscript?rpTranscript+' '+sf.trim():sf.trim());
-        else if(rpInterim) rpTranscript=(rpTranscript?rpTranscript+' '+rpInterim.trim():rpInterim.trim());
+        if(sf.trim()) rpTranscript=(rpTranscript+' '+sf).trim();
+        else if(rpInterim) rpTranscript=(rpTranscript+' '+rpInterim).trim();
         rpInterim='';sf='';
-        if(rpTranscript){
-          document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
-        }
-        if(rpRecording) setTimeout(runRp,isIOS?200:80);
+        if(rpRecording) setTimeout(runRp,80);
       };
       r.onerror=e=>{
         if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
@@ -1782,192 +1539,108 @@ function startRpRec(){
 
 function stopRpRec(){
   rpRecording=false;
-  // SR 중단
   if(rpRecognition){try{rpRecognition.abort();}catch(e){} rpRecognition=null;}
-  // interim 확정
-  if(rpInterim&&rpInterim.trim()){
-    rpTranscript=(rpTranscript?rpTranscript+' ':'')+rpInterim.trim();
-    rpInterim='';
-  }
+  rpInterim='';
+  if(rpStream) rpStream.getTracks().forEach(t=>t.stop());
   document.getElementById('rpRecBtn').textContent='🎤';
   document.getElementById('rpRecBtn').classList.remove('on');
-  // 400ms 대기 후 UI 업데이트 (SR onend 결과 반영 시간)
-  setTimeout(()=>{
-    if(!rpTranscript){
+  document.getElementById('rpBtnRow').style.display='none';
+  document.getElementById('rpTranscript').innerHTML=
+    '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
+  document.getElementById('rpRecHint').textContent='변환 중...';
+  const w=getWorkerUrl();
+  if(w&&rpAudioBlob){
+    transcribeAudio(rpAudioBlob).then(t=>{
+      if(t&&t.trim()){
+        rpTranscript=t.trim();
+        document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
+        document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
+        document.getElementById('rpBtnRow').style.display='block';
+      }else{
+        document.getElementById('rpTranscript').innerHTML=
+          '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
+          +'<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+        document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+      }
+    }).catch(e=>{
       document.getElementById('rpTranscript').innerHTML=
-        '<span style="color:#FC8181">음성이 인식되지 않았어요.<br>마이크 버튼을 다시 눌러서 말해봐! 🎤</span>';
-      document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
-      return;
-    }
+        '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)
+        +'<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+      document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+    });
+  }else if(rpTranscript){
     document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
     document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
     document.getElementById('rpBtnRow').style.display='block';
-  },400);
+  }else{
+    document.getElementById('rpTranscript').innerHTML=
+      '<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+    document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
+  }
 }
+function saveApiKey(){saveTeacherSettings();}
+function closeApiModal(){closeTeacherSettings();}
 
-async function nextRpTurn(){
-  if(!rpScene){toast('상황을 먼저 골라봐! 🎭');return;}
-  if(!rpTranscript){toast('대사를 먼저 말해봐! 🎤');return;}
-  addRpBubble('student', rpTranscript);
-  rpHistory.push({role:'student',text:rpTranscript});
-  rpTranscript='';rpInterim='';
-  document.getElementById('rpTranscript').innerHTML='<span class="tp">여기에 네 대사가 나타날 거야 ✨</span>';
-  document.getElementById('rpBtnRow').style.display='none';
-  document.getElementById('rpCurrentQ').style.display='none';
-  document.getElementById('rpLoading').style.display='flex';
 
-  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
-  const hist=rpHistory.map(h=>(h.role==='ai'?rpScene.aiRole+': ':rpScene.studentRole+': ')+h.text).join('\n');
-  const prompt='You are roleplaying as '+rpScene.aiRole+' in this situation: '+rpScene.situation+'. The student is playing: '+rpScene.studentRole+'. Conversation so far:\n'+hist+'\nContinue the roleplay naturally. SAFETY: if student said profanity/off-topic/gibberish, respond: LINE:Please stay in character and try again in English! LINEKO:역할에 맞게 영어로 다시 말해봐요! Otherwise respond with ONE natural line. Format ONLY:\nLINE:[English line]\nLINEKO:[Korean translation]';
+// ── STT 공통 오류 처리 함수 ──
 
-  try{
-    let line='', lineko='';
-    if(key){
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:200,messages:[{role:'user',content:prompt}]})
-      });
-      const data=await res.json();
-      const txt=data.content?.[0]?.text||'';
-      const lm=txt.match(/LINE:\s*(.+)/);
-      const km=txt.match(/LINEKO:\s*(.+)/);
-      line=lm?lm[1].trim():'Great! Keep going!';
-      lineko=km?km[1].trim():'잘하고 있어! 계속해봐!';
-    } else {
-      line="That's great! Tell me more!";
-      lineko='멋져요! 더 말해봐요!';
-    }
-    document.getElementById('rpLoading').style.display='none';
-    addRpBubble('ai', line, lineko);
-    rpHistory.push({role:'ai',text:line});
-    document.getElementById('rpAILine').textContent=line;
-    document.getElementById('rpAILineKo').textContent=lineko;
-    document.getElementById('rpCurrentQ').style.display='block';
-    document.getElementById('rpRecArea').style.display='block';
-    setTimeout(()=>rpSpeak(),400);
-    toast('🎭 AI가 대답했어요!');
-  }catch(e){
-    document.getElementById('rpLoading').style.display='none';
-    toast('오류가 났어요. 다시 시도해봐!');
+/** STT 결과 빈 문자열일 때 — 다시 시도 안내 */
+function showSttRetry(transcriptId, hintId, sectionId, retryFn){
+  const ta=document.getElementById(transcriptId);
+  const hint=document.getElementById(hintId);
+  if(ta) ta.innerHTML=
+    '<div style="color:#E53E3E;font-size:13px;line-height:1.7">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
+    +'<div style="margin-top:8px;display:flex;gap:8px">'
+    +'<button onclick="('+retryFn.toString()+')()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button>'
+    +'</div></div>';
+  if(hint) hint.textContent='음성을 다시 녹음해주세요 🎤';
+  // 다음 단계 버튼 비활성 유지
+  if(sectionId){
+    document.querySelectorAll('#'+sectionId+' button:not([onclick*="retryRec"]):not([onclick*="다시"])').forEach(b=>b.disabled=true);
   }
 }
 
-function endRoleplay(){
-  if(!rpTranscript&&rpHistory.filter(h=>h.role==='student').length===0){toast('역할극을 먼저 해봐! 🎭');return;}
-  if(rpTranscript){addRpBubble('student',rpTranscript);rpHistory.push({role:'student',text:rpTranscript});}
-  document.getElementById('rpRecArea').style.display='none';
-  document.getElementById('rpCurrentQ').style.display='none';
-  const endDiv=document.createElement('div');
-  endDiv.style.cssText='text-align:center;padding:16px;background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:11px;margin-top:8px';
-  endDiv.innerHTML='<div style="font-size:20px;margin-bottom:6px">🎉</div><div style="font-weight:800;color:#744210">역할극 완료! 정말 잘했어요!</div><div style="font-size:12px;color:#92400E;margin-top:4px">말하기 연습 탭으로 가서 AI 피드백도 받아봐요!</div>';
-  document.getElementById('rpHistory').appendChild(endDiv);
-  toast('🎭 역할극 완료! 수고했어요!');
-}
-
-// ── AI 튜터 ──
-async function askTutor(){
-  const input=document.getElementById('tutorInput');
-  const q=input.value.trim();
-  if(!q)return;
-  input.value='';
-  const hist=document.getElementById('tutorHistory');
-  // 학생 말풍선
-  const userDiv=document.createElement('div');
-  userDiv.style.cssText='display:flex;justify-content:flex-end;gap:8px;align-items:flex-start';
-  userDiv.innerHTML='<div style="background:linear-gradient(135deg,#E6FFFA,#F0FFF4);border-radius:12px 4px 12px 12px;padding:9px 12px;font-size:13px;max-width:80%;font-weight:600">'+q+'</div><div style="font-size:20px">👤</div>';
-  hist.appendChild(userDiv);
-  hist.scrollTop=99999;
-  document.getElementById('tutorLoading').style.display='flex';
-
-  const key=document.getElementById('apiKey').value.trim()||localStorage.getItem('talktalk_apikey')||'';
-  const prompt='You are a friendly AI tutor for Korean 5th grade students using the TALK:TALK ENGLISH app. Answer questions about the app, English learning, or the T-A-L-K model in simple Korean. If asked something inappropriate or off-topic from education, kindly redirect. Question: '+q;
-
-  try{
-    let answer='';
-    if(key){
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompt}]})
-      });
-      const data=await res.json();
-      answer=data.content?.[0]?.text||'죄송해요, 다시 질문해주세요!';
-    } else {
-      answer='TALK:TALK ENGLISH는 T(생각)-A(도전)-L(배움)-K(계속말하기) 4단계로 영어 말하기를 연습하는 앱이에요! 궁금한 게 있으면 더 물어봐요 😊';
-    }
-    document.getElementById('tutorLoading').style.display='none';
-    const aiDiv=document.createElement('div');
-    aiDiv.style.cssText='display:flex;gap:8px;align-items:flex-start';
-    aiDiv.innerHTML='<div style="font-size:20px">🤖</div><div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:4px 12px 12px 12px;padding:9px 12px;font-size:13px;max-width:85%;line-height:1.6">'+answer+'</div>';
-    hist.appendChild(aiDiv);
-    hist.scrollTop=99999;
-  }catch(e){
-    document.getElementById('tutorLoading').style.display='none';
-    toast('오류가 났어요. 다시 시도해봐!');
+/** STT 변환 오류일 때 — 오류 안내 */
+function showSttError(transcriptId, hintId, sectionId, errMsg, retryFn){
+  const ta=document.getElementById(transcriptId);
+  const hint=document.getElementById(hintId);
+  const friendly=friendlyNetworkError({message:errMsg});
+  if(ta) ta.innerHTML=
+    '<div style="color:#E53E3E;font-size:13px;line-height:1.7">❌ 음성 변환에 실패했어요.<br>'
+    +'<span style="font-size:12px;color:var(--text-soft)">'+friendly+'</span>'
+    +'<div style="margin-top:8px;display:flex;gap:8px">'
+    +'<button onclick="('+retryFn.toString()+')()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button>'
+    +'</div></div>';
+  if(hint) hint.textContent='다시 녹음해주세요 🎤';
+  if(sectionId){
+    document.querySelectorAll('#'+sectionId+' button').forEach(b=>b.disabled=true);
   }
 }
 
+/** AI 호출 실패 시 — 저장하지 않고 오류만 안내 */
+function showAiError(contentEl, errMsg, retryFn){
+  const friendly=friendlyNetworkError({message:errMsg});
+  contentEl.innerHTML='<div style="text-align:center;padding:22px">'
+    +'<div style="font-size:34px;margin-bottom:9px">😢</div>'
+    +'<div style="font-weight:700;margin-bottom:7px;color:#E53E3E">AI 연결에 실패했어요</div>'
+    +'<div style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6">'+friendly+'</div>'
+    +'<button class="btn btn-blue" style="width:auto;padding:9px 18px" onclick="('+retryFn.toString()+')()">🔄 다시 시도</button>'
+    +'</div>';
+}
 
-// ── 교사 환경 설정 ──
-function openTeacherSettings(){
-  // 저장된 값 불러오기
-  const s=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
-  document.getElementById('ts_school').value=s.school||'';
-  document.getElementById('ts_grade').value=s.grade||'';
-  document.getElementById('ts_class').value=s.class||'';
-  document.getElementById('ts_teacher').value=s.teacher||'';
-  document.getElementById('ts_sheets').value=s.sheets||SCRIPT_URL||'';
-  document.getElementById('ts_defaultTopic').value=s.defaultTopic||'';
-  document.getElementById('apiKeyInput').value=localStorage.getItem('talktalk_apikey')||'';
-  document.getElementById('ts_status').innerHTML='';
-  document.getElementById('apiModal').classList.add('open');
-  setTimeout(initSaveMode,50);
-}
-function saveTeacherSettings(){
-  const saveMode=document.querySelector('input[name="saveMode"]:checked')?.value||'local';
-  localStorage.setItem('talktalk_savemode',saveMode);
-  const key=document.getElementById('apiKeyInput').value.trim();
-  const sheets=saveMode==='sheets'?document.getElementById('ts_sheets').value.trim():'';
-  const pw=document.getElementById('ts_password').value.trim();
-  const settings={
-    school:document.getElementById('ts_school').value.trim(),
-    grade:document.getElementById('ts_grade').value.trim(),
-    class:document.getElementById('ts_class').value.trim(),
-    teacher:document.getElementById('ts_teacher').value.trim(),
-    sheets:sheets,
-    defaultTopic:document.getElementById('ts_defaultTopic').value,
-  };
-  localStorage.setItem('talktalk_settings',JSON.stringify(settings));
-  if(key){localStorage.setItem('talktalk_apikey',key);document.getElementById('apiKey').value=key;}
-  if(sheets)window.SCRIPT_URL_OVERRIDE=sheets;
-  if(pw&&pw.length>=3){localStorage.setItem('talktalk_pw',pw);}
-  document.getElementById('ts_status').innerHTML='<span style="color:var(--green)">✅ 저장 완료!</span>';
-  setTimeout(()=>closeTeacherSettings(),800);
-  toast('⚙️ 교사 환경 설정이 저장됐어요!');
-}
-function closeTeacherSettings(){
-  document.getElementById('apiModal').classList.remove('open');
-}
-function loadTeacherSettings(){
-  const key=localStorage.getItem('talktalk_apikey');
-  if(key){document.getElementById('apiKey').value=key;}
-  const settings=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
-  if(settings.sheets)window.SCRIPT_URL_OVERRIDE=settings.sheets;
-  if(settings.defaultTopic!==undefined&&settings.defaultTopic!==''){
-    setTimeout(()=>{selectTopic(parseInt(settings.defaultTopic));},300);
-  }
-}
 
 // ── 기기 점검 ──
-let checkRecording=false,checkRecognition=null,checkTranscriptText='';
+let checkRecording=false, checkRecognition=null, checkTranscriptText='';
+let checkAudioBlob=null, checkMediaRecorder=null;
+
 function openDeviceCheck(){
   document.getElementById('deviceCheckModal').classList.add('open');
   document.getElementById('checkList').innerHTML='';
   document.getElementById('checkRecArea').style.display='none';
   document.getElementById('checkResult').style.display='none';
   document.getElementById('checkStartBtn').style.display='block';
-  document.getElementById('checkTranscript').textContent='인식된 텍스트가 여기에 표시됩니다';
+  document.getElementById('checkStartBtn').textContent='🔍 점검 시작';
+  checkTranscriptText='';checkAudioBlob=null;
 }
 function closeDeviceCheck(){
   if(checkRecording)stopCheckRec();
@@ -1975,206 +1648,199 @@ function closeDeviceCheck(){
 }
 function addCheckItem(icon,text,ok){
   const div=document.createElement('div');
-  div.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 12px;background:'+(ok?'#E6FFFA':'#FFF5F5')+';border-radius:9px;font-size:13px;font-weight:600;color:'+(ok?'var(--green-dark)':'#C53030');
+  div.style.cssText='display:flex;align-items:center;gap:10px;padding:9px 12px;background:'+(ok?'#E6FFFA':'#FFF5F5')+';border-radius:9px;font-size:13px;font-weight:600;color:'+(ok?'var(--green-dark)':'#C53030');
   div.innerHTML='<span style="font-size:18px">'+(ok?'✅':'❌')+'</span>'+text;
   document.getElementById('checkList').appendChild(div);
 }
+function addGuide(msg,btns=''){
+  const div=document.createElement('div');
+  div.style.cssText='background:#FFFDE7;border-radius:8px;padding:10px 12px;font-size:12px;color:#744210;line-height:1.7;margin-top:-4px';
+  div.innerHTML='💡 '+msg+(btns?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">'+btns+'</div>':'');
+  document.getElementById('checkList').appendChild(div);
+}
+function btnS(label,onclick,bg){
+  bg=bg||'var(--blue)';
+  return '<button onclick="'+onclick+'" style="background:'+bg+';color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">'+label+'</button>';
+}
+function showRetryBtn(){
+  const div=document.createElement('div');div.style.marginTop='8px';
+  div.innerHTML='<button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;width:100%;font-family:inherit">🔍 다시 점검</button>';
+  document.getElementById('checkList').appendChild(div);
+}
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+
 async function startDeviceCheck(){
   const checkIsIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   const checkIsAndroid=/Android/.test(navigator.userAgent);
-  const checkIsEdge=/Edg\//.test(navigator.userAgent);
-  const osName=checkIsIOS?'iPhone/iPad':checkIsAndroid?'Android':'Windows/PC';
   document.getElementById('checkStartBtn').style.display='none';
   document.getElementById('checkList').innerHTML='';
   document.getElementById('checkRecArea').style.display='none';
   document.getElementById('checkResult').style.display='none';
-
-  function addGuide(msg, btnHtml=''){
-    const div=document.createElement('div');
-    div.style.cssText='background:#FFFDE7;border-radius:8px;padding:9px 12px;font-size:12px;color:#744210;line-height:1.6;margin-top:-4px';
-    div.innerHTML='💡 '+msg+(btnHtml?'<div style="margin-top:6px">'+btnHtml+'</div>':'');
-    document.getElementById('checkList').appendChild(div);
-  }
-  function reloadBtn(){return '<button onclick="location.reload()" style="background:#E53E3E;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;margin-right:6px">🔄 페이지 새로고침</button>';}
-  function retryBtn(){return '<button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">🔍 다시 점검</button>';}
+  checkTranscriptText='';checkAudioBlob=null;
 
   // 1. 브라우저
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  const hasMediaRecorder=typeof MediaRecorder!=='undefined';
-  const browserOk=!!SR&&hasMediaRecorder;
-  addCheckItem('🌐','브라우저: '+osName+' '+(checkIsEdge?'Edge':checkIsIOS?'Safari':checkIsAndroid?'Chrome':'Chrome/Edge'),browserOk);
-  if(!browserOk){
-    if(!SR) addGuide(checkIsIOS?'Safari 최신 버전을 사용해주세요.':'Chrome 또는 Edge 최신 버전을 사용해주세요.',reloadBtn()+retryBtn());
-    if(!hasMediaRecorder) addGuide('녹음 기능을 지원하지 않는 브라우저예요. Chrome을 사용해주세요.',reloadBtn());
-    document.getElementById('checkStartBtn').style.display='block';
-    document.getElementById('checkStartBtn').textContent='🔄 다시 점검';
-    return;
+  const hasMR=typeof MediaRecorder!=='undefined';
+  addCheckItem('🌐','브라우저 지원',hasMR);
+  if(!hasMR){
+    addGuide(checkIsIOS?'Safari 최신 버전을 사용해주세요.':'Chrome/Edge를 사용해주세요.',
+      btnS('🔄 새로고침','location.reload()','#E53E3E'));
+    showRetryBtn();return;
   }
-  await new Promise(r=>setTimeout(r,200));
+  await delay(200);
 
-  // 2. 마이크 + 녹음 + 재생 통합 테스트
-  let micStream=null;
+  // 2. 마이크 권한 + 녹음(2초) + 재생 확인
+  let micOk=false,recOk=false,playOk=false;
   try{
-    micStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    addCheckItem('🎤','마이크 권한 허용됨',true);
-  }catch(err){
-    let msg='마이크 권한이 거부됐어요.';
-    let guide='';
-    if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
-      if(checkIsIOS) guide='설정 → Safari → 마이크 → 허용으로 변경 후 '+reloadBtn();
-      else if(checkIsAndroid) guide='Chrome 주소창 🔒 → 마이크 → 허용 후 '+reloadBtn();
-      else guide='브라우저 주소창 🔒 아이콘 → 마이크 허용 후 '+reloadBtn();
-    }else if(err.name==='NotFoundError'){
-      msg='마이크 장치를 찾을 수 없어요.';
-      guide='마이크가 연결돼 있는지 확인해주세요.'+retryBtn();
-    }else if(err.name==='NotReadableError'){
-      msg='다른 앱이 마이크를 사용 중이에요.';
-      guide='다른 앱을 종료하고 '+reloadBtn();
-    }else{
-      guide=reloadBtn()+retryBtn();
-    }
-    addCheckItem('🎤',msg,false);
-    addGuide(guide);
-    document.getElementById('checkStartBtn').style.display='block';
-    document.getElementById('checkStartBtn').textContent='🔄 다시 점검';
-    return;
-  }
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    addCheckItem('🎤','마이크 권한',true);micOk=true;
 
-  // 3. MediaRecorder + 녹음 품질 테스트
-  const mimeTypes=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
-  const supportedMime=mimeTypes.find(m=>{try{return MediaRecorder.isTypeSupported(m);}catch(e){return false;}})||'';
-  let recOk=false, recBlob=null, recUrl='';
-  try{
+    // 2초 녹음
     const chunks=[];
-    const mr=new MediaRecorder(micStream, supportedMime?{mimeType:supportedMime}:{});
-    const actualMime=mr.mimeType||supportedMime||'audio/webm';
+    const mimes=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+    const mime=mimes.find(m=>{try{return MediaRecorder.isTypeSupported(m);}catch(e){return false;}})||'';
+    const mr=new MediaRecorder(stream,mime?{mimeType:mime}:{});
     mr.ondataavailable=e=>{if(e.data&&e.data.size>0)chunks.push(e.data);};
     mr.start(100);
-    await new Promise(r=>setTimeout(r,1200)); // 1초 이상 녹음
+    await delay(2000);
     mr.stop();
-    await new Promise(r=>setTimeout(r,300));
+    await delay(500);
+    stream.getTracks().forEach(t=>t.stop());
+    const actualMime=mr.mimeType||mime||'audio/webm';
     if(chunks.length>0){
-      recBlob=new Blob(chunks,{type:actualMime});
-      if(recBlob.size>0){
-        recUrl=URL.createObjectURL(recBlob);
-        recOk=true;
+      checkAudioBlob=new Blob(chunks,{type:actualMime});
+      recOk=checkAudioBlob.size>100;
+    }
+    addCheckItem('🔴','녹음 ('+actualMime.split(';')[0]+')',recOk);
+    if(!recOk){addGuide('녹음 데이터 생성 실패.',btnS('🔄 새로고침','location.reload()','#E53E3E')+btnS('🔍 다시 점검','startDeviceCheck()'));showRetryBtn();return;}
+
+    // 재생 확인
+    try{
+      const url=URL.createObjectURL(checkAudioBlob);
+      const audio=new Audio(url);
+      await Promise.race([
+        new Promise(res=>{audio.oncanplay=res;audio.load();}),
+        delay(2000)
+      ]);
+      playOk=true;
+    }catch(e){playOk=false;}
+    addCheckItem('▶️','녹음 재생',playOk);
+    if(!playOk&&checkIsIOS) addGuide('iOS에서 재생이 제한될 수 있어요. 수업에서는 정상 작동합니다.');
+
+  }catch(err){
+    let msg='마이크 권한이 허용되지 않았습니다.';
+    let guide='';
+    if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
+      if(checkIsIOS) guide='설정 앱 → Safari → 마이크 → 허용으로 변경해주세요.';
+      else if(checkIsAndroid) guide='Chrome 주소창 🔒 → 마이크 → 허용을 눌러주세요.';
+      else guide='브라우저 주소창 왼쪽 🔒 → 마이크 → 허용을 눌러주세요.';
+      addCheckItem('🎤',msg,false);
+      addGuide(guide,btnS('🎤 권한 재요청',"navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{s.getTracks().forEach(t=>t.stop());startDeviceCheck();}).catch(()=>location.reload())","var(--green)")+btnS('🔄 새로고침','location.reload()','#E53E3E'));
+    }else{
+      addCheckItem('🎤','마이크 오류: '+err.name,false);
+      addGuide('페이지를 새로고침 후 다시 시도해주세요.',btnS('🔄 새로고침','location.reload()','#E53E3E'));
+    }
+    showRetryBtn();return;
+  }
+  await delay(200);
+
+  // 3. Worker STT 테스트 (실제 녹음 파일로)
+  const workerUrl=getWorkerUrl();
+  if(workerUrl&&checkAudioBlob){
+    addCheckItem('🗣️','OpenAI STT 연결 테스트',true); // 임시
+    // 실제 STT
+    document.getElementById('checkRecArea').style.display='block';
+    document.getElementById('checkRecHint').textContent='🔄 녹음 파일로 STT 변환 중...';
+    try{
+      const t=await transcribeAudio(checkAudioBlob);
+      if(t&&t.trim()){
+        checkTranscriptText=t.trim();
+        document.getElementById('checkTranscript').textContent=checkTranscriptText;
+        // 성공 처리
+        const items=document.querySelectorAll('#checkList [style*="E6FFFA"],[style*="FFF5F5"]');
+        // STT 성공 표시
+        document.getElementById('checkRecHint').textContent='✅ STT 변환 성공!';
+        addCheckItem('✍️','STT 변환: "'+checkTranscriptText.slice(0,30)+'"',true);
+      }else{
+        addCheckItem('✍️','STT 변환 — 텍스트 없음',false);
+        addGuide('녹음이 너무 짧거나 무음이었어요. 다시 점검해주세요.',btnS('🔍 다시 점검','startDeviceCheck()'));
       }
-    }
-    addCheckItem('🔴','녹음 기능 ('+actualMime.split(';')[0]+')',recOk);
-    if(!recOk) addGuide('녹음 데이터가 생성되지 않았어요. '+reloadBtn()+retryBtn());
-  }catch(e){
-    addCheckItem('🔴','녹음 기능 (MediaRecorder)',false);
-    addGuide('MediaRecorder 오류: '+e.message+' '+reloadBtn());
-  }
-
-  // 4. 재생 테스트
-  if(recOk&&recUrl){
-    try{
-      const audio=new Audio(recUrl);
-      await new Promise((resolve,reject)=>{
-        audio.oncanplay=()=>resolve(true);
-        audio.onerror=()=>reject(new Error('재생 불가'));
-        audio.load();
-        setTimeout(()=>resolve(true),1500); // 타임아웃 허용
-      });
-      addCheckItem('▶️','녹음 재생',true);
     }catch(e){
-      addCheckItem('▶️','녹음 재생',false);
-      if(checkIsIOS) addGuide('Safari에서 재생이 안 될 수 있어요. 수업에서는 정상 작동합니다.');
-      else addGuide('재생 오류: '+e.message+' '+retryBtn());
+      addCheckItem('✍️','STT 변환 실패',false);
+      addGuide(friendlyNetworkError(e),btnS('⚙️ 설정 확인','openTeacherSettings()')+btnS('🔍 다시 점검','startDeviceCheck()'));
     }
+    document.getElementById('checkRecArea').style.display='none';
+  }else if(!workerUrl){
+    addCheckItem('🗣️','음성인식 (SpeechRecognition)',!!SR);
+    if(!SR) addGuide(checkIsIOS?'Safari 최신 버전을 사용해주세요.':'Chrome/Edge를 사용해주세요.');
+    // SR 테스트 (마이크 직접 말하기)
+    if(SR) document.getElementById('checkRecArea').style.display='block';
   }
+  await delay(200);
 
-  // 5. SpeechRecognition 테스트
-  addCheckItem('🗣️','음성인식 (SpeechRecognition)',!!SR);
-  if(!SR) addGuide(checkIsIOS?'Safari 최신 버전을 사용해주세요.':'Chrome/Edge를 사용해주세요.',reloadBtn());
-
-  // 스트림 정리
-  if(micStream) micStream.getTracks().forEach(t=>t.stop());
-  await new Promise(r=>setTimeout(r,200));
-
-  // 6. Claude API
-  const apiKey=localStorage.getItem('talktalk_apikey')||document.getElementById('apiKey')?.value||'';
-  if(apiKey){
+  // 4. AI 연결
+  if(workerUrl){
     try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:10,messages:[{role:'user',content:'Hi'}]})
-      });
-      addCheckItem('🤖','Claude AI 연결',res.ok);
-      if(!res.ok) addGuide('API Key를 확인해주세요. 교사 환경 설정에서 다시 입력해보세요.',retryBtn());
+      const res=await Promise.race([
+        fetch(workerUrl+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:'ping',max_tokens:5})}),
+        delay(8000).then(()=>{throw new Error('타임아웃');})
+      ]);
+      addCheckItem('🤖','AI 연결 (Worker)',res.ok);
+      if(!res.ok) addGuide('Worker 오류 ('+res.status+').',btnS('⚙️ 설정','openTeacherSettings()')+btnS('🔍 다시 점검','startDeviceCheck()'));
     }catch(e){
-      addCheckItem('🤖','Claude AI 연결 실패',false);
-      addGuide('인터넷 연결을 확인하거나 API Key를 다시 입력해주세요.',retryBtn());
+      addCheckItem('🤖','AI 연결 실패',false);
+      let guide=friendlyNetworkError(e);
+      if(checkIsIOS) guide+='<br>iPhone: 설정 → Safari → 개인정보 보호 → 교차 사이트 추적 OFF';
+      else if(checkIsAndroid) guide+='<br>Android: Chrome 재실행 후 다시 시도';
+      else guide+='<br>Windows: 방화벽/VPN 설정을 확인해주세요.';
+      addGuide(guide,btnS('⚙️ 설정 확인','openTeacherSettings()')+btnS('🔍 다시 점검','startDeviceCheck()'));
     }
   }else{
-    addCheckItem('🤖','Claude AI (API Key 미설정)',false);
-    addGuide('⚙️ 교사 환경 설정에서 API Key를 입력해주세요.');
+    addCheckItem('🤖','Worker URL 미설정',false);
+    addGuide('교사 환경 설정에서 Worker URL을 입력해주세요.',btnS('⚙️ 교사 설정','openTeacherSettings()'));
   }
 
-  // 7. Google Sheets
+  // 5. Google Sheets
   const sheetsUrl=window.SCRIPT_URL_OVERRIDE||SCRIPT_URL||'';
   if(sheetsUrl){
     try{
-      const res=await fetch(sheetsUrl,{signal:AbortSignal.timeout(5000)});
+      const res=await Promise.race([fetch(sheetsUrl),delay(5000).then(()=>{throw new Error('타임아웃');})]);
       addCheckItem('📊','Google Sheets 연결',res.ok);
-      if(!res.ok) addGuide('Sheets URL을 확인해주세요. 내 기기에 저장 모드도 사용 가능해요.',retryBtn());
     }catch(e){
       addCheckItem('📊','Google Sheets 연결 실패',false);
-      addGuide('네트워크 오류 또는 URL을 확인해주세요. 내 기기에 저장 모드도 사용 가능해요.',retryBtn());
+      addGuide('내 기기 저장 모드로 사용 가능해요.',btnS('🔍 다시 점검','startDeviceCheck()'));
     }
   }else{
-    addCheckItem('📊','Google Sheets 미설정',true);
-    addGuide('✅ 내 기기에 저장 모드로 정상 사용 가능해요!');
+    addCheckItem('📊','Google Sheets 미설정 (선택)',true);
   }
 
-  // 음성인식 실제 테스트
-  if(SR){
-    document.getElementById('checkRecArea').style.display='block';
-  }else{
-    // 전체 결과
-    const items=document.getElementById('checkList').querySelectorAll('div');
-    const failed=[...items].filter(d=>d.style.background.includes('FFF5F5'));
-    if(failed.length===0){
-      document.getElementById('checkResult').style.display='block';
-    }
-  }
+  // 모든 항목 성공 여부
+  const failed=document.getElementById('checkList').querySelectorAll('[style*="FFF5F5"]');
+  if(failed.length===0&&!workerUrl) document.getElementById('checkResult').style.display='block';
 
-  // 다시 점검 버튼 항상 표시
-  const retryDiv=document.createElement('div');
-  retryDiv.style.marginTop='8px';
-  retryDiv.innerHTML='<button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;width:100%">🔍 다시 점검</button>';
-  document.getElementById('checkList').appendChild(retryDiv);
+  showRetryBtn();
 }
+
 function toggleCheckRec(){if(checkRecording)stopCheckRec();else startCheckRec();}
+
 function startCheckRec(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR)return;
-  checkRecording=true;checkTranscriptText='';
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  checkRecording=true;checkTranscriptText='';
   function runCheck(){
     if(!checkRecording)return;
-    const r=new SR();r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
+    const r=new SR();r.lang='en-US';r.continuous=!isIOS;r.interimResults=!isIOS;
     let sf='';
     r.onresult=e=>{
-      let final='',interim='';
       for(let i=e.resultIndex;i<e.results.length;i++){
-        if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
-        else interim+=e.results[i][0].transcript;
+        if(e.results[i].isFinal)sf+=e.results[i][0].transcript+' ';
       }
-      if(final.trim())checkTranscriptText=(checkTranscriptText+' '+final).trim();
-      document.getElementById('checkTranscript').textContent=checkTranscriptText||(interim||'말하는 중...');
-      document.getElementById('checkTranscript').style.color=checkTranscriptText?'var(--text)':'var(--text-soft)';
+      if(sf.trim())checkTranscriptText=(checkTranscriptText+' '+sf).trim();
+      const el=document.getElementById('checkTranscript');
+      if(el){el.textContent=checkTranscriptText||'말하는 중...';el.style.color=checkTranscriptText?'var(--text)':'var(--text-soft)';}
     };
-    r.onend=()=>{
-      // onend에서 마지막 interim 확정 저장
-      const displayed=document.getElementById('checkTranscript')?.textContent||'';
-      if(!checkTranscriptText&&displayed&&displayed!=='말하는 중...'&&displayed!=='인식된 텍스트가 여기에 표시됩니다'){
-        checkTranscriptText=displayed;
-      }
-      if(checkRecording)setTimeout(runCheck,50);
-    };
+    r.onend=()=>{if(checkRecording)setTimeout(runCheck,isIOS?200:50);};
     r.onerror=()=>{if(checkRecording)setTimeout(runCheck,300);};
     r.start();checkRecognition=r;
   }
@@ -2183,50 +1849,339 @@ function startCheckRec(){
   document.getElementById('checkRecBtn').style.background='linear-gradient(135deg,#E53E3E,#B71C1C)';
   document.getElementById('checkRecHint').textContent='말하는 중... 끝나면 다시 눌러요!';
 }
+
 function stopCheckRec(){
   checkRecording=false;
+  if(checkMediaRecorder&&checkMediaRecorder.state!=='inactive'){try{checkMediaRecorder.stop();}catch(e){}}
   if(checkRecognition){try{checkRecognition.abort();}catch(e){}}
   document.getElementById('checkRecBtn').textContent='🎤';
   document.getElementById('checkRecBtn').style.background='linear-gradient(135deg,#FC8181,#E53E3E)';
-  document.getElementById('checkRecHint').textContent='음성인식 테스트 완료!';
-  const isIOSCheck=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  setTimeout(()=>{
-    // checkTranscript 화면에서도 확인 (iOS 타이밍 대응)
-    const displayed=document.getElementById('checkTranscript')?.textContent||'';
-    if(!checkTranscriptText&&displayed&&displayed!=='인식된 텍스트가 여기에 표시됩니다') checkTranscriptText=displayed;
-    if(checkTranscriptText&&checkTranscriptText.trim().length>0){
-      addCheckItem('✍️','음성인식: "'+checkTranscriptText.trim().slice(0,40)+'"',true);
-      document.getElementById('checkRecArea').style.display='none';
-      document.getElementById('checkResult').style.display='block';
-    }else{
-      addCheckItem('✍️','음성인식 실패 — 텍스트 미감지',false);
-      const guideDiv=document.createElement('div');
-      guideDiv.style.cssText='background:#FFFDE7;border-radius:8px;padding:9px 12px;font-size:12px;color:#744210;line-height:1.7;margin-top:-4px';
-      guideDiv.innerHTML='💡 '+(isIOSCheck
-        ?'조용한 곳에서 또렷하게 말해보세요.<br>Safari → 설정 → 마이크가 허용인지 확인하세요.'
-        :'조용한 환경에서 마이크에 가까이 대고 말해보세요.<br>Chrome 주소창 🔒 → 마이크 허용 확인')
-        +'<div style="margin-top:6px"><button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;margin-right:6px">🔍 다시 점검</button><button onclick="location.reload()" style="background:#E53E3E;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">🔄 새로고침</button></div>';
-      document.getElementById('checkList').appendChild(guideDiv);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  if(checkAudioBlob&&getWorkerUrl()){
+    document.getElementById('checkRecHint').textContent='🔄 음성을 변환하고 있어요...';
+    transcribeAudio(checkAudioBlob).then(t=>{
+      if(t&&t.trim()){
+        checkTranscriptText=t.trim();
+        document.getElementById('checkTranscript').textContent=checkTranscriptText;
+        addCheckItem('✍️','STT 변환: "'+checkTranscriptText.slice(0,40)+'"',true);
+        document.getElementById('checkRecArea').style.display='none';
+        document.getElementById('checkResult').style.display='block';
+      }else{
+        addCheckItem('✍️','STT 변환 실패 — 텍스트 없음',false);
+        addGuide('더 크게 또렷하게 말해봐요.',btnS('🔍 다시 점검','startDeviceCheck()')+btnS('🔄 새로고침','location.reload()','#E53E3E'));
+      }
+    }).catch(e=>{
+      addCheckItem('✍️','STT 오류: '+e.message.slice(0,30),false);
+      addGuide(friendlyNetworkError(e),btnS('🔍 다시 점검','startDeviceCheck()'));
+    });
+  }else{
+    setTimeout(()=>{
+      const displayed=document.getElementById('checkTranscript')?.textContent||'';
+      if(!checkTranscriptText&&displayed&&displayed!=='말하는 중...'&&displayed!=='인식된 텍스트가 여기에 표시됩니다') checkTranscriptText=displayed;
+      if(checkTranscriptText&&checkTranscriptText.trim().length>0){
+        addCheckItem('✍️','음성인식: "'+checkTranscriptText.trim().slice(0,40)+'"',true);
+        document.getElementById('checkRecArea').style.display='none';
+        document.getElementById('checkResult').style.display='block';
+      }else{
+        addCheckItem('✍️','음성인식 실패',false);
+        const g=document.createElement('div');
+        g.style.cssText='background:#FFFDE7;border-radius:8px;padding:10px 12px;font-size:12px;color:#744210;line-height:1.7;margin-top:-4px';
+        g.innerHTML='💡 '+(isIOS?'조용한 곳에서 Safari로 다시 시도해주세요.':'조용한 환경에서 Chrome으로 말해봐요.')
+          +'<div style="margin-top:8px;display:flex;gap:6px"><button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer">🔍 다시 점검</button></div>';
+        document.getElementById('checkList').appendChild(g);
+      }
+    },isIOS?800:400);
+  }
+}
+
+// ── Worker URL 가져오기 ──
+function getWorkerUrl(){return localStorage.getItem('talktalk_worker_url')||WORKER_URL||'';}
+
+/** 네트워크 오류 메시지 친절하게 변환 */
+function friendlyNetworkError(e){
+  const msg=(e&&e.message)||String(e)||'';
+  if(msg.includes('타임아웃')||msg.includes('timeout')) return '⏱️ 응답 시간 초과. 인터넷 연결을 확인해주세요.';
+  if(msg.includes('Failed to fetch')||msg.includes('NetworkError')) return '📶 인터넷 연결이 불안정해요. 연결 후 다시 시도해주세요.';
+  if(msg.includes('401')||msg.includes('403')) return '🔑 API 인증 오류. Worker 설정을 확인해주세요.';
+  if(msg.includes('429')) return '⚠️ API 호출 한도 초과. 잠시 후 다시 시도해주세요.';
+  if(msg.includes('500')||msg.includes('502')||msg.includes('503')) return '🔧 서버 오류. 잠시 후 다시 시도해주세요.';
+  return '❌ '+msg.slice(0,80);
+}
+
+// ── 공통 STT 함수 ──
+// 모든 녹음 단계(자유말하기/AI대화/역할극/기기점검)에서 동일하게 사용
+// Worker /transcribe → gpt-4o-mini-transcribe → 텍스트 반환
+// 실패 시 throw (절대 빈 문자열/fallback 반환하지 않음)
+async function transcribeAudio(blob){
+  const w=getWorkerUrl();
+  if(!w) throw new Error('Worker URL이 설정되지 않았어요. 교사 환경 설정에서 입력해주세요.');
+  const mime=blob.type||'audio/webm';
+  const extMap={'audio/webm':'webm','audio/mp4':'mp4','audio/m4a':'m4a','audio/ogg':'ogg','audio/wav':'wav','audio/mpeg':'mp3'};
+  const ext=extMap[mime.split(';')[0]]||'webm';
+  const filename='audio.'+ext;
+  const fd=new FormData();
+  fd.append('audio',new File([blob],filename,{type:mime}),filename);
+  fd.append('mime',mime);
+  let res;
+  try{
+    res=await Promise.race([
+      fetch(w+'/transcribe',{method:'POST',body:fd}),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('STT 타임아웃 (30초)')),30000))
+    ]);
+  }catch(e){
+    if(e.message.includes('fetch')) throw new Error('Worker 연결 실패. URL을 확인해주세요.');
+    throw e;
+  }
+  if(!res.ok){
+    const errText=await res.text().catch(()=>'');
+    throw new Error('STT 오류 ('+res.status+'): '+errText.slice(0,100));
+  }
+  const d=await res.json();
+  return d.text||'';
+}
+
+// callAI: Cloudflare Worker(GPT)를 통한 AI 호출
+async function callAI(sys,usr,maxTokens=1000){
+  const w=getWorkerUrl();
+  if(!w) throw new Error('⚙️ Worker URL을 교사 환경 설정에서 입력해주세요.');
+  const TIMEOUT_MS=30000;
+  try{
+    const res=await Promise.race([
+      fetch(w+'/generate',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({system:sys,user:usr,max_tokens:maxTokens})
+      }),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('AI 응답 타임아웃 (30초)')),TIMEOUT_MS))
+    ]);
+    if(!res.ok){const t=await res.text().catch(()=>'');throw new Error('Worker 오류 ('+res.status+'): '+t.slice(0,80));}
+    const d=await res.json();
+    return d.text||d.content||'';
+  }catch(e){
+    throw new Error(friendlyNetworkError(e));
+  }
+}
+
+
+// Worker 코드 클립보드 복사
+function copyWorkerCode(){
+  const code=`/**
+ * TALK:TALK ENGLISH — Cloudflare Worker
+ *
+ * 환경변수 설정 (Cloudflare Dashboard → Worker → Settings → Variables):
+ *   OPENAI_API_KEY = sk-...
+ *
+ * 엔드포인트:
+ *   POST /transcribe  — 음성 파일 → 텍스트 (gpt-4o-mini-transcribe)
+ *   POST /generate    — 텍스트 → AI 피드백/질문 (gpt-4o-mini)
+ */
+
+// ── 모델 상수 (변경 시 여기만 수정) ──
+const STT_MODEL = 'gpt-4o-mini-transcribe';
+const LLM_MODEL = 'gpt-4o-mini';
+
+// ── 허용 Origin 목록 ──
+const ALLOWED_ORIGINS = [
+  'https://hoyhoyyo-web.github.io',
+  'http://localhost',
+  'http://127.0.0.1',
+];
+
+// ── CORS 헤더 생성 (request 기반) ──
+function getCorsHeaders(request) {
+  const origin = request.headers.get('Origin') || '';
+  const allowed = ALLOWED_ORIGINS.some(o => origin.startsWith(o));
+  return {
+    'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+}
+
+// ── JSON 응답 헬퍼 (request를 받아 CORS 헤더 포함) ──
+function jsonRes(request, data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      ...getCorsHeaders(request),
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export default {
+  async fetch(request, env) {
+
+    // ── OPTIONS preflight ──
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: getCorsHeaders(request),
+      });
     }
-  },800);
+
+    const url = new URL(request.url);
+
+    // ────────────────────────────────────────
+    // POST /transcribe — 음성 → 텍스트
+    // ────────────────────────────────────────
+    if (url.pathname === '/transcribe' && request.method === 'POST') {
+      try {
+        const formData = await request.formData();
+        const audioFile = formData.get('audio');
+
+        if (!audioFile) {
+          return jsonRes(request, { error: 'audio 파일이 필요합니다.' }, 400);
+        }
+
+        // MIME Type에 맞는 파일명 자동 설정
+        const mime = audioFile.type || formData.get('mime') || 'audio/webm';
+        const extMap = {
+          'audio/webm': 'webm',
+          'audio/mp4': 'mp4',
+          'audio/m4a': 'm4a',
+          'audio/ogg': 'ogg',
+          'audio/wav': 'wav',
+          'audio/mpeg': 'mp3',
+        };
+        const ext = extMap[mime.split(';')[0]] || 'webm';
+        const filename = 'audio.' + ext;
+
+        const openAIForm = new FormData();
+        openAIForm.append('file', new File([await audioFile.arrayBuffer()], filename, { type: mime }), filename);
+        openAIForm.append('model', STT_MODEL);
+        openAIForm.append('language', 'en');
+
+        const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: { 'Authorization': \`Bearer \${env.OPENAI_API_KEY}\` },
+          body: openAIForm,
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          return jsonRes(request, { error: 'STT 오류 (' + res.status + ')', detail: errText }, res.status);
+        }
+
+        const data = await res.json();
+        return jsonRes(request, { text: data.text || '' });
+
+      } catch (e) {
+        return jsonRes(request, { error: 'STT 처리 오류: ' + e.message }, 500);
+      }
+    }
+
+    // ────────────────────────────────────────
+    // POST /generate — 텍스트 → AI 피드백/질문
+    // ────────────────────────────────────────
+    if (url.pathname === '/generate' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { system, user, max_tokens = 1000 } = body;
+
+        if (!user) {
+          return jsonRes(request, { error: 'user 메시지가 필요합니다.' }, 400);
+        }
+
+        const messages = [];
+        if (system) messages.push({ role: 'system', content: system });
+        messages.push({ role: 'user', content: user });
+
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': \`Bearer \${env.OPENAI_API_KEY}\`,
+          },
+          body: JSON.stringify({
+            model: LLM_MODEL,
+            max_tokens: Math.min(max_tokens, 2000), // 최대 2000으로 제한
+            messages,
+          }),
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          return jsonRes(request, { error: 'GPT 오류 (' + res.status + ')', detail: errText }, res.status);
+        }
+
+        const data = await res.json();
+        const text = data.choices?.[0]?.message?.content || '';
+        return jsonRes(request, { text });
+
+      } catch (e) {
+        return jsonRes(request, { error: 'GPT 처리 오류: ' + e.message }, 500);
+      }
+    }
+
+    // ── 알 수 없는 경로 ──
+    return jsonRes(request, {
+      error: '잘못된 경로입니다.',
+      endpoints: ['POST /transcribe', 'POST /generate'],
+    }, 404);
+  }
+};
+`;
+  navigator.clipboard.writeText(code).then(()=>{
+    toast('✅ Worker 코드가 복사됐어요! Playground에 붙여넣어주세요.');
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=code;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ Worker 코드가 복사됐어요! Playground에 붙여넣어주세요.');
+  });
+}
+// ── 교사 환경 설정 ──
+function loadTeacherSettings(){
+  const wu=localStorage.getItem('talktalk_worker_url');
+  if(wu){WORKER_URL=wu;}
+  const settings=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
+  if(settings.sheets)window.SCRIPT_URL_OVERRIDE=settings.sheets;
 }
 
+function openTeacherSettings(){
+  const s=JSON.parse(localStorage.getItem('talktalk_settings')||'{}');
+  const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  setVal('ts_school',s.school);setVal('ts_grade',s.grade);
+  setVal('ts_class',s.class);setVal('ts_teacher',s.teacher);
+  setVal('ts_sheets',s.sheets||'');
+  setVal('ts_defaultTopic',s.defaultTopic||'');
+  setVal('ts_worker',localStorage.getItem('talktalk_worker_url')||'');
+  const el=document.getElementById('ts_status');if(el)el.innerHTML='';
+  document.getElementById('apiModal').classList.add('open');
+}
 
-// ── Google Sheets 저장 방식 토글 ──
-function initSaveMode(){
-  const local=document.getElementById('sm_local');
-  const sheets=document.getElementById('sm_sheets');
-  const adv=document.getElementById('sheetsAdvanced');
-  if(!local||!sheets||!adv)return;
-  const saved=localStorage.getItem('talktalk_savemode')||'local';
-  if(saved==='sheets'){sheets.checked=true;adv.style.display='block';}
-  else{local.checked=true;adv.style.display='none';}
-  local.addEventListener('change',()=>{adv.style.display='none';});
-  sheets.addEventListener('change',()=>{adv.style.display='block';});
+function saveTeacherSettings(){
+  const getVal=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
+  const workerInput=getVal('ts_worker');
+  if(workerInput){localStorage.setItem('talktalk_worker_url',workerInput);WORKER_URL=workerInput;}
+  const sheets=getVal('ts_sheets');
+  if(sheets)window.SCRIPT_URL_OVERRIDE=sheets;
+  const pw=getVal('ts_password');
+  if(pw&&pw.length>=3)localStorage.setItem('talktalk_pw',pw);
+  const settings={
+    school:getVal('ts_school'),grade:getVal('ts_grade'),
+    class:getVal('ts_class'),teacher:getVal('ts_teacher'),
+    sheets,defaultTopic:getVal('ts_defaultTopic'),
+  };
+  localStorage.setItem('talktalk_settings',JSON.stringify(settings));
+  const el=document.getElementById('ts_status');
+  if(el)el.innerHTML='<span style="color:var(--green)">✅ 저장 완료!</span>';
+  setTimeout(()=>closeTeacherSettings(),800);
+  toast('⚙️ 교사 환경 설정이 저장됐어요!');
 }
-function showSheetsHelp(){
-  document.getElementById('sheetsHelpModal').classList.add('open');
+
+function closeTeacherSettings(){
+  document.getElementById('apiModal').classList.remove('open');
 }
+
+// 호환성 유지
+function openApiSetting(){openTeacherSettings();}
+function saveApiKey(){saveTeacherSettings();}
+function closeApiModal(){closeTeacherSettings();}
+
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 </script>

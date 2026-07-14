@@ -1,12 +1,7 @@
 {
   "version": 2,
-  "functions": {
-    "api/transcribe.js": { "maxDuration": 30 },
-    "api/generate.js": { "maxDuration": 30 }
-  },
   "routes": [
-    { "src": "/api/transcribe", "dest": "/api/transcribe.js" },
-    { "src": "/api/generate", "dest": "/api/generate.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

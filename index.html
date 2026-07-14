@@ -605,9 +605,9 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
         <span style="font-size:11px;color:var(--text-soft)">다른 선생님도 Worker URL만 입력하면 바로 사용할 수 있어요!</span>
       </div>
       <div>
-        <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">AI 서버 주소 (Worker URL)</label>
+        <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">AI 서버 주소 (Vercel 배포 URL)</label>
         <input id="ts_worker" type="text"
-          placeholder="https://talktalk-english.workers.dev"
+          placeholder="https://your-project.vercel.app/api"
           style="width:100%;border:2px solid var(--blue);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
         <div style="font-size:11px;color:var(--text-soft);margin-top:5px">예) https://xxxxx.workers.dev</div>
         <!-- Worker 발급 도움말 -->
@@ -1895,7 +1895,17 @@ function stopCheckRec(){
 }
 
 // ── Worker URL 가져오기 ──
-function getWorkerUrl(){return localStorage.getItem('talktalk_worker_url')||WORKER_URL||'';}
+function getWorkerUrl(){
+  // Vercel 배포 시 자동으로 현재 도메인의 /api 사용
+  // 로컬 테스트: http://localhost:3000/api
+  const saved=localStorage.getItem('talktalk_worker_url');
+  if(saved)return saved;
+  // Vercel: 현재 페이지가 vercel 도메인이면 /api 사용
+  if(location.hostname.includes('vercel.app')||location.hostname==='localhost'){
+    return location.origin+'/api';
+  }
+  return WORKER_URL||'';
+}
 
 /** 네트워크 오류 메시지 친절하게 변환 */
 function friendlyNetworkError(e){

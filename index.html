@@ -197,7 +197,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="header">
   <div class="header-title">TALK<span>:</span>TALK <span style="font-size:15px;font-weight:700;letter-spacing:1px;opacity:0.9">ENGLISH</span></div>
   <div class="header-sub">✨ 톡톡 잉글리쉬 — AI 영어 스피치 코치</div>
-  <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px;letter-spacing:0.3px">AI와 톡톡 말하며 똑똑해지는 영어 스피치 교실</div>
+  <div style="font-size:11px;color:#FFE066;margin-top:2px;letter-spacing:0.3px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.2)">✨ AI와 톡톡 말하며 똑똑해지는 영어 스피치 교실</div>
   <button class="header-key-btn" onclick="openTeacherSettings()">🔑 교사 설정</button>
 </div>
 
@@ -461,16 +461,59 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
     <div class="step-body">
       <!-- 사용 방법 -->
       <div style="margin-bottom:16px">
-        <div style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border-radius:11px;padding:13px 15px;margin-bottom:14px;border:2px solid #DDD6FE">
-        <div style="font-size:12px;font-weight:800;color:#553C9A;margin-bottom:8px">🌐 일반화 가능성 — 어디서든 사용 가능!</div>
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text);line-height:1.6">
-          <div>📱 <strong>스마트폰</strong> — QR코드 스캔으로 즉시 접속</div>
-          <div>💻 <strong>태블릿 / PC</strong> — 브라우저에서 바로 사용</div>
-          <div>🏫 <strong>교실 수업</strong> — 개별 · 모둠 · 전체 활동</div>
-          <div>🏠 <strong>가정 학습</strong> — 자기주도 복습 가능</div>
-          <div>🔗 <strong>설치 불필요</strong> — 앱 다운로드 없이 링크만으로</div>
-          <div>📊 <strong>교사 대시보드</strong> — 학생 성장 실시간 확인</div>
-          <div>♾️ <strong>2022 교육과정 연계</strong> — 천재교육 5학년 영어 전 단원</div>
+        <!-- 앱 소개 카드들 -->
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+        <!-- 핵심 장점 -->
+        <div style="background:linear-gradient(135deg,#FFFDE7,#FEF9C3);border-radius:12px;padding:13px 15px;border:2px solid #F6E05E">
+          <div style="font-size:13px;font-weight:800;color:#744210;margin-bottom:8px">⭐ TALK:TALK ENGLISH 이렇게 달라요!</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#744210;line-height:1.6">
+            <div>🤖 <strong>AI가 직접 피드백</strong> — 교사 없이도 즉각적인 영어 코칭</div>
+            <div>🗣️ <strong>진짜 말하기 연습</strong> — 읽기·쓰기 아닌 실제 음성으로</div>
+            <div>💬 <strong>AI와 3턴 대화</strong> — 단순 녹음이 아닌 실제 대화 연습</div>
+            <div>🎭 <strong>역할극으로 확장</strong> — 실생활 영어 상황 12가지</div>
+            <div>📊 <strong>성장 기록 자동화</strong> — 점수·도전횟수 그래프로 한눈에</div>
+          </div>
+        </div>
+        <!-- 이렇게 사용해요 -->
+        <div style="background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;border:2px solid #90CDF4">
+          <div style="font-size:13px;font-weight:800;color:var(--blue-dark);margin-bottom:8px">📖 이렇게 사용해요!</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text);line-height:1.6">
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">
+              🏫 <strong>수업 중</strong> — QR 띄우기 → 학생들 스캔 → 개별 말하기 연습
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">
+              🏠 <strong>과제로</strong> — 링크 공유 → 가정에서 자기주도 복습
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">
+              👩‍🏫 <strong>교사 확인</strong> — 교사 대시보드에서 전체 학생 현황 파악
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:7px 10px">
+              📱 <strong>모든 기기</strong> — 스마트폰·태블릿·PC, 설치 없이 QR 하나로!
+            </div>
+          </div>
+        </div>
+        <!-- 교육과정 연계 -->
+        <div style="background:linear-gradient(135deg,#F0FFF4,#C6F6D5);border-radius:12px;padding:13px 15px;border:2px solid #9AE6B4">
+          <div style="font-size:13px;font-weight:800;color:var(--green-dark);margin-bottom:8px">📚 2022 교육과정 완벽 연계!</div>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--green-dark);line-height:1.6">
+            <div>✅ 천재교육 5학년 영어 <strong>전 단원(L1~L12)</strong> 수록</div>
+            <div>✅ 핵심 표현 기반 AI 질문 자동 생성</div>
+            <div>✅ <strong>말하기 역량</strong> 중심 — 듣기·읽기·쓰기 → 말하기로!</div>
+            <div>✅ T(생각)→A(도전)→L(배움)→K(계속말하기) 체계적 학습</div>
+          </div>
+        </div>
+        <!-- 일반화 가능성 -->
+        <div style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border-radius:12px;padding:13px 15px;border:2px solid #DDD6FE">
+          <div style="font-size:13px;font-weight:800;color:#553C9A;margin-bottom:8px">🌐 어디서든 사용 가능해요!</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+            <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">📱<br><strong>스마트폰</strong><br><span style="font-size:10px;color:var(--text-soft)">QR 스캔으로</span></div>
+            <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">💻<br><strong>태블릿/PC</strong><br><span style="font-size:10px;color:var(--text-soft)">브라우저로</span></div>
+            <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">🏫<br><strong>교실 수업</strong><br><span style="font-size:10px;color:var(--text-soft)">개별·모둠</span></div>
+            <div style="background:#fff;border-radius:8px;padding:7px;text-align:center;color:#553C9A">🏠<br><strong>가정 학습</strong><br><span style="font-size:10px;color:var(--text-soft)">자기주도</span></div>
+          </div>
+          <div style="font-size:11px;color:#553C9A;margin-top:8px;text-align:center;font-weight:700">
+            🔗 설치 불필요 · 앱 다운로드 없이 링크만으로!
+          </div>
         </div>
       </div>
       <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">📖 TALK:TALK ENGLISH 사용 방법</div>
@@ -549,7 +592,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 
 
 <!-- Google Sheets 도움말 모달 -->
-<div class="modal-bg" id="sheetsHelpModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-bg" id="sheetsHelpModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="max-width:400px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
       <h2>📊 Google Sheets 연동 안내</h2>
@@ -573,7 +616,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 </div>
 
 <!-- Google Sheets 설정 방법 모달 -->
-<div class="modal-bg" id="sheetsGuideModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-bg" id="sheetsGuideModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="max-width:400px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
       <h2>📋 Google Sheets 설정 방법</h2>
@@ -673,14 +716,32 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
           </div>
         </label>
       </div>
-      <!-- Google Sheets 고급 설정 (숨김) -->
-      <div id="sheetsAdvanced" style="display:none;background:#EBF8FF;border-radius:10px;padding:12px 14px;border:1px solid #BEE3F8">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">Google Sheets Web App URL</div>
-          <button onclick="showSheetsHelp()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--blue)" title="도움말">ⓘ</button>
+      <!-- Google Sheets 고급 설정 -->
+      <div id="sheetsAdvanced" style="display:none;background:#EBF8FF;border-radius:10px;padding:13px 14px;border:1px solid #BEE3F8">
+        <!-- 설정 순서 안내 -->
+        <div style="background:#fff;border-radius:8px;padding:11px 13px;margin-bottom:10px;border:1px solid #BEE3F8">
+          <div style="font-size:12px;font-weight:800;color:var(--blue-dark);margin-bottom:7px">📋 Google Sheets 연동 순서</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.8">
+            <div>① <a href="https://docs.google.com/spreadsheets" target="_blank" style="color:var(--blue);font-weight:700">Google Sheets</a> 새 스프레드시트 만들기</div>
+            <div>② 상단 메뉴 <strong>확장 프로그램 → Apps Script</strong> 클릭</div>
+            <div>③ 제공된 스크립트 코드 붙여넣기 후 저장</div>
+            <div>④ <strong>배포 → 새 배포 → 웹 앱</strong> 선택</div>
+            <div>⑤ 액세스: <strong>모든 사용자</strong> → 배포 클릭</div>
+            <div>⑥ 생성된 URL을 아래에 붙여넣기 ↓</div>
+          </div>
+
         </div>
-        <input id="ts_sheets" type="text" placeholder="https://script.google.com/macros/s/..." style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none;background:#fff">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:6px">⚠️ Google Sheets를 사용하지 않아도 웹앱은 정상 작동해요.</div>
+        <!-- URL 입력 -->
+        <button onclick="showSheetsHelp()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px">📖 자세한 설명 보기</button>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <div style="font-size:12px;font-weight:800;color:var(--blue-dark)">Web App URL 입력</div>
+          <button onclick="showSheetsHelp()" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--blue);padding:0" title="도움말">ⓘ</button>
+        </div>
+        <input id="ts_sheets" type="text" placeholder="https://script.google.com/macros/s/여기에붙여넣기/exec" style="width:100%;border:2px solid #4A90E2;border-radius:8px;padding:8px 10px;font-size:12px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
+        <div style="font-size:11px;color:#2B6CB0;margin-top:6px;line-height:1.5">
+          💡 URL은 <code style="background:#fff;padding:1px 4px;border-radius:3px">https://script.google.com</code> 으로 시작해요.<br>
+          ℹ️ Google Sheets 없이도 모든 기능 정상 사용 가능해요!
+        </div>
       </div>
       <div><label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:3px">교사용 비밀번호</label>
       <input id="ts_password" type="password" placeholder="변경 시 입력 (현재: tt501)" style="width:100%;border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none"></div>
@@ -743,7 +804,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 
 
 <!-- Google Sheets 도움말 모달 -->
-<div class="modal-bg" id="sheetsHelpModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-bg" id="sheetsHelpModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="max-width:400px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#3182CE)">
       <h2>📊 Google Sheets 연동 안내</h2>
@@ -767,7 +828,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 </div>
 
 <!-- Google Sheets 설정 방법 모달 -->
-<div class="modal-bg" id="sheetsGuideModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-bg" id="sheetsGuideModal" style="z-index:2000" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="max-width:400px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#276749,#48BB78)">
       <h2>📋 Google Sheets 설정 방법</h2>
@@ -2106,7 +2167,14 @@ function startCheckRec(){
       document.getElementById('checkTranscript').textContent=checkTranscriptText||(interim||'말하는 중...');
       document.getElementById('checkTranscript').style.color=checkTranscriptText?'var(--text)':'var(--text-soft)';
     };
-    r.onend=()=>{if(checkRecording)setTimeout(runCheck,50);};
+    r.onend=()=>{
+      // onend에서 마지막 interim 확정 저장
+      const displayed=document.getElementById('checkTranscript')?.textContent||'';
+      if(!checkTranscriptText&&displayed&&displayed!=='말하는 중...'&&displayed!=='인식된 텍스트가 여기에 표시됩니다'){
+        checkTranscriptText=displayed;
+      }
+      if(checkRecording)setTimeout(runCheck,50);
+    };
     r.onerror=()=>{if(checkRecording)setTimeout(runCheck,300);};
     r.start();checkRecognition=r;
   }
@@ -2123,6 +2191,9 @@ function stopCheckRec(){
   document.getElementById('checkRecHint').textContent='음성인식 테스트 완료!';
   const isIOSCheck=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   setTimeout(()=>{
+    // checkTranscript 화면에서도 확인 (iOS 타이밍 대응)
+    const displayed=document.getElementById('checkTranscript')?.textContent||'';
+    if(!checkTranscriptText&&displayed&&displayed!=='인식된 텍스트가 여기에 표시됩니다') checkTranscriptText=displayed;
     if(checkTranscriptText&&checkTranscriptText.trim().length>0){
       addCheckItem('✍️','음성인식: "'+checkTranscriptText.trim().slice(0,40)+'"',true);
       document.getElementById('checkRecArea').style.display='none';
@@ -2137,7 +2208,7 @@ function stopCheckRec(){
         +'<div style="margin-top:6px"><button onclick="startDeviceCheck()" style="background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;margin-right:6px">🔍 다시 점검</button><button onclick="location.reload()" style="background:#E53E3E;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">🔄 새로고침</button></div>';
       document.getElementById('checkList').appendChild(guideDiv);
     }
-  },400);
+  },800);
 }
 
 

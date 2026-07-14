@@ -607,9 +607,9 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       <div>
         <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">AI 서버 주소 (Vercel 배포 URL)</label>
         <input id="ts_worker" type="text"
-          placeholder="https://your-project.vercel.app/api"
+          placeholder="https://7-five-drab.vercel.app/api"
           style="width:100%;border:2px solid var(--blue);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:5px">예) https://xxxxx.workers.dev</div>
+        <div style="font-size:11px;color:var(--text-soft);margin-top:5px">예) https://7-five-drab.vercel.app/api</div>
         <!-- Worker 발급 도움말 -->
         <div style="background:#F0FFF4;border-radius:10px;padding:12px 14px;margin-top:10px;border:1px solid #9AE6B4">
           <div style="font-size:12px;font-weight:800;color:var(--green-dark);margin-bottom:8px">🚀 Worker URL 발급 방법 (5분)</div>
@@ -662,7 +662,7 @@ const LS_KEY='talktalk_v3';
 // ── AI 모델 상수 (변경 시 여기만 수정) ──
 const STT_MODEL='gpt-4o-mini-transcribe'; // OpenAI STT 모델
 const LLM_MODEL='gpt-4o-mini';           // OpenAI LLM 모델
-let WORKER_URL=localStorage.getItem('talktalk_worker_url')||'';
+let WORKER_URL=localStorage.getItem('talktalk_worker_url')||'https://7-five-drab.vercel.app/api';
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbynhiZH5eaonk_RcZy4tZpdQSnlaVuhYg2499EuAmLGxq75ZfT8HwF-tPF9akmyefe_iw/exec';
 
 const FREE_TOPICS=[
@@ -1896,15 +1896,10 @@ function stopCheckRec(){
 
 // ── Worker URL 가져오기 ──
 function getWorkerUrl(){
-  // Vercel 배포 시 자동으로 현재 도메인의 /api 사용
-  // 로컬 테스트: http://localhost:3000/api
+  // Vercel API 서버 고정
   const saved=localStorage.getItem('talktalk_worker_url');
-  if(saved)return saved;
-  // Vercel: 현재 페이지가 vercel 도메인이면 /api 사용
-  if(location.hostname.includes('vercel.app')||location.hostname==='localhost'){
-    return location.origin+'/api';
-  }
-  return WORKER_URL||'';
+  if(saved&&saved.trim())return saved.trim();
+  return 'https://7-five-drab.vercel.app/api';
 }
 
 /** 네트워크 오류 메시지 친절하게 변환 */

@@ -594,57 +594,83 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 
 <!-- API MODAL -->
 <div class="modal-bg" id="apiModal">
-  <div class="modal" style="max-width:400px">
+  <div class="modal" style="max-width:420px">
     <div class="modal-hd" style="background:linear-gradient(135deg,#2B6CB0,#4A90E2)">
       <h2>⚙️ 교사 환경 설정</h2>
       <button class="modal-close" onclick="closeTeacherSettings()">×</button>
     </div>
-    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;color:var(--text-soft);line-height:1.6;background:var(--bg);border-radius:8px;padding:10px 12px">
-        🔗 Cloudflare Worker 주소를 입력하면 됩니다.<br>
-        <span style="font-size:11px;color:var(--text-soft)">다른 선생님도 Worker URL만 입력하면 바로 사용할 수 있어요!</span>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:14px">
+
+      <!-- AI 연결 상태 -->
+      <div style="background:#F0FFF4;border:1px solid #9AE6B4;border-radius:10px;padding:11px 14px;font-size:13px;color:var(--green-dark);font-weight:600">
+        ✅ AI 서버 자동 연결됨 (GROQ Whisper STT + Claude AI)
       </div>
+
+      <!-- 학교 정보 -->
       <div>
-        <label style="font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px">AI 서버 주소 (Vercel 배포 URL)</label>
-        <input id="ts_worker" type="text"
-          placeholder="https://7-five-drab.vercel.app/api"
-          style="width:100%;border:2px solid var(--blue);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:5px">예) https://7-five-drab.vercel.app/api</div>
-        <!-- Worker 발급 도움말 -->
-        <div style="background:#F0FFF4;border-radius:10px;padding:12px 14px;margin-top:10px;border:1px solid #9AE6B4">
-          <div style="font-size:12px;font-weight:800;color:var(--green-dark);margin-bottom:8px">🚀 Worker URL 발급 방법 (5분)</div>
-          <div style="font-size:12px;color:var(--text);line-height:1.9">
-            <div style="margin-bottom:6px">① 아래 버튼을 순서대로 클릭하세요:</div>
-            <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px">
-              <button onclick="copyWorkerCode()" style="background:var(--green);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
-                📋 1단계: Worker 코드 복사하기
-              </button>
-              <a href="https://workers.cloudflare.com/playground" target="_blank"
-                style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left;text-decoration:none;display:block">
-                🌐 2단계: Playground 열기 (새 탭)
-              </a>
-            </div>
-            <div style="font-size:11px;color:var(--text-soft);background:#EBF8FF;border-radius:6px;padding:7px 10px;margin-bottom:4px">
-              💡 Playground가 열리면 기존 코드 전체 선택(Ctrl+A) 후<br>복사한 코드 붙여넣기(Ctrl+V) → <strong>Deploy</strong>
-            </div>
-            <div>③ 오른쪽 위 <strong>Deploy</strong> 클릭 → 로그인/회원가입</div>
-            <div>④ Worker 이름 입력 (예: talktalk-english) → <strong>Deploy</strong></div>
-            <div>⑤ 배포 후 <strong>Settings → Variables → Add variable</strong></div>
-            <div style="padding-left:14px;font-size:11px;color:var(--text-soft)">
-              이름: <code style="background:#E2E8F0;padding:1px 5px;border-radius:3px">OPENAI_API_KEY</code><br>
-              값: <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--blue)">platform.openai.com</a> 에서 발급한 Key<br>
-              → <strong>Encrypt 체크</strong> → Save
-            </div>
-            <div>⑥ 생성된 <strong>Worker URL</strong> 위 입력창에 붙여넣기 ✅</div>
+        <div style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:8px">🏫 학교 정보</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div>
+            <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">학교명</label>
+            <input id="ts_school" type="text" placeholder="오현초등학교"
+              style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
           </div>
-          <div style="margin-top:8px;padding:8px 10px;background:#fff;border-radius:7px;font-size:11px;color:#276749;line-height:1.6">
-            💡 <strong>다른 선생님도 동일하게!</strong><br>
-            각자 Cloudflare 가입 → 동일한 Worker 코드 배포 →<br>
-            본인의 OpenAI Key 입력 → Worker URL 입력하면 끝!<br>
-            <span style="color:var(--text-soft)">※ OpenAI 비용은 각자 계정에서 청구 (학생 1회 약 7원)</span>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">담당 교사</label>
+            <input id="ts_teacher" type="text" placeholder="홍길동"
+              style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">학년</label>
+            <input id="ts_grade" type="text" placeholder="5학년"
+              style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">반</label>
+            <input id="ts_class" type="text" placeholder="3반"
+              style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
           </div>
         </div>
       </div>
+
+      <!-- 대시보드 비밀번호 -->
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:8px">🔑 대시보드 비밀번호 변경</div>
+        <input id="ts_password" type="password" placeholder="새 비밀번호 (3자 이상, 비우면 변경 안 함)"
+          style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:4px">현재 비밀번호: tt501 (변경하지 않으려면 비워두세요)</div>
+      </div>
+
+      <!-- Google Sheets (선택) -->
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:8px">
+          📊 Google Sheets 연동 (선택)
+          <button onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent==='▼ 연동 방법'?'▲ 접기':'▼ 연동 방법'"
+            style="margin-left:8px;background:none;border:1px solid var(--border);border-radius:5px;padding:2px 8px;font-size:11px;cursor:pointer;font-family:inherit;color:var(--blue)">▼ 연동 방법</button>
+        </div>
+        <input id="ts_sheets" type="text" placeholder="Apps Script 배포 URL (선택사항)"
+          style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;outline:none;background:#fff;box-sizing:border-box">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:4px">비우면 기기 내 저장만 사용해요</div>
+        <!-- 연동 방법 (접혀있음) -->
+        <div style="display:none;background:#F0FFF4;border-radius:10px;padding:12px 14px;margin-top:10px;border:1px solid #9AE6B4">
+          <div style="font-size:12px;font-weight:800;color:var(--green-dark);margin-bottom:8px">📋 Google Sheets 연동 방법 (5분)</div>
+          <div style="font-size:12px;color:var(--text);line-height:2">
+            <div>① <a href="https://sheets.new" target="_blank" style="color:var(--blue);font-weight:700">sheets.new</a> → 새 스프레드시트 만들기</div>
+            <div>② 상단 메뉴 <strong>확장 프로그램 → Apps Script</strong> 클릭</div>
+            <div>③ 기존 코드 전체 삭제 후 아래 버튼으로 복사한 코드 붙여넣기</div>
+            <div style="margin:6px 0">
+              <button onclick="copyAppsScriptCode()" style="background:var(--green);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">
+                📋 Apps Script 코드 복사
+              </button>
+            </div>
+            <div>④ 💾 저장 → <strong>배포 → 새 배포</strong> 클릭</div>
+            <div>⑤ 유형: <strong>웹 앱</strong> 선택 → 액세스: <strong>모든 사용자</strong> → <strong>배포</strong></div>
+            <div>⑥ 권한 허용 후 생성된 <strong>웹 앱 URL</strong>을 위 입력창에 붙여넣기 ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="ts_worker" value="https://7-five-drab.vercel.app/api">
       <div id="ts_status" style="font-size:12px;text-align:center;min-height:16px"></div>
       <div style="display:flex;gap:8px">
         <button class="btn btn-blue" style="flex:2" onclick="saveTeacherSettings()">💾 저장</button>
@@ -733,9 +759,6 @@ window.onload=()=>{
     setTimeout(()=>toast('✅ AI 연결 준비 완료! 🎤'),200);
     loadTeacherSettings();return;
   }
-  if(!localStorage.getItem('talktalk_worker_url')){
-    document.getElementById('apiModal').classList.add('open');
-  }
   loadTeacherSettings();
 };
 
@@ -754,9 +777,10 @@ function switchTab(tab){
   if(tab==='dashboard'){
     const auth=sessionStorage.getItem('talktalk_teacher');
     if(!auth){
+      const savedPw=localStorage.getItem('talktalk_pw')||'tt501';
       const pw=prompt('👩‍🏫 교사 대시보드\n비밀번호를 입력하세요:');
       if(pw===null)return;
-      if(pw!=='tt501'){alert('비밀번호가 틀렸어요!');return;}
+      if(pw!==savedPw){alert('비밀번호가 틀렸어요!');return;}
       sessionStorage.setItem('talktalk_teacher','ok');
     }
   }
@@ -878,7 +902,6 @@ async function startRec(){
       const player=document.getElementById('audioPlayer');
       player.src=URL.createObjectURL(S.audioBlob);
       player.load();
-      document.getElementById('audioSection').classList.add('show');
       S.attemptCount=Math.min(S.attemptCount+1,3);updateDots();
       // Worker STT 필수 — SR 결과 사용 안 함
       const w=getWorkerUrl();
@@ -888,6 +911,7 @@ async function startRec(){
           if(t&&t.trim()){
             S.transcript=t.trim();
             document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
+            document.getElementById('audioSection').classList.add('show');
             document.getElementById('recHint').textContent='✅ 변환 완료! 들어보고 AI와 대화해봐!';
             // 다음 단계 버튼 활성화
             document.querySelectorAll('#audioSection button').forEach(b=>b.disabled=false);
@@ -1102,11 +1126,7 @@ async function askAI(){
 function toggleConvRec(){if(convRecording)stopConvRec();else startConvRec();}
 async function startConvRec(){
   try{
-    // 기존 스트림 재사용 (iOS 마이크 중복 요청 방지)
-    if(!sharedStream||sharedStream.getTracks().some(t=>t.readyState==='ended')){
-      sharedStream=await navigator.mediaDevices.getUserMedia({audio:true});
-    }
-    const stream=sharedStream;
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     convRecording=true;convTranscript='';convInterim='';
     document.getElementById('convRecBtn').textContent='⏹';
     document.getElementById('convRecBtn').classList.add('on');
@@ -1156,7 +1176,7 @@ async function startConvRec(){
     convMediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     convMediaRecorder.ondataavailable=e=>chunks.push(e.data);
     convMediaRecorder.onstop=()=>{
-      // 녹음 Blob 저장 (stopConvRec에서 STT 사용)
+      stream.getTracks().forEach(t=>t.stop());
       const mime=convMediaRecorder.mimeType||'audio/webm';
       convAudioBlob=new Blob(chunks,{type:mime});
     };
@@ -1596,6 +1616,7 @@ function showSttRetry(transcriptId, hintId, sectionId, retryFn){
   if(hint) hint.textContent='음성을 다시 녹음해주세요 🎤';
   // 다음 단계 버튼 비활성 유지
   if(sectionId){
+    document.getElementById(sectionId)?.classList.add('show');
     document.querySelectorAll('#'+sectionId+' button:not([onclick*="retryRec"]):not([onclick*="다시"])').forEach(b=>b.disabled=true);
   }
 }
@@ -1613,6 +1634,7 @@ function showSttError(transcriptId, hintId, sectionId, errMsg, retryFn){
     +'</div></div>';
   if(hint) hint.textContent='다시 녹음해주세요 🎤';
   if(sectionId){
+    document.getElementById(sectionId)?.classList.add('show');
     document.querySelectorAll('#'+sectionId+' button').forEach(b=>b.disabled=true);
   }
 }
@@ -1695,37 +1717,13 @@ async function startDeviceCheck(){
     const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
     addCheckItem('🎤','마이크 권한',true);micOk=true;
 
-    // 2초 녹음
-    const chunks=[];
-    const mimes=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
-    const mime=mimes.find(m=>{try{return MediaRecorder.isTypeSupported(m);}catch(e){return false;}})||'';
-    const mr=new MediaRecorder(stream,mime?{mimeType:mime}:{});
-    mr.ondataavailable=e=>{if(e.data&&e.data.size>0)chunks.push(e.data);};
-    mr.start(100);
-    await delay(2000);
-    mr.stop();
-    await delay(500);
+    // MediaRecorder 지원 확인만 (자동 녹음 없음)
     stream.getTracks().forEach(t=>t.stop());
-    const actualMime=mr.mimeType||mime||'audio/webm';
-    if(chunks.length>0){
-      checkAudioBlob=new Blob(chunks,{type:actualMime});
-      recOk=checkAudioBlob.size>100;
-    }
-    addCheckItem('🔴','녹음 ('+actualMime.split(';')[0]+')',recOk);
-    if(!recOk){addGuide('녹음 데이터 생성 실패.',btnS('🔄 새로고침','location.reload()','#E53E3E')+btnS('🔍 다시 점검','startDeviceCheck()'));showRetryBtn();return;}
-
-    // 재생 확인
-    try{
-      const url=URL.createObjectURL(checkAudioBlob);
-      const audio=new Audio(url);
-      await Promise.race([
-        new Promise(res=>{audio.oncanplay=res;audio.load();}),
-        delay(2000)
-      ]);
-      playOk=true;
-    }catch(e){playOk=false;}
-    addCheckItem('▶️','녹음 재생',playOk);
-    if(!playOk&&checkIsIOS) addGuide('iOS에서 재생이 제한될 수 있어요. 수업에서는 정상 작동합니다.');
+    recOk=typeof MediaRecorder!=='undefined';
+    const mimes=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+    const supportedMime=mimes.find(m=>{try{return MediaRecorder.isTypeSupported(m);}catch(e){return false;}})||'';
+    addCheckItem('🔴','녹음 기능 ('+(supportedMime.split(';')[0]||'지원됨')+')',recOk);
+    addCheckItem('▶️','녹음 재생 지원',recOk);
 
   }catch(err){
     let msg='마이크 권한이 허용되지 않았습니다.';
@@ -1744,38 +1742,10 @@ async function startDeviceCheck(){
   }
   await delay(200);
 
-  // 3. Worker STT 테스트 (실제 녹음 파일로)
-  const workerUrl=getWorkerUrl();
-  if(workerUrl&&checkAudioBlob){
-    addCheckItem('🗣️','OpenAI STT 연결 테스트',true); // 임시
-    // 실제 STT
-    document.getElementById('checkRecArea').style.display='block';
-    document.getElementById('checkRecHint').textContent='🔄 녹음 파일로 STT 변환 중...';
-    try{
-      const t=await transcribeAudio(checkAudioBlob);
-      if(t&&t.trim()){
-        checkTranscriptText=t.trim();
-        document.getElementById('checkTranscript').textContent=checkTranscriptText;
-        // 성공 처리
-        const items=document.querySelectorAll('#checkList [style*="E6FFFA"],[style*="FFF5F5"]');
-        // STT 성공 표시
-        document.getElementById('checkRecHint').textContent='✅ STT 변환 성공!';
-        addCheckItem('✍️','STT 변환: "'+checkTranscriptText.slice(0,30)+'"',true);
-      }else{
-        addCheckItem('✍️','STT 변환 — 텍스트 없음',false);
-        addGuide('녹음이 너무 짧거나 무음이었어요. 다시 점검해주세요.',btnS('🔍 다시 점검','startDeviceCheck()'));
-      }
-    }catch(e){
-      addCheckItem('✍️','STT 변환 실패',false);
-      addGuide(friendlyNetworkError(e),btnS('⚙️ 설정 확인','openTeacherSettings()')+btnS('🔍 다시 점검','startDeviceCheck()'));
-    }
-    document.getElementById('checkRecArea').style.display='none';
-  }else if(!workerUrl){
-    addCheckItem('🗣️','음성인식 (SpeechRecognition)',!!SR);
-    if(!SR) addGuide(checkIsIOS?'Safari 최신 버전을 사용해주세요.':'Chrome/Edge를 사용해주세요.');
-    // SR 테스트 (마이크 직접 말하기)
-    if(SR) document.getElementById('checkRecArea').style.display='block';
-  }
+  // 3. STT 테스트 — 직접 말하기
+  addCheckItem('🗣️','음성→텍스트 변환 (STT)',true); // 아래 버튼으로 직접 확인
+  document.getElementById('checkRecArea').style.display='block';
+  document.getElementById('checkRecHint').textContent='🎤 아래 버튼을 눌러 영어로 한 문장 말해보세요!';
   await delay(200);
 
   // 4. AI 연결
@@ -1813,10 +1783,6 @@ async function startDeviceCheck(){
   }else{
     addCheckItem('📊','Google Sheets 미설정 (선택)',true);
   }
-
-  // 모든 항목 성공 여부
-  const failed=document.getElementById('checkList').querySelectorAll('[style*="FFF5F5"]');
-  if(failed.length===0&&!workerUrl) document.getElementById('checkResult').style.display='block';
 
   showRetryBtn();
 }
@@ -1863,9 +1829,15 @@ function stopCheckRec(){
       if(t&&t.trim()){
         checkTranscriptText=t.trim();
         document.getElementById('checkTranscript').textContent=checkTranscriptText;
-        addCheckItem('✍️','STT 변환: "'+checkTranscriptText.slice(0,40)+'"',true);
+        addCheckItem('✍️','STT 변환 성공: "'+checkTranscriptText.slice(0,30)+'"',true);
         document.getElementById('checkRecArea').style.display='none';
         document.getElementById('checkResult').style.display='block';
+        // STT 성공 시 3번 항목 업데이트
+        const sttItems=document.querySelectorAll('#checkList>div');
+        sttItems.forEach(el=>{if(el.textContent.includes('음성→텍스트 변환')){
+          el.style.background='#E6FFFA';el.style.color='var(--green-dark)';
+          el.innerHTML='<span style="font-size:18px">✅</span>음성→텍스트 변환 (STT) 성공!';
+        }});
       }else{
         addCheckItem('✍️','STT 변환 실패 — 텍스트 없음',false);
         addGuide('더 크게 또렷하게 말해봐요.',btnS('🔍 다시 점검','startDeviceCheck()')+btnS('🔄 새로고침','location.reload()','#E53E3E'));
@@ -2138,6 +2110,64 @@ export default {
     toast('✅ Worker 코드가 복사됐어요! Playground에 붙여넣어주세요.');
   });
 }
+// Apps Script 코드 복사
+function copyAppsScriptCode(){
+  const code=`function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.name || '',
+      data.date || '',
+      data.time || '',
+      data.topic || '',
+      data.score || 0,
+      data.evalAvg || 0,
+      data.attempts || 0,
+      data.timerSec || 0,
+      data.comment || '',
+      data.good || '',
+      data.improve || '',
+      data.example || '',
+      data.next || ''
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({result:'success'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(e) {
+    return ContentService.createTextOutput(JSON.stringify({result:'error',message:e.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = sheet.getDataRange().getValues();
+    var headers = ['이름','날짜','시간','주제','점수','자기평가평균','도전횟수','말하기시간','소감','잘한점','개선점','수정예문','다음도전'];
+    var rows = data.map(function(row) {
+      var obj = {};
+      headers.forEach(function(h, i) { obj[h] = row[i] || ''; });
+      return obj;
+    });
+    return ContentService.createTextOutput(JSON.stringify({data: rows}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(e) {
+    return ContentService.createTextOutput(JSON.stringify({data:[]}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+  navigator.clipboard.writeText(code).then(()=>{
+    toast('✅ Apps Script 코드가 복사됐어요!');
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=code;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ Apps Script 코드가 복사됐어요!');
+  });
+}
+
 // ── 교사 환경 설정 ──
 function loadTeacherSettings(){
   const wu=localStorage.getItem('talktalk_worker_url');

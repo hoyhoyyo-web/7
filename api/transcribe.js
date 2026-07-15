@@ -8,7 +8,7 @@
 
 export const config = { api: { bodyParser: false } };
 
-const STT_MODEL = 'gpt-4o-mini-transcribe';
+const STT_MODEL = 'whisper-1';
 
 export default async function handler(req, res) {
   // CORS

@@ -1,14 +1,12 @@
 /**
  * Vercel Serverless Function
- * POST /api/transcribe
- * 음성 파일 → 텍스트 (gpt-4o-mini-transcribe)
+ * POST /api/generate
+ * 텍스트 → AI 피드백/질문 (gpt-4o-mini)
  *
  * 환경변수: OPENAI_API_KEY
  */
 
-export const config = { api: { bodyParser: false } };
-
-const STT_MODEL = 'gpt-4o-mini-transcribe';
+const LLM_MODEL = 'gpt-4o-mini';
 
 export default async function handler(req, res) {
   // CORS
@@ -22,52 +20,54 @@ export default async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY가 설정되지 않았습니다.' });
 
+  let body;
   try {
-    // multipart/form-data 파싱
-    const chunks = [];
-    for await (const chunk of req) chunks.push(chunk);
-    const buffer = Buffer.concat(chunks);
+    body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  } catch (e) {
+    return res.status(400).json({ error: '요청 본문 파싱 실패' });
+  }
 
-    // Content-Type에서 boundary 추출
-    const contentType = req.headers['content-type'] || '';
-    if (!contentType.includes('multipart/form-data')) {
-      return res.status(400).json({ error: 'multipart/form-data 형식이 필요합니다.' });
-    }
+  const { system, user, max_tokens = 1000 } = body || {};
 
-    // OpenAI로 그대로 전달
-    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+  if (!user) return res.status(400).json({ error: 'user 메시지가 필요합니다.' });
+
+  try {
+    const messages = [];
+    if (system) messages.push({ role: 'system', content: system });
+    messages.push({ role: 'user', content: user });
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + apiKey,
-        'Content-Type': contentType, // boundary 포함 그대로 전달
       },
-      body: buffer,
+      body: JSON.stringify({
+        model: LLM_MODEL,
+        max_tokens: Math.min(Number(max_tokens) || 1000, 2000),
+        messages,
+      }),
       signal: AbortSignal.timeout(30000),
     });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('OpenAI STT 오류:', response.status, errText);
+      console.error('OpenAI GPT 오류:', response.status, errText);
       return res.status(response.status).json({
-        error: 'STT 오류 (' + response.status + ')',
+        error: 'GPT 오류 (' + response.status + ')',
         detail: errText,
       });
     }
 
     const data = await response.json();
-    const text = (data.text || '').trim();
-
-    if (!text) {
-      return res.status(200).json({ text: '', empty: true });
-    }
-
+    const text = data.choices?.[0]?.message?.content || '';
     return res.status(200).json({ text });
 
   } catch (e) {
-    console.error('transcribe 오류:', e);
+    console.error('generate 오류:', e);
     if (e.name === 'TimeoutError') {
-      return res.status(504).json({ error: 'STT 요청 타임아웃 (30초)' });
+      return res.status(504).json({ error: 'AI 응답 타임아웃 (30초)' });
     }
-    return res.status(500).json({ error: 'STT 처리 오류: ' + e.message });
+    return res.status(500).json({ error: 'GPT 처리 오류: ' + e.message });
   }
 }

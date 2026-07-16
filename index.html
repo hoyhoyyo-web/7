@@ -1764,6 +1764,77 @@ function selectRpScene(idx){
   document.getElementById('rpSceneBox').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+
+// ── 역할극 계속하기 ──
+async function nextRpTurn(){
+  if(!rpScene||!rpTranscript.trim()) return;
+
+  // 학생 대사 히스토리에 추가
+  rpHistory.push({role:'student', text:rpTranscript});
+  addRpBubble('student', rpTranscript);
+
+  // 버튼 숨기기
+  document.getElementById('rpBtnRow').style.display='none';
+  document.getElementById('rpTranscript').innerHTML='<span style="color:#A0AEC0">🤖 AI가 다음 대사를 준비하고 있어요...</span>';
+
+  // AI 다음 대사 생성
+  const sys='너는 역할극에서 "'+rpScene.aiRole+'" 역할을 맡은 영어 회화 파트너야. 학생은 "'+rpScene.studentRole+'" 역할이야. 상황: '+rpScene.situation+'. 핵심 표현: '+(rpScene.expressions||[]).join(', ')+'. 규칙: 영어로만, 초등학생 수준, 자연스럽게 대화 이어가기, 1~2문장, 다음 대화 유도.';
+
+  const history=rpHistory.map(h=>h.role==='student'?'Student: '+h.text:'You ('+rpScene.aiRole+'): '+h.text).join('\n');
+  const usr='대화 내용:\n'+history+'\n\n다음 자연스러운 영어 대사를 1~2문장으로 해줘. JSON으로 {"en":"영어대사","ko":"한국어해석"} 형태로만 답해.';
+
+  try{
+    const txt=await callAI(sys,usr,200);
+    let en='', ko='';
+    try{
+      const clean=txt.replace(/```json|```/g,'').trim();
+      const parsed=JSON.parse(clean);
+      en=parsed.en||'';
+      ko=parsed.ko||'';
+    }catch(e){
+      en=txt.replace(/\{.*\}/s,'').trim()||txt;
+      ko='';
+    }
+
+    if(!en){
+      document.getElementById('rpTranscript').innerHTML='<span style="color:#FC8181">AI 응답을 받지 못했어요. 다시 시도해봐요!</span>';
+      document.getElementById('rpBtnRow').style.display='block';
+      return;
+    }
+
+    rpHistory.push({role:'ai', text:en});
+    addRpBubble('ai', en, ko);
+    document.getElementById('rpAILine').textContent=en;
+    document.getElementById('rpAILineKo').textContent=ko||'';
+    document.getElementById('rpCurrentQ').style.display='block';
+    document.getElementById('rpTranscript').innerHTML='<span class="tp">여기에 네 대사가 나타날 거야 ✨</span>';
+    document.getElementById('rpRecHint').textContent='마이크를 눌러 대사를 말해봐! 🎤';
+    rpTranscript='';
+
+    // AI TTS
+    setTimeout(()=>rpSpeak(),300);
+
+  }catch(e){
+    document.getElementById('rpTranscript').innerHTML='<span style="color:#FC8181">❌ '+friendlyNetworkError(e)+'</span>';
+    document.getElementById('rpBtnRow').style.display='block';
+  }
+}
+
+// ── 역할극 종료 ──
+function endRoleplay(){
+  rpRecording=false;
+  rpTranscript='';
+  rpHistory=[];
+  if(rpStream){try{rpStream.getTracks().forEach(t=>t.stop());}catch(e){} rpStream=null;}
+  if(rpMediaRecorder&&rpMediaRecorder.state!=='inactive'){try{rpMediaRecorder.stop();}catch(e){}}
+  rpMediaRecorder=null;
+  document.getElementById('rpSceneBox').style.display='none';
+  document.getElementById('rpBtnRow').style.display='none';
+  document.getElementById('rpCurrentQ').style.display='none';
+  document.getElementById('rpRecArea').style.display='none';
+  document.querySelectorAll('#rpSceneGrid .unit-chip').forEach(c=>c.classList.remove('selected'));
+  toast('역할극을 마쳤어요! 수고했어 🎉');
+}
 function addRpBubble(role, text, koText=''){
   const div=document.createElement('div');
   div.style.cssText='display:flex;gap:8px;align-items:flex-start;'+(role==='ai'?'':'flex-direction:row-reverse');

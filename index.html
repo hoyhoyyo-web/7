@@ -1781,93 +1781,159 @@ function rpSpeak(){
   _doSpeak(line);
 }
 
-function toggleRpRec(){if(rpRecording)stopRpRec();else startRpRec();}
+function toggleRpRec(){
+  if(rpRecording) stopRpRec();
+  else startRpRec();
+}
 
-function startRpRec(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Chrome 또는 Safari를 사용해주세요.');return;}
-  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  rpTranscript='';rpInterim='';
-  function runRp(){
-    if(!rpRecording)return;
-    try{
-      const r=new SR();
-      r.lang='en-US';r.continuous=!isIOS;r.interimResults=true;
-      let sf='';
-      r.onresult=e=>{
-        let interim='';
-        for(let i=e.resultIndex;i<e.results.length;i++){
-          if(e.results[i].isFinal) sf+=e.results[i][0].transcript+' ';
-          else interim+=e.results[i][0].transcript;
-        }
-        rpInterim=interim;
-        const disp=(rpTranscript+(sf?' '+sf.trimEnd():'')).trim();
-        document.getElementById('rpTranscript').innerHTML=
-          (disp?'<span>'+disp+'</span>':'')+
-          (interim?'<span style="color:#A0AEC0"> '+interim+'</span>':'');
-      };
-      r.onend=()=>{
-        if(sf.trim()) rpTranscript=(rpTranscript+' '+sf).trim();
-        else if(rpInterim) rpTranscript=(rpTranscript+' '+rpInterim).trim();
-        rpInterim='';sf='';
-        if(rpRecording) setTimeout(runRp,80);
-      };
-      r.onerror=e=>{
-        if(e.error==='not-allowed') toast('마이크 권한을 허용해야 녹음할 수 있어요.');
-        else if(e.error!=='aborted'&&rpRecording) setTimeout(runRp,300);
-      };
-      r.start();rpRecognition=r;
-    }catch(e){if(rpRecording)setTimeout(runRp,300);}
+// 역할극 반복 녹음 안정화 시작
+let rpChunks=[];
+
+function getRpMimeType(){
+  const candidates=[
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/mp4'
+  ];
+  for(const type of candidates){
+    if(window.MediaRecorder && MediaRecorder.isTypeSupported(type)) return type;
   }
-  rpRecording=true;
-  document.getElementById('rpRecBtn').textContent='⏹';
-  document.getElementById('rpRecBtn').classList.add('on');
-  document.getElementById('rpRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
-  document.getElementById('rpBtnRow').style.display='none';
-  runRp();
+  return '';
+}
+
+async function startRpRec(){
+  if(rpRecording) return;
+
+  try{
+    // 이전 녹음 상태를 완전히 초기화
+    if(rpRecognition){
+      try{rpRecognition.abort();}catch(e){}
+      rpRecognition=null;
+    }
+    if(rpStream){
+      try{rpStream.getTracks().forEach(t=>t.stop());}catch(e){}
+      rpStream=null;
+    }
+
+    rpTranscript='';
+    rpInterim='';
+    rpAudioBlob=null;
+    rpChunks=[];
+
+    document.getElementById('rpTranscript').innerHTML='<span class="tp">말하는 내용을 녹음하고 있어요...</span>';
+    document.getElementById('rpBtnRow').style.display='none';
+
+    rpStream=await navigator.mediaDevices.getUserMedia({
+      audio:{
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true
+      }
+    });
+
+    const mimeType=getRpMimeType();
+    rpMediaRecorder=mimeType
+      ? new MediaRecorder(rpStream,{mimeType})
+      : new MediaRecorder(rpStream);
+
+    rpMediaRecorder.ondataavailable=e=>{
+      if(e.data && e.data.size>0) rpChunks.push(e.data);
+    };
+
+    rpMediaRecorder.onerror=e=>{
+      console.error('Roleplay MediaRecorder error:',e);
+    };
+
+    rpMediaRecorder.onstop=async()=>{
+      const finalType=rpMediaRecorder?.mimeType || mimeType || 'audio/webm';
+      rpAudioBlob=new Blob(rpChunks,{type:finalType});
+
+      if(rpStream){
+        try{rpStream.getTracks().forEach(t=>t.stop());}catch(e){}
+        rpStream=null;
+      }
+      rpMediaRecorder=null;
+      rpChunks=[];
+
+      if(!rpAudioBlob || rpAudioBlob.size<1000){
+        document.getElementById('rpTranscript').innerHTML=
+          '<span style="color:#FC8181">녹음된 음성이 너무 짧아요. 다시 말해봐! 🎤</span>';
+        document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
+        return;
+      }
+
+      document.getElementById('rpTranscript').innerHTML=
+        '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
+      document.getElementById('rpRecHint').textContent='변환 중...';
+
+      try{
+        const t=await transcribeAudio(rpAudioBlob);
+        if(t && t.trim()){
+          rpTranscript=t.trim();
+          document.getElementById('rpTranscript').textContent=rpTranscript;
+          document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
+          document.getElementById('rpBtnRow').style.display='block';
+        }else{
+          document.getElementById('rpTranscript').innerHTML=
+            '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'+
+            '<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+          document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+        }
+      }catch(e){
+        document.getElementById('rpTranscript').innerHTML=
+          '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)+
+          '<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+        document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+      }finally{
+        rpAudioBlob=null;
+      }
+    };
+
+    rpRecording=true;
+    document.getElementById('rpRecBtn').textContent='⏹';
+    document.getElementById('rpRecBtn').classList.add('on');
+    document.getElementById('rpRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
+    rpMediaRecorder.start();
+
+  }catch(e){
+    rpRecording=false;
+    rpMediaRecorder=null;
+    if(rpStream){
+      try{rpStream.getTracks().forEach(t=>t.stop());}catch(err){}
+      rpStream=null;
+    }
+    document.getElementById('rpRecBtn').textContent='🎤';
+    document.getElementById('rpRecBtn').classList.remove('on');
+    document.getElementById('rpRecHint').textContent='마이크 권한을 확인하고 다시 시도해 주세요.';
+    toast('마이크 권한을 허용해야 녹음할 수 있어요.');
+  }
 }
 
 function stopRpRec(){
+  if(!rpRecording) return;
   rpRecording=false;
-  if(rpRecognition){try{rpRecognition.abort();}catch(e){} rpRecognition=null;}
-  rpInterim='';
-  if(rpStream) rpStream.getTracks().forEach(t=>t.stop());
+
   document.getElementById('rpRecBtn').textContent='🎤';
   document.getElementById('rpRecBtn').classList.remove('on');
   document.getElementById('rpBtnRow').style.display='none';
-  document.getElementById('rpTranscript').innerHTML=
-    '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
-  document.getElementById('rpRecHint').textContent='변환 중...';
-  const w=getWorkerUrl();
-  if(w&&rpAudioBlob){
-    transcribeAudio(rpAudioBlob).then(t=>{
-      if(t&&t.trim()){
-        rpTranscript=t.trim();
-        document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
-        document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
-        document.getElementById('rpBtnRow').style.display='block';
-      }else{
-        document.getElementById('rpTranscript').innerHTML=
-          '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
-          +'<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
-        document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
-      }
-    }).catch(e=>{
-      document.getElementById('rpTranscript').innerHTML=
-        '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)
-        +'<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
-      document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
-    });
-  }else if(rpTranscript){
-    document.getElementById('rpTranscript').innerHTML='<span>'+rpTranscript+'</span>';
-    document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
-    document.getElementById('rpBtnRow').style.display='block';
+  document.getElementById('rpRecHint').textContent='녹음을 마치는 중...';
+
+  if(rpMediaRecorder && rpMediaRecorder.state!=='inactive'){
+    try{
+      rpMediaRecorder.requestData();
+    }catch(e){}
+    rpMediaRecorder.stop();
   }else{
+    if(rpStream){
+      try{rpStream.getTracks().forEach(t=>t.stop());}catch(e){}
+      rpStream=null;
+    }
     document.getElementById('rpTranscript').innerHTML=
-      '<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+      '<span style="color:#FC8181">녹음 상태를 확인하지 못했어요. 다시 시도해 주세요. 🎤</span>';
     document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
   }
 }
+// 역할극 반복 녹음 안정화 끝
 function saveApiKey(){saveTeacherSettings();}
 function closeApiModal(){closeTeacherSettings();}
 

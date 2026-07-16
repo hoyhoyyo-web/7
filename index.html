@@ -30,8 +30,8 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .talk-step.done .tl{color:var(--green)}
 .talk-sep{width:1px;background:var(--border);height:38px}
 /* NAV */
-.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border)}
-.nav-tab{flex:1;padding:10px 6px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px}
+.nav-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-tab{flex:1;padding:10px 2px;border:none;background:transparent;font-size:10px;font-weight:700;color:var(--text-soft);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
 .nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#EBF8FF}
 .nav-tab:hover:not(.active){background:#F7FAFC}
 /* MAIN */
@@ -46,9 +46,9 @@ body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color
 .step-body{padding:13px 15px}
 .step-body.hidden{display:none}
 /* NAME */
-.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15)}
+.name-row{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#EBF8FF,#E6FFFA);border-radius:12px;padding:13px 15px;margin-bottom:12px;border:2px solid var(--border);transition:border-color 0.2s;box-shadow:0 2px 8px rgba(74,144,226,0.15);justify-content:center}
 .name-row label{font-size:12px;font-weight:700;color:var(--blue-dark);white-space:nowrap}
-.name-input{flex:1;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s}
+.name-input{width:100%;max-width:260px;border:2px solid var(--border);border-radius:8px;padding:9px 13px;font-size:16px;font-weight:700;color:var(--text);outline:none;background:#fff;font-family:inherit;transition:border-color 0.2s;box-sizing:border-box;text-align:center}
 .name-input:focus{border-color:var(--blue)}
 /* MODE */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#F7FAFC;border-radius:13px;padding:5px;margin-bottom:12px}
@@ -214,8 +214,8 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('practice')" id="nt-practice">🗣️ 말하기</button>
   <button class="nav-tab" onclick="switchTab('roleplay')" id="nt-roleplay">🎭 역할극</button>
-  <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈 성장 기록</button>
-  <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫 교사 대시보드</button>
+  <button class="nav-tab" onclick="switchTab('growth')" id="nt-growth">📈 성장기록</button>
+  <button class="nav-tab" onclick="switchTab('dashboard')" id="nt-dashboard">👩‍🏫 대시보드</button>
   <button class="nav-tab" onclick="switchTab('tutorial')" id="nt-tutorial">❓ 도움말</button>
 </div>
 
@@ -529,7 +529,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">🤖 AI 튜터에게 질문해봐!</div>
       <div id="tutorHistory" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;max-height:250px;overflow-y:auto"></div>
       <div style="display:flex;gap:8px">
-        <input id="tutorInput" type="text" placeholder="궁금한 것을 물어봐! (한국어 OK)" 
+        <input id="tutorInput" type="text" placeholder="TALK:TALK ENGLISH 사용에 관하여 궁금한 것을 물어보세요! (한국어 OK)" onkeydown="if(event.key==='Enter')askTutor()" 
           style="flex:1;border:2px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13px;font-family:inherit;outline:none"
           onkeydown="if(event.key==='Enter')askTutor()">
         <button class="btn btn-blue" style="flex:none;padding:9px 16px" onclick="askTutor()">전송</button>
@@ -539,6 +539,14 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
       </div>
     </div>
   </div>
+
+  <!-- 개인정보 안내 -->
+  <div style="margin:4px 0 16px;padding:12px 14px;background:#F7FAFC;border-radius:10px;border:1px solid var(--border);text-align:center">
+    <div style="font-size:12px;color:var(--text-soft);line-height:1.7">
+      🔒 학생 정보는 교사가 설정한 범위 내에서만 저장되며,<br>수업 목적 외에는 사용되지 않습니다.
+    </div>
+  </div>
+
 </div>
 </div>
 
@@ -684,6 +692,235 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 <div class="toast" id="toast"></div>
 
 <script>
+
+// ════════════════════════════════════════════
+// 학습 안전 필터 시작
+// ════════════════════════════════════════════
+
+// ── 교사 설정 영역 (교사가 수정 가능) ──
+const safetySettings = {
+  enableSafetyFilter: true,    // 유해 표현 필터 사용 여부
+  enableNonsenseCheck: true,   // 장난성 입력 검사 여부
+  encourageEnglish: true,      // 영어 사용 유도 여부
+  maxViolations: 3,            // 반복 위반 허용 횟수
+  cooldownSeconds: 15          // 일시적 입력 제한 시간(초)
+};
+
+// ── 차단 단어 목록 (교사가 추가/수정 가능) ──
+const blockedWords = [
+  // 한국어 욕설/비속어
+  '시발','씨발','씨팔','ㅅㅂ','ㅆㅂ','개새','개세','개시','새끼','쌍놈','쌍년',
+  '병신','빙신','ㅂㅅ','미친','미쳐','fuck','shit','damn','bitch','ass','crap',
+  '지랄','존나','ㅈㄴ','ㄱㅅ','ㄲㅈ','꺼져','뒤져','죽어','죽여','죽어라',
+  '섹스','야동','포르노','성관계','자위','강간','살인','폭탄','테러',
+  // 개인정보 유형
+  '전화번호','주소','비밀번호','패스워드','password','개인정보','주민번호',
+];
+
+// ── 허용 짧은 표현 (차단 제외) ──
+const allowedShortPhrases = [
+  'yes','no','ok','okay','hi','hello','bye','good','bad','stop','go',
+  'me','you','he','she','it','we','they','i','a','is','am','are',
+];
+
+// ── 세션 위반 카운터 ──
+let violationCount = 0;
+let lastViolationTime = 0;
+let lastInputText = '';
+let lastInputCount = 0;
+let safetyStats = {
+  totalInputs: 0,
+  blockedHarmful: 0,
+  blockedNonsense: 0,
+  blockedRepeat: 0,
+  normalConversations: 0
+};
+
+// ── 안내 메시지 목록 ──
+const safetyMessages = [
+  '🌱 친구를 존중하는 말을 사용해 주세요. 오늘 배운 영어 표현으로 다시 말해 볼까요?',
+  '🌱 영어 학습에 알맞은 말을 사용해 주세요.',
+  '🌱 친구를 배려하는 표현으로 다시 말해 볼까요?',
+  '🌱 장난스러운 말 대신 오늘 배운 영어 표현을 연습해 봅시다.',
+  '🌱 서로 존중하는 말을 사용하며 영어로 다시 이야기해 주세요.',
+];
+let safetyMsgIdx = 0;
+
+function getSafetyMsg() {
+  const msg = safetyMessages[safetyMsgIdx % safetyMessages.length];
+  safetyMsgIdx++;
+  return msg;
+}
+
+// ── 입력 전처리 ──
+function preprocessInput(text) {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/(.){3,}/g, '$1$1$1') // 같은 글자 3번 이상 반복 → 3개로 축약
+    .replace(/[!@#$%^&*()_+=\[\]{};':"\|,.<>?/`~]/g, ''); // 특수기호 제거
+}
+
+// ── 유해 표현 검사 ──
+function checkHarmful(text) {
+  if (!safetySettings.enableSafetyFilter) return false;
+  try {
+    const clean = preprocessInput(text);
+    return blockedWords.some(w => clean.includes(w.toLowerCase()));
+  } catch(e) { return false; }
+}
+
+// ── 개인정보 패턴 검사 ──
+function checkPersonalInfo(text) {
+  if (!safetySettings.enableSafetyFilter) return false;
+  try {
+    // 전화번호 패턴 (숫자 연속 8자리 이상)
+    if (/\d{8,}/.test(text)) return true;
+    // 주소/개인정보 단어
+    const piWords = ['전화번호','주소','비밀번호','패스워드','주민번호','password'];
+    const clean = preprocessInput(text);
+    return piWords.some(w => clean.includes(w));
+  } catch(e) { return false; }
+}
+
+// ── 장난성/무의미 입력 검사 ──
+function checkNonsense(text) {
+  if (!safetySettings.enableNonsenseCheck) return false;
+  try {
+    const t = text.trim();
+    if (!t) return true;
+
+    // 허용 짧은 표현
+    if (allowedShortPhrases.includes(t.toLowerCase())) return false;
+
+    // 너무 짧음 (2자 미만, 영어 단어가 아닌 경우)
+    if (t.length < 2) return true;
+
+    // 한국어 자음/모음만 반복 (ㅋㅋㅋ, ㅎㅎㅎ 등)
+    if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(t) && t.length > 2) return true;
+
+    // 같은 글자/숫자 과도한 반복
+    if (/(.){4,}/.test(t)) return true;
+
+    // 의미없는 키보드 연타 (asdf, qwer 등)
+    if (/^[asdfghjklzxcvbnmqwertyuiop]{5,}$/.test(t.toLowerCase())) return true;
+
+    return false;
+  } catch(e) { return false; }
+}
+
+// ── 반복 입력 검사 ──
+function checkRepeatInput(text) {
+  try {
+    const t = text.trim().toLowerCase();
+    if (t === lastInputText) {
+      lastInputCount++;
+      if (lastInputCount >= 3) return true;
+    } else {
+      lastInputText = t;
+      lastInputCount = 1;
+    }
+    return false;
+  } catch(e) { return false; }
+}
+
+// ── 쿨다운 중인지 확인 ──
+function isInCooldown() {
+  if (violationCount < safetySettings.maxViolations) return false;
+  const elapsed = (Date.now() - lastViolationTime) / 1000;
+  if (elapsed < safetySettings.cooldownSeconds) return true;
+  // 쿨다운 해제
+  violationCount = 0;
+  return false;
+}
+
+// ── 위반 처리 ──
+function handleViolation(type) {
+  violationCount++;
+  lastViolationTime = Date.now();
+  if (type === 'harmful') safetyStats.blockedHarmful++;
+  else if (type === 'nonsense') safetyStats.blockedNonsense++;
+  else if (type === 'repeat') safetyStats.blockedRepeat++;
+}
+
+// ── 메인 안전 검사 함수 (AI 호출 전 실행) ──
+// 반환값: { blocked: true/false, message: '안내문구' }
+function runSafetyCheck(text) {
+  try {
+    safetyStats.totalInputs++;
+
+    // 0. 쿨다운 중
+    if (isInCooldown()) {
+      const remain = Math.ceil(safetySettings.cooldownSeconds - (Date.now() - lastViolationTime) / 1000);
+      return { blocked: true, message: `⏳ 학습과 관련 없는 입력이 반복되었어요. ${remain}초 후에 다시 시도해봐요. 선생님께 도움을 요청하세요!` };
+    }
+
+    // 1. 유해 표현 검사
+    if (checkHarmful(text)) {
+      handleViolation('harmful');
+      return { blocked: true, message: getSafetyMsg() };
+    }
+
+    // 2. 개인정보 검사
+    if (checkPersonalInfo(text)) {
+      handleViolation('harmful');
+      return { blocked: true, message: '🔒 개인정보는 입력하지 마세요. 영어 학습에 필요한 내용만 말해 주세요.' };
+    }
+
+    // 3. 반복 입력 검사
+    if (checkRepeatInput(text)) {
+      handleViolation('repeat');
+      safetyStats.blockedRepeat++;
+      return { blocked: true, message: '🔄 같은 말이 반복되고 있어요. 다른 영어 표현으로 말해 보세요!' };
+    }
+
+    // 4. 장난성/무의미 입력 검사
+    if (checkNonsense(text)) {
+      handleViolation('nonsense');
+      return { blocked: true, message: '🎯 잘 듣지 못했어요. 오늘 배운 표현으로 천천히 다시 말해 주세요!' };
+    }
+
+    // 5. 한국어만 길게 입력 (영어 유도)
+    if (safetySettings.encourageEnglish) {
+      const koreanRatio = (text.match(/[가-힣]/g) || []).length / text.length;
+      if (koreanRatio > 0.5 && text.length > 10) {
+        // 사용법 질문은 허용 (차단하지 않음)
+        const isHelpQuestion = ['어떻게','무슨뜻','뭐야','방법','알려'].some(k => text.includes(k));
+        if (!isHelpQuestion) {
+          return { blocked: true, message: '🌟 영어로 한 번 말해 볼까요? 짧은 단어부터 시작해도 괜찮아요! 예) "Hello!", "I like..."' };
+        }
+      }
+    }
+
+    safetyStats.normalConversations++;
+    return { blocked: false };
+  } catch(e) {
+    // 필터 오류 시 통과 (기존 기능 보호)
+    console.warn('안전 필터 오류:', e);
+    return { blocked: false };
+  }
+}
+
+// ── 안전 시스템 프롬프트 접두어 ──
+const SAFETY_SYSTEM_PREFIX = `너는 초등학생의 영어 말하기 연습을 돕는 안전한 AI 튜터이다. 현재 수업에서 설정된 단원, 상황, 핵심 표현과 관련된 대화만 진행한다. 학생이 수업과 관련 없는 질문, 장난, 욕설, 비속어, 타인을 모욕하는 말, 성적인 내용, 폭력적인 내용, 정치적 내용, 개인정보와 관련된 질문 등을 하는 경우 그 내용에 직접 답변하거나 대화를 확장하지 않는다. 학생을 혼내거나 위협하지 말고, 짧고 친절하게 영어 학습으로 돌아오도록 안내한다. 학생에게 개인정보를 요구하거나 개인정보를 추측하지 않는다. 답변은 초등학생이 이해할 수 있는 짧고 쉬운 표현으로 작성한다.
+
+`;
+
+// ── 교사용 통계 확인 함수 ──
+function getSafetyStats() {
+  return `📊 안전 필터 통계 (현재 세션)
+전체 입력: ${safetyStats.totalInputs}회
+정상 대화: ${safetyStats.normalConversations}회
+유해 표현 차단: ${safetyStats.blockedHarmful}회
+무의미 입력: ${safetyStats.blockedNonsense}회
+반복 입력: ${safetyStats.blockedRepeat}회`;
+}
+
+// ════════════════════════════════════════════
+// 학습 안전 필터 끝
+// ════════════════════════════════════════════
+
 const LS_KEY='talktalk_v3';
 // ── AI 모델 상수 (변경 시 여기만 수정) ──
 const STT_MODEL='gpt-4o-mini-transcribe'; // OpenAI STT 모델
@@ -897,6 +1134,7 @@ async function startRec(){
     S.mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
     S.mediaRecorder.ondataavailable=e=>chunks.push(e.data);
     S.mediaRecorder.onstop=async()=>{
+      await new Promise(r=>setTimeout(r,300)); // iOS blob 완성 대기
       const actualType=S.mediaRecorder.mimeType||mimeType||'audio/webm';
       S.audioBlob=new Blob(chunks,{type:actualType});
       const player=document.getElementById('audioPlayer');
@@ -912,6 +1150,14 @@ async function startRec(){
             S.transcript=t.trim();
             document.getElementById('transcriptArea').innerHTML='<span>'+S.transcript+'</span>';
             document.getElementById('audioSection').classList.add('show');
+            // 학습 안전 필터 시작
+            const safetyResult=runSafetyCheck(S.transcript);
+            if(safetyResult.blocked){
+              document.getElementById('transcriptArea').innerHTML+='<div style="margin-top:8px;padding:8px 12px;background:#F0FFF4;border-radius:10px;border:1px solid #9AE6B4;font-size:13px;color:#276749">'+safetyResult.message+'</div>';
+              document.getElementById('recHint').textContent='다시 말해봐! 🎤';
+              return;
+            }
+            // 학습 안전 필터 끝
             document.getElementById('recHint').textContent='✅ 변환 완료! 들어보고 AI와 대화해봐!';
             // 다음 단계 버튼 활성화
             document.querySelectorAll('#audioSection button').forEach(b=>b.disabled=false);
@@ -1187,53 +1433,72 @@ function stopConvRec(){
   convRecording=false;
   if(convRecognition){try{convRecognition.abort();}catch(e){} convRecognition=null;}
   convInterim='';
-  if(convMediaRecorder?.state!=='inactive'){try{convMediaRecorder.stop();}catch(e){}}
   document.getElementById('convRecBtn').textContent='🎤';
   document.getElementById('convRecBtn').classList.remove('on');
-  // 버튼 비활성화 + 변환 중 표시
   document.getElementById('convBtnRow').style.display='none';
   document.getElementById('convTranscriptArea').innerHTML=
     '<span style="color:#A0AEC0">🔄 음성을 변환하고 있어요...</span>';
   document.getElementById('convRecHint').textContent='변환 중...';
-  // Worker STT
-  const w=getWorkerUrl();
-  if(w&&convAudioBlob){
-    transcribeAudio(convAudioBlob).then(t=>{
-      if(t&&t.trim()){
-        convTranscript=t.trim();
-        document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
-        const remaining=MAX_TURNS-convTurn-1;
-        document.getElementById('btnNextTurn').textContent=
-          remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
-        document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
-        document.getElementById('convBtnRow').style.display='block';
-        toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
-      }else{
+
+  function doConvSTT(){
+    const w=getWorkerUrl();
+    if(w&&convAudioBlob){
+      transcribeAudio(convAudioBlob).then(t=>{
+        if(t&&t.trim()){
+          convTranscript=t.trim();
+          document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+          // 학습 안전 필터 시작
+          const convSafety=runSafetyCheck(convTranscript);
+          if(convSafety.blocked){
+            document.getElementById('convTranscriptArea').innerHTML+='<div style="margin-top:8px;padding:8px 12px;background:#F0FFF4;border-radius:10px;border:1px solid #9AE6B4;font-size:13px;color:#276749">'+convSafety.message+'</div>';
+            document.getElementById('convRecHint').textContent='다시 말해봐! 🎤';
+            document.getElementById('convBtnRow').style.display='block';
+            return;
+          }
+          // 학습 안전 필터 끝
+          const remaining=MAX_TURNS-convTurn-1;
+          document.getElementById('btnNextTurn').textContent=
+            remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
+          document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
+          document.getElementById('convBtnRow').style.display='block';
+          toast('답변 완료! 계속 대화하거나 자기평가로 가봐!');
+        }else{
+          document.getElementById('convTranscriptArea').innerHTML=
+            '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
+            +'<div style="margin-top:6px"><button onclick="toggleConvRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
+          document.getElementById('convRecHint').textContent='다시 녹음해주세요 🎤';
+        }
+      }).catch(e=>{
         document.getElementById('convTranscriptArea').innerHTML=
-          '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'
+          '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)
           +'<div style="margin-top:6px"><button onclick="toggleConvRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
         document.getElementById('convRecHint').textContent='다시 녹음해주세요 🎤';
-      }
-    }).catch(e=>{
+      });
+    }else if(convTranscript){
+      document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
+      const remaining=MAX_TURNS-convTurn-1;
+      document.getElementById('btnNextTurn').textContent=
+        remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
+      document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
+      document.getElementById('convBtnRow').style.display='block';
+    }else{
       document.getElementById('convTranscriptArea').innerHTML=
-        '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)
-        +'<div style="margin-top:6px"><button onclick="toggleConvRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
-      document.getElementById('convRecHint').textContent='다시 녹음해주세요 🎤';
-    });
-  }else if(convTranscript){
-    // Worker 없으면 SR 결과 사용
-    document.getElementById('convTranscriptArea').innerHTML='<span>'+convTranscript+'</span>';
-    const remaining=MAX_TURNS-convTurn-1;
-    document.getElementById('btnNextTurn').textContent=
-      remaining>0?'💬 계속 대화 ('+remaining+'번 남음)':'💬 마지막 대화';
-    document.getElementById('convRecHint').textContent='잘했어! 계속 대화하거나 자기평가로 가봐! ✅';
-    document.getElementById('convBtnRow').style.display='block';
+        '<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
+      document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
+    }
+  }
+
+  // MediaRecorder stop → onstop 완료 후 STT 호출
+  if(convMediaRecorder&&convMediaRecorder.state!=='inactive'){
+    convMediaRecorder.onstop=()=>{
+      setTimeout(doConvSTT, 300); // iOS blob 완성 대기
+    };
+    try{convMediaRecorder.stop();}catch(e){setTimeout(doConvSTT,500);}
   }else{
-    document.getElementById('convTranscriptArea').innerHTML=
-      '<span style="color:#FC8181">음성이 인식되지 않았어요. 다시 말해봐! 🎤</span>';
-    document.getElementById('convRecHint').textContent='다시 눌러서 답해봐! 🎤';
+    setTimeout(doConvSTT, 100);
   }
 }
+
 async function nextConvTurn(){
   if(!convTranscript||!convTranscript.trim()){
     toast('음성 변환이 완료된 후 진행할 수 있어요! 🔄');
@@ -1927,7 +2192,7 @@ async function callAI(sys,usr,maxTokens=1000){
       fetch(w+'/generate',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({system:sys,user:usr,max_tokens:maxTokens})
+        body:JSON.stringify({system:(sys?SAFETY_SYSTEM_PREFIX+sys:SAFETY_SYSTEM_PREFIX),user:usr,max_tokens:maxTokens})
       }),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('AI 응답 타임아웃 (30초)')),TIMEOUT_MS))
     ]);
@@ -2219,6 +2484,163 @@ function closeApiModal(){closeTeacherSettings();}
 
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ── FAQ 데이터 ──
+const TUTOR_FAQ = [
+  {
+    keywords: ['마이크','마이크가','mic','마이크작동','마이크안','녹음안','녹음이안','음성안들어','음성이안','소리안들어가'],
+    answer: '🎤 마이크 문제 해결 방법이에요!\n1️⃣ 브라우저 주소창 왼쪽 자물쇠(🔒) 아이콘을 눌러요.\n2️⃣ 마이크 권한을 <b>허용</b>으로 바꿔요.\n3️⃣ 페이지를 새로고침(F5)하고 다시 시도해봐요.\n💡 크롬 브라우저에서 가장 잘 작동해요!'
+  },
+  {
+    keywords: ['마이크권한','권한','허용','permission'],
+    answer: '🔐 마이크 권한 허용 방법이에요!\n1️⃣ 브라우저 주소창 왼쪽 자물쇠(🔒)를 클릭해요.\n2️⃣ 마이크 항목을 찾아 <b>허용</b>으로 변경해요.\n3️⃣ 페이지를 새로고침하면 마이크가 작동해요!'
+  },
+  {
+    keywords: ['음성인식','인식안','인식이안','말했는데','변환안','텍스트안'],
+    answer: '🗣️ 음성 인식이 안 될 때 해결 방법이에요!\n1️⃣ 마이크 버튼을 누르고 <b>잠깐 기다렸다가</b> 말해봐요.\n2️⃣ 주변이 너무 시끄럽지 않은지 확인해봐요.\n3️⃣ 영어를 또렷하게 말해봐요.\n4️⃣ 그래도 안 되면 기기 점검 버튼을 눌러봐요!'
+  },
+  {
+    keywords: ['ai목소리','ai소리','소리안','목소리안','tts','들려요','들려요','음소거'],
+    answer: '🔊 AI 목소리가 안 들릴 때 확인해봐요!\n1️⃣ 기기 볼륨이 켜져 있는지 확인해봐요.\n2️⃣ 무음(진동) 모드가 아닌지 확인해봐요.\n3️⃣ 이어폰을 연결했다면 이어폰 볼륨을 올려봐요.\n💡 iOS(아이폰/아이패드)에서는 옆의 소리 버튼을 올려봐요!'
+  },
+  {
+    keywords: ['소리작','볼륨','volume','소리가'],
+    answer: '🔉 소리가 작을 때는 기기 볼륨 버튼을 올려봐요! 이어폰이나 스피커를 사용하면 더 잘 들려요. 😊'
+  },
+  {
+    keywords: ['ai안','ai가안','ai대답','ai멈','ai응답','응답없','대답없','피드백안','피드백없'],
+    answer: '🤖 AI가 응답하지 않을 때 확인해봐요!\n1️⃣ 인터넷 연결을 확인해봐요.\n2️⃣ 잠깐 기다려봐요 (최대 10초 정도 걸릴 수 있어요).\n3️⃣ 그래도 안 되면 페이지를 새로고침해봐요.\n4️⃣ 기기 점검 버튼으로 AI 연결 상태를 확인할 수 있어요!'
+  },
+  {
+    keywords: ['다시시작','처음부터','초기화','리셋','reset','새로시작'],
+    answer: '🔄 처음부터 다시 시작하려면 페이지를 새로고침(F5 또는 화면 당겨서 새로고침)하면 돼요! 이름을 다시 입력하고 주제를 고르면 새로 시작할 수 있어요. 😊'
+  },
+  {
+    keywords: ['저장안','저장이안','기록안','기록이안','사라져','데이터'],
+    answer: '💾 학습 기록은 기기에 자동으로 저장돼요!\n• <b>성장 기록</b> 탭에서 내 기록을 볼 수 있어요.\n• 브라우저 데이터를 지우면 기록이 사라질 수 있어요.\n• 선생님이 Google Sheets를 설정했다면 서버에도 저장돼요!'
+  },
+  {
+    keywords: ['기록','성장기록','학습기록','어디서','볼수있','확인'],
+    answer: '📊 학습 기록은 <b>성장 기록</b> 탭에서 볼 수 있어요! 내가 말한 주제, 점수, 날짜별 기록을 모두 확인할 수 있어요. 선생님은 교사 대시보드에서 전체 학생 기록을 볼 수 있어요. 😊'
+  },
+  {
+    keywords: ['어떻게사용','사용방법','어떻게해','어떻게쓰','how','사용법','설명','알려줘'],
+    answer: '📖 TALK:TALK ENGLISH 사용 방법이에요!\n1️⃣ <b>내 이름</b>을 입력해요.\n2️⃣ <b>주제</b>를 선택해요 (자유 주제 또는 교과서 단원).\n3️⃣ 🎤 <b>마이크 버튼</b>을 눌러 영어로 말해요.\n4️⃣ 말이 끝나면 버튼을 다시 눌러 멈춰요.\n5️⃣ AI 피드백을 받고 계속 연습해봐요!'
+  },
+  {
+    keywords: ['영어로','영어만','한국어','korean','영어해야'],
+    answer: '🌟 영어로 말하는 것을 연습하는 앱이에요! 최대한 영어로 말해봐요. 완벽하지 않아도 괜찮아요. 용기 있게 도전하는 것이 중요해요! 💪'
+  },
+  {
+    keywords: ['틀려도','틀리게','실수','mistake','잘못말'],
+    answer: '😊 틀려도 전혀 괜찮아요! 틀리면서 배우는 게 영어 공부예요. AI 선생님이 친절하게 고쳐줄 거예요. 두려워하지 말고 용감하게 말해봐요! 💪'
+  },
+  {
+    keywords: ['기기','어떤기기','핸드폰','태블릿','아이패드','아이폰','컴퓨터','지원'],
+    answer: '📱 다양한 기기에서 사용할 수 있어요!\n✅ PC/노트북 - Chrome 브라우저 (최고 호환)\n✅ 안드로이드 태블릿/폰 - Chrome 브라우저\n✅ 아이패드/아이폰 - Safari 브라우저\n💡 크롬 브라우저에서 가장 잘 작동해요!'
+  },
+  {
+    keywords: ['인터넷','와이파이','wifi','offline','오프라인','인터넷필요'],
+    answer: '🌐 인터넷 연결이 필요해요! AI 피드백과 음성 변환을 위해 인터넷이 있어야 해요. 학교 와이파이나 데이터를 연결하고 사용해봐요. 📡'
+  },
+  {
+    keywords: ['오류','에러','error','오류발생','오류나','bug'],
+    answer: '🛠️ 오류가 발생했을 때 해결 방법이에요!\n1️⃣ 페이지를 새로고침해봐요.\n2️⃣ 브라우저를 껐다 켜봐요.\n3️⃣ <b>기기 점검</b> 버튼으로 상태를 확인해봐요.\n4️⃣ 그래도 안 되면 선생님께 말씀해봐요!'
+  },
+  {
+    keywords: ['화면멈','멈췄','freeze','안움직','반응없'],
+    answer: '🔄 화면이 멈췄을 때는 페이지를 새로고침(F5)해봐요! 그래도 안 되면 브라우저를 완전히 닫았다가 다시 열어봐요. 💡'
+  },
+  {
+    keywords: ['새로고침해도','새로고침후','계속안'],
+    answer: '🛠️ 새로고침 후에도 안 될 때는 브라우저 캐시를 지워봐요!\nChrome: 설정 → 개인 정보 보호 → 인터넷 사용 기록 삭제\n그래도 안 되면 선생님께 알려주세요! 👩‍🏫'
+  },
+  {
+    keywords: ['고객지원','문의','연락','contact','선생님','도움받'],
+    answer: '👩‍🏫 문제가 해결되지 않으면 선생님께 말씀해주세요! 선생님이 교사 대시보드나 기기 점검 기능으로 확인해드릴 수 있어요. 😊'
+  },
+  {
+    keywords: ['역할극','role','roleplay','상황극'],
+    answer: '🎭 역할극 탭에서 다양한 상황을 영어로 연습할 수 있어요! 쇼핑, 레스토랑, 학교 등 실생활 상황을 AI와 대화 연습할 수 있어요. 역할극 탭을 눌러봐요! 😊'
+  },
+  {
+    keywords: ['점수','평가','별','star','자기평가'],
+    answer: '⭐ 말하기가 끝나면 자기 평가를 할 수 있어요! 발음, 유창성, 내용 등을 스스로 평가하고 AI 피드백도 받을 수 있어요. 점수는 성장 기록에 저장돼요! 📊'
+  }
+];
+
+// FAQ 검색 함수
+function findFAQ(question) {
+  const q = question.replace(/\s/g, '').toLowerCase();
+  for (const faq of TUTOR_FAQ) {
+    if (faq.keywords.some(k => q.includes(k.toLowerCase()))) {
+      return faq.answer;
+    }
+  }
+  return null;
+}
+
+// 튜터 말풍선 추가
+function addTutorBubble(text, isUser) {
+  const history = document.getElementById('tutorHistory');
+  const bubble = document.createElement('div');
+  bubble.style.cssText = isUser
+    ? 'display:flex;justify-content:flex-end;margin-bottom:6px'
+    : 'display:flex;justify-content:flex-start;margin-bottom:6px';
+  const inner = document.createElement('div');
+  inner.style.cssText = isUser
+    ? 'background:var(--blue);color:#fff;border-radius:16px 16px 4px 16px;padding:9px 13px;font-size:13px;max-width:80%;line-height:1.6'
+    : 'background:#F0F4FF;color:var(--text);border-radius:16px 16px 16px 4px;padding:9px 13px;font-size:13px;max-width:85%;line-height:1.6';
+  inner.innerHTML = text.replace(/\n/g, '<br>');
+  bubble.appendChild(inner);
+  history.appendChild(bubble);
+  history.scrollTop = history.scrollHeight;
+}
+
+async function askTutor() {
+  const input = document.getElementById('tutorInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+
+  addTutorBubble(q, true);
+
+  // FAQ 검색
+  const faqAnswer = findFAQ(q);
+  if (faqAnswer) {
+    setTimeout(() => addTutorBubble(faqAnswer, false), 300);
+    return;
+  }
+
+  // FAQ 없으면 AI 호출
+  document.getElementById('tutorLoading').style.display='flex';
+  const apiKey = new URLSearchParams(location.search).get('k') || '';
+  if (!apiKey) {
+    document.getElementById('tutorLoading').style.display='none';
+    addTutorBubble('❗ AI 연결을 위해 QR코드로 접속해주세요!', false);
+    return;
+  }
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 300,
+        system: 'TALK:TALK ENGLISH 웹앱의 AI 도우미입니다. 사용자가 웹앱 사용법에 대해 질문했습니다. 앱의 기능과 사용 방법을 친절하게 안내해 주세요. 학습 내용(영어 문법, 단어 등)은 설명하지 말고, 앱 사용법과 문제 해결 방법만 2~5문장으로 간결하게 답변해 주세요. 초등학생도 이해하기 쉽게 설명해주세요.',
+        messages: [{role:'user', content: q}]
+      })
+    });
+    const data = await res.json();
+    const answer = data.content?.[0]?.text || '답변을 가져오지 못했어요. 다시 시도해봐요!';
+    addTutorBubble(answer, false);
+  } catch(e) {
+    addTutorBubble('❗ AI 연결에 실패했어요. 인터넷 연결을 확인해봐요!', false);
+  } finally {
+    document.getElementById('tutorLoading').style.display='none';
+  }
+}
+
 </script>
 </body>
 </html>

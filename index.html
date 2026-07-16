@@ -1801,8 +1801,13 @@ function getRpMimeType(){
   return '';
 }
 
+// 역할극 반복 녹음 초기화 수정 시작
 async function startRpRec(){
   if(rpRecording) return;
+
+  // 버튼 즉시 비활성화 (중복 클릭 방지)
+  const rpBtn = document.getElementById('rpRecBtn');
+  if(rpBtn) rpBtn.disabled = true;
 
   try{
     // 이전 녹음 상태를 완전히 초기화
@@ -1810,6 +1815,10 @@ async function startRpRec(){
       try{rpRecognition.abort();}catch(e){}
       rpRecognition=null;
     }
+    if(rpMediaRecorder && rpMediaRecorder.state!=='inactive'){
+      try{rpMediaRecorder.stop();}catch(e){}
+    }
+    rpMediaRecorder=null;
     if(rpStream){
       try{rpStream.getTracks().forEach(t=>t.stop());}catch(e){}
       rpStream=null;
@@ -1818,7 +1827,7 @@ async function startRpRec(){
     rpTranscript='';
     rpInterim='';
     rpAudioBlob=null;
-    rpChunks=[];
+    rpChunks=[];  // 매번 새 배열로 초기화
 
     document.getElementById('rpTranscript').innerHTML='<span class="tp">말하는 내용을 녹음하고 있어요...</span>';
     document.getElementById('rpBtnRow').style.display='none';
@@ -1873,27 +1882,33 @@ async function startRpRec(){
           document.getElementById('rpTranscript').textContent=rpTranscript;
           document.getElementById('rpRecHint').textContent='잘했어! 계속하거나 역할극을 끝내봐! ✅';
           document.getElementById('rpBtnRow').style.display='block';
+          // STT 성공 후 버튼 재활성화
+          const okBtn=document.getElementById('rpRecBtn');
+          if(okBtn) okBtn.disabled=false;
         }else{
           document.getElementById('rpTranscript').innerHTML=
             '<div style="color:#E53E3E;font-size:13px">😢 음성을 인식하지 못했어요. 다시 시도해 주세요.'+
             '<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
           document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+          const failBtn=document.getElementById('rpRecBtn');
+          if(failBtn) failBtn.disabled=false;
         }
       }catch(e){
         document.getElementById('rpTranscript').innerHTML=
           '<div style="color:#E53E3E;font-size:13px">❌ 변환 실패: '+friendlyNetworkError(e)+
           '<div style="margin-top:6px"><button onclick="toggleRpRec()" style="background:var(--blue);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🔄 다시 녹음</button></div></div>';
         document.getElementById('rpRecHint').textContent='다시 녹음해주세요 🎤';
+        const errBtn2=document.getElementById('rpRecBtn');
+        if(errBtn2) errBtn2.disabled=false;
       }finally{
         rpAudioBlob=null;
       }
     };
 
     rpRecording=true;
-    document.getElementById('rpRecBtn').textContent='⏹';
-    document.getElementById('rpRecBtn').classList.add('on');
+    if(rpBtn){ rpBtn.disabled=false; rpBtn.textContent='⏹'; rpBtn.classList.add('on'); }
     document.getElementById('rpRecHint').textContent='말하는 중... 끝나면 다시 눌러봐! ⏹';
-    rpMediaRecorder.start();
+    rpMediaRecorder.start(100);
 
   }catch(e){
     rpRecording=false;
@@ -1902,12 +1917,13 @@ async function startRpRec(){
       try{rpStream.getTracks().forEach(t=>t.stop());}catch(err){}
       rpStream=null;
     }
-    document.getElementById('rpRecBtn').textContent='🎤';
-    document.getElementById('rpRecBtn').classList.remove('on');
+    const errBtn=document.getElementById('rpRecBtn');
+    if(errBtn){ errBtn.disabled=false; errBtn.textContent='🎤'; errBtn.classList.remove('on'); }
     document.getElementById('rpRecHint').textContent='마이크 권한을 확인하고 다시 시도해 주세요.';
     toast('마이크 권한을 허용해야 녹음할 수 있어요.');
   }
 }
+// 역할극 반복 녹음 초기화 수정 끝
 
 function stopRpRec(){
   if(!rpRecording) return;
@@ -1933,7 +1949,6 @@ function stopRpRec(){
     document.getElementById('rpRecHint').textContent='다시 눌러서 대사를 말해봐! 🎤';
   }
 }
-// 역할극 반복 녹음 안정화 끝
 function saveApiKey(){saveTeacherSettings();}
 function closeApiModal(){closeTeacherSettings();}
 

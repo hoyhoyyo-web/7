@@ -611,7 +611,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
 
       <!-- AI 연결 상태 -->
       <div style="background:#F0FFF4;border:1px solid #9AE6B4;border-radius:10px;padding:11px 14px;font-size:13px;color:var(--green-dark);font-weight:600">
-        ✅ AI 서버 자동 연결됨 (GROQ Whisper STT + Claude AI)
+        ✅ AI 서버 자동 연결됨 (GROQ Whisper STT + GPT-4o mini)
       </div>
 
       <!-- 학교 정보 -->
@@ -620,7 +620,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div>
             <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">학교명</label>
-            <input id="ts_school" type="text" placeholder="오현초등학교"
+            <input id="ts_school" type="text" placeholder="톡톡초등학교"
               style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
           </div>
           <div>
@@ -635,7 +635,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
           </div>
           <div>
             <label style="font-size:11px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:4px">반</label>
-            <input id="ts_class" type="text" placeholder="3반"
+            <input id="ts_class" type="text" placeholder="1반"
               style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
           </div>
         </div>
@@ -646,7 +646,7 @@ audio{width:100%;margin-bottom:8px;accent-color:var(--blue)}
         <div style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:8px">🔑 대시보드 비밀번호 변경</div>
         <input id="ts_password" type="password" placeholder="새 비밀번호 (3자 이상, 비우면 변경 안 함)"
           style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;font-family:inherit">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:4px">현재 비밀번호: tt501 (변경하지 않으려면 비워두세요)</div>
+        <div style="font-size:11px;color:var(--text-soft);margin-top:4px">⚠️ 학생과 함께 쓰는 기기가 아닌, 선생님 개인 기기에서 설정해 주세요</div>
       </div>
 
       <!-- Google Sheets (선택) -->
@@ -1681,7 +1681,7 @@ function openReport(){
     +(fb.next?'<div class="rpt-sec"><div class="rpt-lbl">🚀 다음 도전</div><div class="rpt-val">'+fb.next+'</div></div>':'')
     +(fb.cheer?'<div style="background:linear-gradient(135deg,#FFFDE7,#FEF3C7);border-radius:9px;padding:10px 12px;text-align:center;margin-top:6px"><div style="font-size:14px;font-weight:700;color:#744210">🌟 '+fb.cheer+'</div></div>':'')
     +'<div class="rpt-div"></div>'
-    +'<div style="font-size:9px;color:var(--text-soft);text-align:center">TALK:TALK AI 영어 스피치 교실 · 오현초등학교 5학년</div>';
+    +'<div style="font-size:9px;color:var(--text-soft);text-align:center">TALK:TALK AI 영어 스피치 교실</div>';
   document.getElementById('reportModal').classList.add('open');
 }
 function closeReport(){document.getElementById('reportModal').classList.remove('open');}
